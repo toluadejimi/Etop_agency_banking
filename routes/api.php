@@ -1,16 +1,18 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Models\VirtualAccount;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\TerminalopController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Agents\AuthController;
+use App\Http\Controllers\Admin\TerminalController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StoredataController;
-use App\Http\Controllers\Admin\TerminalController;
 use App\Http\Controllers\Admin\TransactionController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\PosTrasnactionController;
-use App\Http\Controllers\TerminalopController;
-use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Agents\PosTransactionController;
+use App\Http\Controllers\Agents\VirtualAccountController;
 
 //other database
 Route::post('store-user', [StoredataController::class, 'store_user']);
@@ -25,12 +27,34 @@ Route::post('delete_user', [StoredataController::class, 'delete_user']);
 
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::post('login', [AdminController::class, 'admin_login']);
+Route::any('virtual-notification', [VirtualAccountController::class, 'virtual_notification']);
+Route::any('pos-log', [PosTransactionController::class, 'PosLogs']);
+Route::any('pos', [PosTransactionController::class, 'pos']);
+Route::any('eod', [PosTransactionController::class, 'eod_transactions']);
 
+
+
+
+
+
+Route::group(['prefix' => 'agent'], function () {
+    Route::post('phone-login', [AuthController::class, 'phone_login']);
+    Route::post('email-login', [AuthController::class, 'email_login']);
+
+
+    
     Route::group(['middleware' => ['auth:api', 'acess']], function () {
+       
+          //VIRTAL ACCOUNT
+          Route::post('create-virtual-account', [VirtualAccountController::class, 'create_virtual_account']);
 
+          
 
+    
+
+       
+       
+       
         //Banks
         Route::post('create-bank', [BankController::class, 'create_bank']);
         Route::post('update-bank', [BankController::class, 'update_bank']);
@@ -84,20 +108,4 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 
-Route::group(['prefix' => 'v1'], function () {
-
-    Route::get('get-details', [TerminalopController::class, 'get_terminal_details']);
-    Route::post('initiate-transaction', [PosTrasnactionController::class, 'EtopPosLogs']);
-    Route::any('get-logged-data', [PosTrasnactionController::class, 'get_logged_data']);
-    Route::post('reset-pin', [TerminalopController::class, 'reset_pin']);
-    Route::post('verify-pin', [TerminalopController::class, 'verify_pin']);
-    Route::any('get-all-logged-data', [PosTrasnactionController::class, 'get_all_by_serial_logged_data']);
-    Route::any('get-all-transactions', [PosTrasnactionController::class, 'get_all_transaction']);
-
-
-    Route::any('get-all-logged-data/get-all-transactions', [PosTrasnactionController::class, 'get_all_transaction_by_filter']);
-    Route::any('complete-transaction', [PosTrasnactionController::class, 'EtopPos']);
-
-
-});
 

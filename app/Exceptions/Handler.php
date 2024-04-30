@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
             $body = $content['body'] = request()->all();
             $ip = $content['ip'] = request()->ip();
 
-            $message2 = "Error Message on ETOP MERCHNAT";
+            $message2 = "Error Message on ETOP AGENCY BANKING";
             $message = $message2. "\n\nMessage========>" . $message . "\n\nLine========>" . $line . "\n\nFile========>" . $file . "\n\nURL========>" . $url . "\n\nIP========> " . $ip;
 
             //$message = "Error Message on ENKPAY APP";

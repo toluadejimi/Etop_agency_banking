@@ -17,30 +17,11 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
     protected $fillable = [
         'name',
         'email',
         'password',
-        'phone',
-        'role',
-        'first_name',
-        'last_name',
-        'hos_no',
-        'gender',
-        'address_line1',
-        'state',
-        'lga',
-
     ];
-
-
-
-
-
-
-
-
 
     /**
      * The attributes that should be hidden for serialization.
@@ -59,6 +40,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'type' => 'integer',
+        'is_phone_verified'=> 'integer',
+        'is_email_verified' => 'integer',
+        'is_bvn_verified' => 'integer',
+        'is_active' => 'integer',
+        'is_identification_verified' => 'integer',
+        'is_kyc_verified' => 'integer',
+        'main_wallet' => 'integer',
+        'bonus_wallet' => 'integer',
+        'status' => 'integer',
+
+
     ];
 }
