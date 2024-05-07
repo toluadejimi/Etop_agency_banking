@@ -41,12 +41,16 @@ Route::any('eod', [PosTransactionController::class, 'eod_transactions']);
 Route::group(['prefix' => 'agent'], function () {
     Route::post('phone-login', [AuthController::class, 'phone_login']);
     Route::post('email-login', [AuthController::class, 'email_login']);
+    Route::post('pin-login', [AuthController::class, 'pin_login']);
+
 
 
     Route::group(['middleware' => ['auth:api', 'acess']], function () {
 
         //VIRTAL ACCOUNT
         Route::post('create-virtual-account', [VirtualAccountController::class, 'create_virtual_account']);
+
+
 
 
         //Bills Payment
@@ -56,7 +60,8 @@ Route::group(['prefix' => 'agent'], function () {
         Route::post('pay-bill', [BillsController::class, 'pay_bill']);
         Route::post('buy-airtime', [BillsController::class, 'buy_airtime']);
         Route::post('buy-data', [BillsController::class, 'buy_data']);
-        Route::get('get-data-plans', [BillsController::class, 'get_data_plans']);
+        Route::post('get-data-plans', [BillsController::class, 'get_data_plans']);
+
 
 
 
@@ -64,6 +69,11 @@ Route::group(['prefix' => 'agent'], function () {
         //FUnds Transfer
         Route::get('transfer-properties', [TransferController::class, 'transfer_properties']);
         Route::post('resolve-account', [TransferController::class, 'validate_account']);
+
+
+        //Transaction
+        Route::get('all-transaction', [App\Http\Controllers\Agents\TransactionController::class, 'all_transaction']);
+
 
 
 
