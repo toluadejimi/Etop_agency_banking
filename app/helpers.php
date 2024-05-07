@@ -80,7 +80,7 @@ if (!function_exists('send_notification')) {
 }
 
 
-
+http://102.216.128.75:9090/identity/api/v1/authenticate
 if (!function_exists('psb_token')) {
 
     function psb_token()
@@ -116,7 +116,7 @@ if (!function_exists('psb_token')) {
         ));
 
         $var = curl_exec($curl);
-        curl_close($curl); 
+        curl_close($curl);
         $var = json_decode($var);
         $access_token = $var->access_token ?? null;
 
@@ -125,6 +125,56 @@ if (!function_exists('psb_token')) {
     }
 }
 
+
+if (!function_exists('psb_vas_token')) {
+
+    function psb_vas_token()
+    {
+
+        $username = env('9PSBVASUSERNAME');
+        $password = env('9PSBVASPASSWORD');
+        $Url = env('9PSBVASAUTHURL');
+
+
+        $curl = curl_init();
+        $data = array(
+            'username' => $username,
+            'password' => $password,
+
+        );
+        $post_data = json_encode($data);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "$Url",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+        $status = $var->status ?? null;
+
+        if($status != null){
+            $access_token = $var->data->accessToken ?? null;
+            return $access_token;
+
+        }
+
+        return 0;
+
+
+    }
+}
 
 
 if (!function_exists('reference')) {
@@ -157,18 +207,18 @@ if (!function_exists('create_9psb_v_account')) {
             ],
 
             'order' => [
-                'amount' => 1, 
-                'currency' => "NGN", 
-                'description' => "Test TRF", 
-                'country' => "NGA", 
-                'amounttype' => "EXACT" 
+                'amount' => 1,
+                'currency' => "NGN",
+                'description' => "Test TRF",
+                'country' => "NGA",
+                'amounttype' => "EXACT"
             ],
 
             'customer' => [
 
                 'account' => [
-                    'name' => Auth::user()->first_name." ".Auth::user()->last_name, 
-                    'type' => "STATIC" 
+                    'name' => Auth::user()->first_name." ".Auth::user()->last_name,
+                    'type' => "STATIC"
                 ]
 
             ],
@@ -194,7 +244,7 @@ if (!function_exists('create_9psb_v_account')) {
         ));
 
         $var = curl_exec($curl);
-        curl_close($curl); 
+        curl_close($curl);
         $var = json_decode($var);
         $status = $var->message ?? null;
 
@@ -210,7 +260,7 @@ if (!function_exists('create_9psb_v_account')) {
             return 2;
 
         }
-       
+
         return 0;
     }
 }
@@ -222,83 +272,83 @@ if (!function_exists('login')) {
     {
 
 
-    
+
         if($phone != null){
 
             $credentials = (['phone'=> $phone, 'password'=> $password]);
             Passport::tokensExpireIn(Carbon::now()->addMinutes(20));
             Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(20));
-    
-           
+
+
 
 
             $check_status = User::where('phone', $phone)->first()->status ?? null;
-    
 
-        
+
+
             if ($check_status == 3) {
-    
+
                 return 3;
             }
 
-          
 
-    
+
+
             if (!auth()->attempt($credentials)) {
-    
+
                 return 0;
             }
-    
-    
+
+
             $get_token = OauthAccessToken::where('user_id', Auth::id())->first()->user_id ?? null;
-    
+
             if ($get_token != null) {
                 OauthAccessToken::where('user_id', Auth::id())->delete();
             }
-    
-    
+
+
             $get_device_id = Auth::user()->device_id ?? null;
             $get_deviceIdentifier = Auth::user()->deviceIdentifier ?? null;
             $get_deviceName = Auth::user()->deviceName ?? null;
             $get_ip = Auth::user()->ip_address ?? null;
-    
-    
+
+
             $get_device_id = User::where('device_id', $device_id)
                 ->first()->device_id ?? null;
-    
+
             if ($get_device_id == null) {
-    
+
                 $update = User::where('id', Auth::id())
                     ->update([
                         'device_id' => $device_id ?? null,
                     ]);
             }
-    
+
             if ($get_deviceName == null) {
-    
+
                 $update = User::where('id', Auth::id())
                     ->update([
                         'deviceName' => $deviceName ?? null,
                     ]);
             }
-    
+
             if ($get_deviceIdentifier == null) {
-    
+
                 $update = User::where('id', Auth::id())
                     ->update([
                         'deviceIdentifier' => $deviceIdentifier ?? null,
                     ]);
             }
-    
-    
-    
-    
+
+
+
+
             if (Auth::user()->status == 5) {
-    
+
                 return 1;
             }
-    
-    
+
+
             return 2;
 
 
@@ -310,75 +360,75 @@ if (!function_exists('login')) {
             $credentials = (['email'=> $email, 'password'=> $password]);
             Passport::tokensExpireIn(Carbon::now()->addMinutes(20));
             Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(20));
-    
+
             $check_status = User::where('email', $email)->first()->status ?? null;
-    
+
             if ($check_status == 3) {
-    
+
                 return 3;
             }
-    
+
             if (!auth()->attempt($credentials)) {
-    
+
                 return 0;
             }
-    
-    
+
+
             $get_token = OauthAccessToken::where('user_id', Auth::id())->first()->user_id ?? null;
-    
+
             if ($get_token != null) {
                 OauthAccessToken::where('user_id', Auth::id())->delete();
             }
-    
-    
+
+
             $get_device_id = Auth::user()->device_id ?? null;
             $get_deviceIdentifier = Auth::user()->deviceIdentifier ?? null;
             $get_deviceName = Auth::user()->deviceName ?? null;
             $get_ip = Auth::user()->ip_address ?? null;
-    
-    
+
+
             $get_device_id = User::where('device_id', $device_id)
                 ->first()->device_id ?? null;
-    
+
             if ($get_device_id == null) {
-    
+
                 $update = User::where('id', Auth::id())
                     ->update([
                         'device_id' => $device_id ?? null,
                     ]);
             }
-    
+
             if ($get_deviceName == null) {
-    
+
                 $update = User::where('id', Auth::id())
                     ->update([
                         'deviceName' => $deviceName ?? null,
                     ]);
             }
-    
+
             if ($get_deviceIdentifier == null) {
-    
+
                 $update = User::where('id', Auth::id())
                     ->update([
                         'deviceIdentifier' => $deviceIdentifier ?? null,
                     ]);
             }
-    
-    
-    
-    
+
+
+
+
             if (Auth::user()->status == 5) {
-    
+
                 return 1;
             }
-    
-    
+
+
             return 2;
 
 
         }
         return 7;
-     
+
     }
 }
 
@@ -425,5 +475,32 @@ if (!function_exists('tid_config')) {
     }
 }
 
+
+if (!function_exists('select_account')) {
+
+    function select_account()
+    {
+
+
+
+        $account = User::where('id', Auth::id())->first();
+
+
+        $account_array = array();
+        $account_array[0] = [
+            "title" => "Main Account",
+            "amount" => $account->main_wallet,
+            "key" => "main_account",
+
+        ];
+//        $account_array[1] = [
+//            "title" => "Bonus Account",
+//            "amount" => $account->bonus_wallet,
+//            "key" => "bonus_account",
+//        ];
+
+        return $account_array;
+    }
+}
 
 

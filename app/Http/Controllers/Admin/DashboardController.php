@@ -6,97 +6,58 @@ use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\PosLog;
 use App\Models\Terminal;
+use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function dashboard_data(request $request)
+    public function admin_dashboard(request $request)
     {
 
-        if (Auth::user()->role == 1 || Auth::user()->role == 2 ) {
+        if (Auth::user()->role == 1  ) {
 
             $data['users'] = User::count();
             $data['successful_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 1)->sum('amount');
             $data['failed_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 0)->sum('amount');
             $data['all_terminals'] = Terminal::count();
-            $data['all_banks'] = Bank::count();
-            $data['all_transactions'] = PosLog::latest()->take(100)->get();
+            $data['all_customers'] = User::where('role', 2)->count();
+            $data['all_admins'] = User::where('role', 1)->count();
+            $data['suspended_users'] = User::where('status', 3)->count();
+            $data['total_wallet'] = User::where('status', 2)->sum('main_wallet');
 
-
-
-            return response()->json([
-                'status' => true,
-                'data' => $data
-
-            ], 200);
-        }
-
-
-        if (Auth::user()->role == 3) {
-
-            $bank_id = User::where('id', Auth::id())->first()->bank_id ?? null;
-
-            if($bank_id == null){
-                return response()->json([
-                    'status' => false,
-                    'message' => "Update Bank Details"
-                ], 422);
-
+            if($request->date == "today"){
+                $cdate = Carbon::today();
+            }elseif ($request->date == "yesterday"){
+                $cdate = Carbon::yesterday();
+            }else{
+                $cdate = null;
             }
 
-            $data['users'] = User::where('bank_id', $bank_id)->count();
-            $data['successful_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')
-                ->where(['status'  => 1, 'bank_id' => $bank_id])->sum('amount');
-
-            $data['failed_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')
-                ->where(['status'  => 0, 'bank_id' => $bank_id])->sum('amount');
-
-            $data['all_terminals'] = Terminal::where('bank_id', $bank_id)->count();
-            $data['all_transactions'] = PosLog::latest()->where('bank_id', $bank_id)->take(100)->get();
-
-
-            return response()->json([
-                'status' => true,
-                'data' => $data
-
-            ], 200);
-        }
-
-
-
-        if (Auth::user()->role == 4) {
-
-
-            if(Auth::id() == null){
-                return response()->json([
-                    'status' => false,
-                    'message' => "Update User Details"
-                ], 422);
-
+            if($cdate == null){
+                $data['inflow'] = Transaction::where('status', 2)->sum('credit');
+                $data['outflow'] = Transaction::where('status', 2)->sum('debit');
+                $data['all_transactions'] = Transaction::latest()->take(100)->get();
+            }else{
+                $data['inflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('credit');
+                $data['all_transactions'] = Transaction::latest()->wheredate('created_at', $cdate)->take(100)->get();
+                $data['outflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('debit');
             }
 
-            $data['successful_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')
-                ->where(['status'  => 1, 'user_id' => Auth::id()])->sum('amount');
-
-            $data['failed_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')
-                ->where(['status'  => 0, 'user_id' => Auth::id()])->sum('amount');
-
-            $data['all_terminals'] = Terminal::where('user_id', Auth::id())->count();
-
-            $data['all_transactions'] = PosLog::latest()->where('user_id', Auth::id())->take()->get();
 
 
-            return response()->json([
-                'status' => true,
-                'data' => $data
 
-            ], 200);
+
+
+
+
+
+            return view('admin-dashboard', $data);
         }
 
-
-
+        return back()->with('error', 'you do not have permission');
 
 
 

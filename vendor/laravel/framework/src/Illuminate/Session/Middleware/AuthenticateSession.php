@@ -96,7 +96,7 @@ class AuthenticateSession implements AuthenticatesSessions
         $request->session()->flush();
 
         throw new AuthenticationException(
-            'Unauthorized! Token Expired, Please login to continue.', [$this->auth->getDefaultDriver()], $this->redirectTo($request)
+            'Unauthenticated.', [$this->auth->getDefaultDriver()], $this->redirectTo($request)
         );
     }
 

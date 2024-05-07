@@ -12,30 +12,25 @@ use Illuminate\Support\Facades\Hash;
 
 class TerminalController extends Controller
 {
+
+    public function create_terminal_view(request $request)
+    {
+
+        $data['users'] = User::latest()->where('role', 2)->get();
+        return view('new-terminal', $data);
+
+    }
+
+
     public function create_terminal(request $request)
     {
 
 
-        if ($request->user_id == null || $request->serialNumber == null) {
-
-            return response()->json([
-                'status' => false,
-                'message' => "User ID or Serial Number can not be null"
-            ], 422);
-
+        if ($request->user_id == null) {
+            return back()->with('error', 'Attach a customer to terminal');
         }
 
-
-        if ($request->bank_id == null) {
-            return response()->json([
-                'status' => false,
-                'message' => "Bank Details can not be null"
-            ], 422);
-
-        }
-
-
-        if (Auth::user()->role == 1 || Auth::user()->role == 2) {
+        if (Auth::user()->role == 1) {
 
 
             $ter = Terminal::where('serialNumber', $request->serialNumber)->first() ?? null;
@@ -60,52 +55,52 @@ class TerminalController extends Controller
                 $term->save();
 
 
-                try {
-
-                    $curl = curl_init();
-                    $data = array(
-
-                        'tid' => $request->tid,
-                        'user_id' => $request->user_id,
-                        'bank_id' => $request->bank_id,
-                        'ip' => $request->ip,
-                        'port' => $request->port,
-                        'ssl' => $request->ssl,
-                        'compKey1' => $request->compKey1,
-                        'compKey2' => $request->compKey2,
-                        'baseUrl' => "http://etopagency.com:9001/",
-                        'logoUrl' => $request->logoUrl,
-                        'serialNumber' => $request->serialNumber,
-                        'merchantName' => $request->merchantName,
-                        'mid' => $request->mid,
-                        'merchantaddress' => $request->merchantaddress,
-                        'pin' => bcrypt($request->pin),
-
-                    );
-                    $post_data = json_encode($data);
-
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => 'https://etopmerchant.com/api/store-terminal',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => $post_data,
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json'
-                        ),
-                    ));
-
-                    $var = curl_exec($curl);
-                    curl_close($curl);
-
-
-                } catch (QueryException $e) {
-                    echo "$e";
-                }
+//                try {
+//
+//                    $curl = curl_init();
+//                    $data = array(
+//
+//                        'tid' => $request->tid,
+//                        'user_id' => $request->user_id,
+//                        'bank_id' => $request->bank_id,
+//                        'ip' => $request->ip,
+//                        'port' => $request->port,
+//                        'ssl' => $request->ssl,
+//                        'compKey1' => $request->compKey1,
+//                        'compKey2' => $request->compKey2,
+//                        'baseUrl' => "http://etopagency.com:9001/",
+//                        'logoUrl' => $request->logoUrl,
+//                        'serialNumber' => $request->serialNumber,
+//                        'merchantName' => $request->merchantName,
+//                        'mid' => $request->mid,
+//                        'merchantaddress' => $request->merchantaddress,
+//                        'pin' => bcrypt($request->pin),
+//
+//                    );
+//                    $post_data = json_encode($data);
+//
+//                    curl_setopt_array($curl, array(
+//                        CURLOPT_URL => 'https://etopmerchant.com/api/store-terminal',
+//                        CURLOPT_RETURNTRANSFER => true,
+//                        CURLOPT_ENCODING => '',
+//                        CURLOPT_MAXREDIRS => 10,
+//                        CURLOPT_TIMEOUT => 0,
+//                        CURLOPT_FOLLOWLOCATION => true,
+//                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//                        CURLOPT_CUSTOMREQUEST => 'POST',
+//                        CURLOPT_POSTFIELDS => $post_data,
+//                        CURLOPT_HTTPHEADER => array(
+//                            'Content-Type: application/json'
+//                        ),
+//                    ));
+//
+//                    $var = curl_exec($curl);
+//                    curl_close($curl);
+//
+//
+//                } catch (QueryException $e) {
+//                    echo "$e";
+//                }
 
 
                 return response()->json([
@@ -115,24 +110,15 @@ class TerminalController extends Controller
 
             }
 
-
             if ($ter != null) {
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Terminal Account Already  Exist"
-                ], 422);
-
-
+                return back()->with('error', 'Terminal Account Already  Exist');
             }
 
         } else {
-
-            return response()->json([
-                'status' => false,
-                'message' => "You dont have permission to create a terminal"
-            ], 422);
+            return back()->with('error', 'You dont have permission to create a terminal');
         }
+
+        return back()->with('error', 'Something went wrong');
     }
 
     public function update_terminal(request $request)

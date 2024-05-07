@@ -1,18 +1,24 @@
 <?php
 
-use App\Models\VirtualAccount;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BankController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\TerminalopController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Agents\AuthController;
-use App\Http\Controllers\Admin\TerminalController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StoredataController;
+use App\Http\Controllers\Admin\TerminalController;
 use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Agents\AuthController;
+use App\Http\Controllers\Agents\BillsController;
 use App\Http\Controllers\Agents\PosTransactionController;
+use App\Http\Controllers\Agents\TransferController;
 use App\Http\Controllers\Agents\VirtualAccountController;
+use Illuminate\Support\Facades\Route;
+
+
+
+
+
+
+
 
 //other database
 Route::post('store-user', [StoredataController::class, 'store_user']);
@@ -26,15 +32,10 @@ Route::post('delete_bank', [StoredataController::class, 'delete_bank']);
 Route::post('delete_user', [StoredataController::class, 'delete_user']);
 
 
-
 Route::any('virtual-notification', [VirtualAccountController::class, 'virtual_notification']);
 Route::any('pos-log', [PosTransactionController::class, 'PosLogs']);
 Route::any('pos', [PosTransactionController::class, 'pos']);
 Route::any('eod', [PosTransactionController::class, 'eod_transactions']);
-
-
-
-
 
 
 Route::group(['prefix' => 'agent'], function () {
@@ -42,25 +43,38 @@ Route::group(['prefix' => 'agent'], function () {
     Route::post('email-login', [AuthController::class, 'email_login']);
 
 
-    
     Route::group(['middleware' => ['auth:api', 'acess']], function () {
-       
-          //VIRTAL ACCOUNT
-          Route::post('create-virtual-account', [VirtualAccountController::class, 'create_virtual_account']);
 
-          
+        //VIRTAL ACCOUNT
+        Route::post('create-virtual-account', [VirtualAccountController::class, 'create_virtual_account']);
 
-    
 
-       
-       
-       
+        //Bills Payment
+        Route::get('get-categories', [BillsController::class, 'get_categories']);
+        Route::post('get-biller', [BillsController::class, 'get_biller']);
+        Route::post('validate', [BillsController::class, 'validate_biller']);
+        Route::post('pay-bill', [BillsController::class, 'pay_bill']);
+        Route::post('buy-airtime', [BillsController::class, 'buy_airtime']);
+        Route::post('buy-data', [BillsController::class, 'buy_data']);
+        Route::get('get-data-plans', [BillsController::class, 'get_data_plans']);
+
+
+
+
+        //FUnds Transfer
+        Route::get('transfer-properties', [TransferController::class, 'transfer_properties']);
+        Route::post('resolve-account', [TransferController::class, 'validate_account']);
+
+
+
+
+
+
         //Banks
         Route::post('create-bank', [BankController::class, 'create_bank']);
         Route::post('update-bank', [BankController::class, 'update_bank']);
         Route::post('delete-bank', [BankController::class, 'delete_bank']);
         Route::post('search-bank', [BankController::class, 'search_bank']);
-
 
 
         //Dashboard
@@ -77,15 +91,10 @@ Route::group(['prefix' => 'agent'], function () {
         Route::post('search-users', [UserController::class, 'search_user']);
 
 
-
-
         //Transaction
         Route::get('get-transactions/{limit}', [TransactionController::class, 'get_all_transactions']);
         Route::get('get-transactions-filter/{limit}', [TransactionController::class, 'get_transactions_by_filter']);
         Route::get('export-transactions', [TransactionController::class, 'export_transactions']);
-
-
-
 
 
         Route::post('transaction-filter', [TransactionController::class, 'get_all_transaction_by_filter']);
@@ -97,9 +106,6 @@ Route::group(['prefix' => 'agent'], function () {
         Route::get('view-terminal', [TerminalController::class, 'view_all_terminal']);
         Route::get('delete-terminal', [TerminalController::class, 'delete_terminal']);
         Route::post('search-terminal', [TerminalController::class, 'search_terminal']);
-
-
-
 
 
     });
