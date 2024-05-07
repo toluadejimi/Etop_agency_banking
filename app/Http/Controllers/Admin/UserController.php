@@ -352,8 +352,6 @@ class UserController extends Controller
     public function user_info(request $request)
     {
 
-        try {
-
             $GetToken = $request->header('Authorization');
 
             $string = $GetToken;
@@ -368,17 +366,12 @@ class UserController extends Controller
             $user['terminal_info'] = terminal_info();
             $tid_config = tid_config();
 
-
             return response()->json([
-                'status' => $this->success,
+                'status' => true,
                 'data' => $user,
                 'tid_config' => $tid_config,
-
-
             ], 200);
-        } catch (\Exception $th) {
-            return $th->getMessage();
-        }
+
     }
 
 
