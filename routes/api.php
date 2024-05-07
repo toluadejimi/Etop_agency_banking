@@ -89,6 +89,8 @@ Route::group(['prefix' => 'agent'], function () {
         Route::get('list-bank-users', [UserController::class, 'get_bank_users']);
         Route::get('delete-users', [UserController::class, 'delete_user']);
         Route::post('search-users', [UserController::class, 'search_user']);
+        Route::get('user-info', [UserController::class, 'user_info']);
+
 
 
         //Transaction

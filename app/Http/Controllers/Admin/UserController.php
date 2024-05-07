@@ -349,6 +349,43 @@ class UserController extends Controller
     }
 
 
+    public function user_info(request $request)
+    {
+
+        try {
+
+            $GetToken = $request->header('Authorization');
+
+            $string = $GetToken;
+            $toBeRemoved = "Bearer ";
+            $token = str_replace($toBeRemoved, "", $string);
+
+            $virtual_account = virtual_account();
+
+            $user = Auth()->user();
+            $user['token'] = $token;
+            $user['user_virtual_account_list'] = $virtual_account;
+            $user['terminal_info'] = terminal_info();
+            $tid_config = tid_config();
+
+
+            return response()->json([
+                'status' => $this->success,
+                'data' => $user,
+                'tid_config' => $tid_config,
+
+
+            ], 200);
+        } catch (\Exception $th) {
+            return $th->getMessage();
+        }
+    }
+
+
+
+
+
+
 
 
 }
