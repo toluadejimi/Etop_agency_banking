@@ -120,6 +120,28 @@ Route::group(['prefix' => 'agent'], function () {
         Route::post('search-terminal', [TerminalController::class, 'search_terminal']);
 
 
+
+        //Profile
+        Route::get('user-info', [AuthController::class, 'user_info']);
+        Route::post('delete-user', [AuthController::class, 'delete_user']);
+        Route::post('forgot-pin', [AuthController::class, 'forgot_pin']);
+        Route::post('forgot-password', [AuthController::class, 'forgot_password']);
+        Route::any('get-beneficiary', [AuthController::class, 'get_beneficary']);
+        Route::any('update-beneficiary', [AuthController::class, 'update_beneficary']);
+        Route::any('delete-beneficiary', [AuthController::class, 'delete_beneficary']);
+        Route::post('update-kyc', [AuthController::class, 'update_user']);
+        Route::post('verify-info', [AuthController::class, 'verify_info']);
+        Route::post('update-business', [AuthController::class, 'update_business']);
+        Route::post('update-account-info', [AuthController::class, 'update_account_info']);
+        Route::post('update-bank-info', [AuthController::class, 'update_bank_info']);
+        Route::post('verify-identity', [AuthController::class, 'verify_identity']);
+        Route::post('upload-identity', [AuthController::class, 'upload_identity']);
+
+
+       //Transaction
+        Route::any('transaction-history', [TransactionController::class, 'transaction_history']);
+
+
     });
 
 

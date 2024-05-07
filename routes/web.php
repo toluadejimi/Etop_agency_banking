@@ -22,6 +22,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', [AuthController::class, 'login_form'])->name('login');
 
 
+Route::get('reset-pin', [App\Http\Controllers\Agents\AuthController::class, 'reset_pin']);
+Route::get('reset-password', [App\Http\Controllers\Agents\AuthController::class, 'reset_password']);
+
+
+Route::post('reset-pin-now', [App\Http\Controllers\Agents\AuthController::class, 'reset_pin_now']);
+Route::post('reset-password-now', [App\Http\Controllers\Agents\AuthController::class, 'reset_password_now']);
+
+
+Route::get('success', [App\Http\Controllers\Agents\AuthController::class, 'success']);
+
+
+
 
 Route::any('set-2fa', [AuthController::class, 'set_2fa']);
 Route::any('auth_login', [AuthController::class, 'login']);
