@@ -171,9 +171,11 @@ if (!function_exists('psb_vas_token')) {
         }
 
 
+
+
         $message = $var;
         send_notification($message);
-
+        dd($var);
 
         return 0;
 
