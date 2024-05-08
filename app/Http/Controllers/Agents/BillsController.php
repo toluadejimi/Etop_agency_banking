@@ -19,6 +19,7 @@ class BillsController extends Controller
 
             if($token == 0){
                 return response()->json([
+                    dd($request->ip());
                     'status' => false,
                     'message' => "Please try again later",
                 ], 500);
