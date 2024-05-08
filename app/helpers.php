@@ -128,7 +128,7 @@ if (!function_exists('psb_token')) {
 
 if (!function_exists('psb_vas_token')) {
 
-    function psb_vas_token()
+    function psb_vas_token($request)
     {
 
         $username = env('9PSBVASUSERNAME');
