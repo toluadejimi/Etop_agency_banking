@@ -170,6 +170,11 @@ if (!function_exists('psb_vas_token')) {
 
         }
 
+
+        $message = $var;
+        send_notification($message);
+
+
         return 0;
 
 
@@ -260,6 +265,9 @@ if (!function_exists('create_9psb_v_account')) {
             return 2;
 
         }
+
+        $message = $var;
+        send_notification($message);
 
         return 0;
     }
