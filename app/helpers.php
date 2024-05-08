@@ -162,6 +162,10 @@ if (!function_exists('psb_vas_token')) {
         $var = curl_exec($curl);
         curl_close($curl);
         $var = json_decode($var);
+
+        dd($var);
+
+
         $status = $var->status ?? null;
 
         if($status != null){
@@ -175,7 +179,6 @@ if (!function_exists('psb_vas_token')) {
 
         $message = $var;
         send_notification($message);
-        dd($var);
 
         return 0;
 
