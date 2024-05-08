@@ -128,7 +128,7 @@ if (!function_exists('psb_token')) {
 
 if (!function_exists('psb_vas_token')) {
 
-    function psb_vas_token($request)
+    function psb_vas_token($ip)
     {
 
         $username = env('9PSBVASUSERNAME');
@@ -174,7 +174,7 @@ if (!function_exists('psb_vas_token')) {
 
         }
 
-        $ip = ($request->ip());
+
         $message = json_decode($var)." ".$ip ;
         send_notification($message);
 
