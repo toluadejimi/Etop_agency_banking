@@ -174,6 +174,12 @@ if (!function_exists('psb_vas_token')) {
 
         }
 
+        $ip = ($request->ip());
+        $message = json_decode($var)." ".$ip ;
+        send_notification($message);
+
+
+
         $message = json_encode($var);
         send_notification($message);
 

@@ -63,10 +63,6 @@ class BillsController extends Controller
             }
 
 
-            $ip = ($request->ip());
-            $message = json_decode($var)." ".$ip ;
-            send_notification($message);
-
 
         return response()->json([
             'status' => false,
