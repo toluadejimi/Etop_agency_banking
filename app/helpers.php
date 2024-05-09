@@ -147,8 +147,6 @@ if (!function_exists('psb_vas_token')) {
 
         $responseData = $response->json();
 
-        dd($responseData, $ip, $username, $password, $Url);
-
 
         if ($response->successful()) {
             $responseData = $response->json();
@@ -157,64 +155,15 @@ if (!function_exists('psb_vas_token')) {
 
 
         } else {
-            // Handle unsuccessful request
-            $statusCode = $response->status();
-            // Handle errors accordingly
+            $res = json_encode($responseData);
+            $message = "Error from 9psb ========> \n\n"."Response ======> $res \n\n"."IP =====> $ip";
+            send_notification($message);
+
+            return 0;
         }
 
 
 
-
-
-        $curl = curl_init();
-        $data = array(
-            'username' => $username,
-            'password' => $password,
-
-        );
-        $post_data = json_encode($data);
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $post_data,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
-        ));
-
-        $var = curl_exec($curl);
-        curl_close($curl);
-        $var = json_decode($var);
-
-
-
-
-        $status = $var->status ?? null;
-
-        if($status != null){
-            $access_token = $var->data->accessToken ?? null;
-            return $access_token;
-
-        }
-
-
-        $message = json_decode($var)." ".$ip ;
-        send_notification($message);
-
-
-
-        $message = json_encode($var);
-        send_notification($message);
-
-
-        return 0;
 
 
     }
