@@ -50,6 +50,7 @@ class BillsController extends Controller
             $responseCode = $var->responseCode ?? null;
 
 
+            dd($var);
 
 
             if($status == "success" && $responseCode == "200"){
