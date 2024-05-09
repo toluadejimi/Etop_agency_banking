@@ -44,20 +44,19 @@ Route::get('code', [AuthController::class, 'code']);
 
 
 
+
 Route::group(['prefix'=>'admin'], function(){
 
     Route::get('admin-dashboard', [DashboardController::class, 'admin_dashboard']);
 
-
     //Terminal
     Route::get('/new-terminal', [TerminalController::class, 'create_terminal_view']);
-
-
     Route::post('/generateSecret', [LoginSecurityController::class, 'generate2faSecret'])->name('generate2faSecret');
     Route::post('/enable2fa', [LoginSecurityController::class, 'enable2fa'])->name('enable2fa');
     Route::post('/disable2fa', [LoginSecurityController::class, 'disable2fa'])->name('disable2fa');
 
 });
+
 
 // test middleware
 Route::get('/test_middleware', function () {
