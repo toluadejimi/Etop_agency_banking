@@ -115,7 +115,7 @@ if (!function_exists('psb_token')) {
 
 if (!function_exists('psb_vas_token')) {
 
-    function psb_vas_token($ip)
+    function psb_vas_token()
     {
 
 
