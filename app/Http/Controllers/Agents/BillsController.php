@@ -573,10 +573,12 @@ class BillsController extends Controller
 
         }
 
+        $url = $Url."/topup/dataPlans?phone=$phone";
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/topup/dataPlans?phone=$phone",
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -596,7 +598,7 @@ class BillsController extends Controller
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
 
-        dd($var);
+        dd($var, $phone, $url);
 
 
 
