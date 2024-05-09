@@ -596,6 +596,8 @@ class BillsController extends Controller
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
 
+        dd($var);
+
 
 
 
