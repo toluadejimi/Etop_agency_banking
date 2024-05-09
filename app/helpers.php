@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use App\Models\OauthAccessToken;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+
 
 
 
@@ -131,9 +133,33 @@ if (!function_exists('psb_vas_token')) {
     function psb_vas_token($ip)
     {
 
+
         $username = env('9PSBVASUSERNAME');
         $password = env('9PSBVASPASSWORD');
         $Url = env('9PSBVASAUTHURL');
+
+
+        $response = Http::post($Url, [
+            'username' => $username,
+            'password' => $password,
+        ]);
+
+
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+            $token = $responseData['data']['accessToken'];
+            dd($token);
+
+
+        } else {
+            // Handle unsuccessful request
+            $statusCode = $response->status();
+            // Handle errors accordingly
+        }
+
+
+
 
 
         $curl = curl_init();
