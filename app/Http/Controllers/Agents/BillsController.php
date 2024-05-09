@@ -15,7 +15,7 @@ class BillsController extends Controller
     {
 
             $Url = env('9PSBILLURL');
-            $ip = Request::server('SERVER_ADDR');
+            $ip = $_SERVER['SERVER_ADDR'];
             $token = psb_vas_token($ip);
 
             if($token == 0){
