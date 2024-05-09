@@ -131,6 +131,9 @@ if (!function_exists('psb_vas_token')) {
         $responseData = $response->json();
 
 
+        dd($responseData, $ip);
+
+
         if ($response->successful()) {
             $responseData = $response->json();
             $token = $responseData['data']['accessToken'];
@@ -142,7 +145,7 @@ if (!function_exists('psb_vas_token')) {
             $message = "Error from 9psb ========> \n\n"."Response ======> $res \n\n"."IP =====> $ip";
             send_notification($message);
 
-            dd($responseData, $ip);
+
 
 
 
