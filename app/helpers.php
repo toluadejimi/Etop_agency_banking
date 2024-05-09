@@ -136,7 +136,7 @@ if (!function_exists('psb_vas_token')) {
         if ($status == 200) {
             $responseData = $response->json();
             $token = $responseData['data']['accessToken'];
-            return 2;
+            return $token;
 
 
         } else {
