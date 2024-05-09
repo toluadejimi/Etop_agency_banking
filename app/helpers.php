@@ -147,7 +147,7 @@ if (!function_exists('psb_vas_token')) {
 
         $responseData = $response->json();
 
-        dd($responseData);
+        dd($responseData, $ip, $username, $password, $Url);
 
 
         if ($response->successful()) {
