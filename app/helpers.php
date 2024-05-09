@@ -145,11 +145,15 @@ if (!function_exists('psb_vas_token')) {
         ]);
 
 
+        $responseData = $response->json();
+
+        dd($responseData);
+
 
         if ($response->successful()) {
             $responseData = $response->json();
             $token = $responseData['data']['accessToken'];
-            dd($token);
+
 
 
         } else {
