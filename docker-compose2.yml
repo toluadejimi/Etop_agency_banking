@@ -1,6 +1,6 @@
 version: '3'
 services:
-  
+
   #PHP Service
   etop:
     build:
@@ -40,7 +40,7 @@ services:
       - etop-network
 
   #MySQL Service
-  db:
+  database:
     image: mysql:5.7.22
     container_name: db
     restart: unless-stopped
