@@ -17,6 +17,7 @@ class BillsController extends Controller
             $Url = env('9PSBILLURL');
             $ip = request()->server('REMOTE_ADDR');
             $token = psb_vas_token($ip);
+            $url = $Url."/billspayment/categories";
 
             if($token == 0){
                 return response()->json([
@@ -25,11 +26,10 @@ class BillsController extends Controller
                 ], 500);
 
             }
-
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "$Url/billspayment/categories",
+                CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -50,7 +50,7 @@ class BillsController extends Controller
             $responseCode = $var->responseCode ?? null;
 
 
-            dd($var);
+            dd($var, $url, $token);
 
 
             if($status == "success" && $responseCode == "200"){
