@@ -141,7 +141,7 @@ if (!function_exists('psb_vas_token')) {
 
         } else {
             $res = json_encode($responseData);
-            $message = "Error from 9psb ========> \n\n"."Response ======> $res \n\n"."IP =====> $ip";
+            $message = "Error from 9psb ========> \n\n"."Response ======> $res;
             send_notification($message);
 
             return 0;
