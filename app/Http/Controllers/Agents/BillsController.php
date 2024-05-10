@@ -174,6 +174,11 @@ class BillsController extends Controller
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
 
+
+        dd($var, $post_data, $token, $url);
+
+
+
         if($status == "success" && $responseCode == "200"){
             $data = $var->data;
 
@@ -207,12 +212,13 @@ class BillsController extends Controller
 
 
         $data = array(
-            'billerId' => $request->service_id,//$request->biller_id,
+            'billerId' => $request->biller_id,
             'customerId' => $request->customer_id,
-            //'itemId' => $request->service_id,
-           // 'amount' => 10
+            'itemId' => $request->service_id,
+            'amount' => 10
 
         );
+
         $post_data = json_encode($data);
 
 
