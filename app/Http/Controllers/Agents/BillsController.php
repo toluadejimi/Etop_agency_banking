@@ -175,9 +175,6 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-        dd($var, $post_data, $token, $url);
-
-
 
         if($status == "success" && $responseCode == "200"){
             $data = $var->data;
