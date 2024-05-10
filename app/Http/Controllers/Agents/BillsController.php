@@ -141,6 +141,7 @@ class BillsController extends Controller
 
         $Url = env('9PSBILLURL');
         $token = psb_vas_token();
+        $url = $Url."/billspayment/validate";
 
 
         $data = array(
@@ -185,7 +186,7 @@ class BillsController extends Controller
         $status = $var->status ?? null;
         $message = $var->message ?? null;
 
-        dd($var, $post_data, $token);
+        dd($var, $post_data, $token, $url);
 
 
         $responseCode = $var->responseCode ?? null;
