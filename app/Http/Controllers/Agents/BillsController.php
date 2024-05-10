@@ -251,14 +251,11 @@ class BillsController extends Controller
         $status = $var->status ?? null;
         $message = $var->message ?? null;
 
-        dd($var, $post_data, $token, $url);
-
 
         $responseCode = $var->responseCode ?? null;
 
         if($status == "success" && $responseCode == "200"){
-            $data = $var->data;
-
+            $data['name'] = $var->data->customerName;
 
             return response()->json([
                 'status' => true,
