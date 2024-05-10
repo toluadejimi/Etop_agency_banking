@@ -140,6 +140,8 @@ if (!function_exists('psb_vas_token')) {
 
 
         } else {
+
+            dd($responseData);
             $res = json_encode($responseData);
             $message = "Error from 9psb ========> \n\n"."Response ======> $res";
             send_notification($message);
