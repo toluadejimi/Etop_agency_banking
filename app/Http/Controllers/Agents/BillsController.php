@@ -212,7 +212,7 @@ class BillsController extends Controller
             'billerId' => $request->biller_id,
             'customerId' => $request->customer_id,
             'itemId' => $request->service_id,
-            'amount' => "200"
+            'amount' => "600"
 
         );
 
