@@ -136,6 +136,68 @@ class BillsController extends Controller
     }
 
 
+    public function get_biller_type(request $request)
+    {
+
+        $Url = env('9PSBILLURL');
+        $token = psb_vas_token();
+        $biller_id = $request->biller_type_id;
+
+        if($token == 0){
+            return response()->json([
+                'status' => false,
+                'message' => "Please try again later",
+            ], 500);
+
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "$Url/billspayment/fields/$biller_id",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Authorization: Bearer $token"
+            ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+        $status = $var->status ?? null;
+        $responseCode = $var->responseCode ?? null;
+
+        if($status == "success" && $responseCode == "200"){
+            $data = $var->data;
+
+
+            return response()->json([
+                'status' => true,
+                'data' => $data,
+            ], 200);
+
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => "Please try again later",
+        ], 500);
+
+
+
+
+
+    }
+
+
+
     public function validate_biller(request $request)
     {
 

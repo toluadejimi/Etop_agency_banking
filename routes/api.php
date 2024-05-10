@@ -56,6 +56,7 @@ Route::group(['prefix' => 'agent'], function () {
         //Bills Payment
         Route::get('get-categories', [BillsController::class, 'get_categories']);
         Route::post('get-biller', [BillsController::class, 'get_biller']);
+        Route::post('get-biller-type', [BillsController::class, 'get_biller_type']);
         Route::post('validate', [BillsController::class, 'validate_biller']);
         Route::post('pay-bill', [BillsController::class, 'pay_bill']);
         Route::post('buy-airtime', [BillsController::class, 'buy_airtime']);
