@@ -290,7 +290,7 @@ class BillsController extends Controller
             'customerPhone' => $request->customer_phone,
             'customerName' => $request->customer_name,
             'amount' => $request->amount,
-            'debitAccount' => $request->debitAccount,
+            'debitAccount' => env('DEBITACCOUNT'),
             'transactionReference'=> $trans_id
 
         );
@@ -353,6 +353,9 @@ class BillsController extends Controller
         $var = json_decode($var);
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
+
+
+        dd($var, $post_data);
 
 
 
