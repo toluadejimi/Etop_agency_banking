@@ -254,13 +254,13 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
         if($status == "success" && $responseCode == "200"){
-            $data['name'] =  $var->data->customerName;
-            $data['other_field'] =  $var->data->otherField;
+            $data2['name'] =  $var->data->customerName;
+            $data2['other_field'] =  $var->data->otherField;
 
 
             return response()->json([
                 'status' => true,
-                'data' => $data,
+                'data' => $data2,
             ], 200);
 
         }
