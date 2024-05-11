@@ -32,12 +32,12 @@ class AuthController extends Controller
 
             if (Hash::check($pin, $get_pin)) {
                 return response()->json([
-                    'status' => $this->success,
+                    'status' => true,
                     'data' => "Pin Verified",
                 ], 200);
             } else {
                 return response()->json([
-                    'status' => $this->failed,
+                    'status' => false,
                     'message' => "Invalid pin please try again",
                 ], 500);
             }
