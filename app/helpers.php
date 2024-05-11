@@ -455,7 +455,8 @@ if (!function_exists('tid_config')) {
         if ($tm != null) {
             return $tm;
         }
-        return $tm;
+
+        return (object)[];
     }
 }
 
