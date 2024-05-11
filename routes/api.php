@@ -42,7 +42,6 @@ Route::group(['prefix' => 'agent'], function () {
     Route::post('phone-login', [AuthController::class, 'phone_login']);
     Route::post('email-login', [AuthController::class, 'email_login']);
     Route::post('pin-login', [AuthController::class, 'pin_login']);
-    Route::post('verify-pin', [AuthController::class, 'verify_pin']);
 
 
 
@@ -51,8 +50,14 @@ Route::group(['prefix' => 'agent'], function () {
 
     Route::group(['middleware' => ['auth:api', 'acess']], function () {
 
+
+        Route::post('verify-pin', [AuthController::class, 'verify_pin']);
+
+
         //VIRTAL ACCOUNT
         Route::post('create-virtual-account', [VirtualAccountController::class, 'create_virtual_account']);
+
+
 
 
 
