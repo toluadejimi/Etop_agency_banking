@@ -19,6 +19,30 @@ use Laravel\Passport\Passport;
 class AuthController extends Controller
 {
 
+    public function user_info(request $request)
+    {
+
+        $GetToken = $request->header('Authorization');
+
+        $string = $GetToken;
+        $toBeRemoved = "Bearer ";
+        $token = str_replace($toBeRemoved, "", $string);
+
+        $virtual_account = virtual_account();
+        $user = Auth()->user();
+        $user['token'] = $token;
+        $user['user_virtual_account_list'] = $virtual_account;
+        $user['terminal_info'] = terminal_info();
+        $tid_config = tid_config();
+
+        return response()->json([
+            'status' => true,
+            'data' => $user,
+            'tid_config' => $tid_config,
+        ], 200);
+
+    }
+
 
     public function phone_login(Request $request)
     {
