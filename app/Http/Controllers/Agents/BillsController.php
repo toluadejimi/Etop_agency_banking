@@ -209,7 +209,7 @@ class BillsController extends Controller
 
         $data = array(
             'billerId' => $request->biller_id,
-            'customerId' => $request->customer_id,
+            'customerId' => $request->customerId,
             'itemId' => $request->service_id,
             'amount' => "600"
 
