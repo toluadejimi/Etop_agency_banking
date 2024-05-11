@@ -42,6 +42,10 @@ Route::group(['prefix' => 'agent'], function () {
     Route::post('phone-login', [AuthController::class, 'phone_login']);
     Route::post('email-login', [AuthController::class, 'email_login']);
     Route::post('pin-login', [AuthController::class, 'pin_login']);
+    Route::post('verify-pin', [AuthController::class, 'verify_pin']);
+
+
+
 
 
 

@@ -19,6 +19,34 @@ use Laravel\Passport\Passport;
 class AuthController extends Controller
 {
 
+
+    public function verify_pin(request $request)
+    {
+
+        try {
+
+            $pin = $request->pin;
+
+            $get_pin = User::where('id', Auth::id())
+                ->first()->pin;
+
+            if (Hash::check($pin, $get_pin)) {
+                return response()->json([
+                    'status' => $this->success,
+                    'data' => "Pin Verified",
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => $this->failed,
+                    'message' => "Invalid pin please try again",
+                ], 500);
+            }
+        } catch (\Exception $th) {
+            return $th->getMessage();
+        }
+    }
+
+
     public function user_info(request $request)
     {
 
