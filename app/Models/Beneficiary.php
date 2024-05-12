@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Beneficiary extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'bank_code' => 'string',
+    ];
 }
