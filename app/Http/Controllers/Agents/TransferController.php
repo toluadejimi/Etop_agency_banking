@@ -143,19 +143,26 @@ class TransferController extends Controller
         $var = json_decode($var);
         $code = $var->code ?? null;
 
-        dd($var);
-
 
         if($code == 00){
-            $name = $var->customer->name;
-        }else {
-            $name = "Invalid Account, Check information again";
-        }
+            $name = $var->customer->account->name;
 
             return response()->json([
                 'status' => true,
                 'customer_name' => $name,
             ], 200);
+
+
+        }else {
+
+            $name = "Invalid Account, Check information again";
+
+            return response()->json([
+                'status' => true,
+                'customer_name' => $name,
+            ], 200);
+        }
+
 
 
 
