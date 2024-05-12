@@ -284,11 +284,11 @@ class BillsController extends Controller
 
         $data = array(
 
-            'billerId' => $request->biller_id,
-            'customerId' => $request->customer_id,
-            'itemId' => $request->service_id,
-            'customerPhone' => $request->customer_phone,
-            'customerName' => $request->customer_name,
+            'billerId' => $request->billerId,
+            'customerId' => $request->customerId,
+            'itemId' => $request->itemId,
+            'customerPhone' => $request->customerPhone,
+            'customerName' => $request->customerName,
             'amount' => $request->amount,
             'debitAccount' => env('DEBITACCOUNT'),
             'transactionReference'=> $trans_id
@@ -355,7 +355,7 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-        dd($var, $post_data);
+
 
 
 

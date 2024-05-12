@@ -536,14 +536,14 @@ class AuthController extends Controller
 
                 //send email
                 $data = array(
-                    'fromsender' => 'noreply@enkpay.com', 'EnkPay',
+                    'fromsender' => 'noreply@etopng.com', 'ETOP AGENCY',
                     'subject' => "Reset Pin",
                     'toreceiver' => $email,
                     'first_name' => $first_name,
                     'link' => url('') . "/reset-pin/?email=$email",
                 );
 
-                Mail::send('emails.notify.pinlink', ["data1" => $data], function ($message) use ($data) {
+                Mail::send('emails.pinlink', ["data1" => $data], function ($message) use ($data) {
                     $message->from($data['fromsender']);
                     $message->to($data['toreceiver']);
                     $message->subject($data['subject']);
@@ -707,6 +707,9 @@ class AuthController extends Controller
 
         return redirect('success')->with('message', 'Your password has been successfully updated');
     }
+
+
+
 
 
 }
