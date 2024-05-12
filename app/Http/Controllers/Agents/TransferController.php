@@ -39,7 +39,7 @@ class TransferController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/transfer/getbanks",
+            CURLOPT_URL => "$Url/merchant/transfer/getbanks",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -55,7 +55,6 @@ class TransferController extends Controller
         ));
 
         $var = curl_exec($curl);
-        dd($var, $post_data, $token);
 
         curl_close($curl);
         $var = json_decode($var);
@@ -122,7 +121,7 @@ class TransferController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/account/enquiry",
+            CURLOPT_URL => "$Url/merchant/account/enquiry",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
