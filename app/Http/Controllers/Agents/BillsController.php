@@ -318,7 +318,7 @@ class BillsController extends Controller
         $usr = User::where('id', Auth::id())->first() ?? null;
         $f_amount = $usr->main_wallet + $chrage;
 
-        if($request->amount >  $f_amount){
+        if($request->amount  <  $f_amount){
 
             return response()->json([
                 'status' => false,
