@@ -210,7 +210,7 @@ if (!function_exists('create_9psb_v_account')) {
         $post_data = json_encode($data);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/create",
+            CURLOPT_URL => "$Url/merchant/virtualaccount/create",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
