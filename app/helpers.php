@@ -107,6 +107,8 @@ if (!function_exists('psb_token')) {
         $var = json_decode($var);
         $access_token = $var->access_token ?? null;
 
+        dd($var);
+
 
         return $access_token;
     }
