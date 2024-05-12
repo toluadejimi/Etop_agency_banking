@@ -272,8 +272,6 @@ class TransferController extends Controller
         $post_data = json_encode($data);
 
 
-        dd($post_data);
-
         if ($token == 0) {
             return response()->json([
                 'status' => false,
@@ -301,6 +299,8 @@ class TransferController extends Controller
         ));
 
         $var = curl_exec($curl);
+
+        dd($var);
         curl_close($curl);
 
 
