@@ -67,7 +67,6 @@ if (!function_exists('send_notification')) {
 }
 
 
-http://102.216.128.75:9090/identity/api/v1/authenticate
 if (!function_exists('psb_token')) {
 
     function psb_token()
@@ -104,8 +103,6 @@ if (!function_exists('psb_token')) {
         ));
 
         $var = curl_exec($curl);
-
-        dd($url, $var);
 
         curl_close($curl);
         $var = json_decode($var);
