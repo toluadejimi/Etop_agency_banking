@@ -103,11 +103,12 @@ if (!function_exists('psb_token')) {
         ));
 
         $var = curl_exec($curl);
+        dd($var);
+
         curl_close($curl);
         $var = json_decode($var);
         $access_token = $var->access_token ?? null;
 
-        dd($var);
 
 
         return $access_token;
