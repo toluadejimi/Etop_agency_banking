@@ -79,6 +79,8 @@ Route::group(['prefix' => 'agent'], function () {
         //FUnds Transfer
         Route::get('transfer-properties', [TransferController::class, 'transfer_properties']);
         Route::post('resolve-account', [TransferController::class, 'validate_account']);
+        Route::post('bank-transfer', [TransferController::class, 'transfer']);
+
 
 
         //Transaction
@@ -110,6 +112,7 @@ Route::group(['prefix' => 'agent'], function () {
         Route::get('delete-users', [UserController::class, 'delete_user']);
         Route::post('search-users', [UserController::class, 'search_user']);
         Route::get('user-info', [UserController::class, 'user_info']);
+
 
 
 
