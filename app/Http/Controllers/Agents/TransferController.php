@@ -67,7 +67,7 @@ class TransferController extends Controller
             $history = [];
             foreach ($var->BankList as $key => $value) {
                 $history[] = array(
-                    "bank_name" => $value->BankName,
+                    "bankName" => $value->BankName,
                     "code" => $value->BankCode,
                 );
             }
