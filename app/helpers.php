@@ -76,7 +76,7 @@ if (!function_exists('psb_token')) {
         $publickey = env('9PSBPUBKEY');
         $privatekey = env('9PSBPRIKEY');
         $Url = env('9PSBURL');
-        $url = $Url."/authenticate";
+        $url = $Url."/merchant/virtualaccount/authenticate";
 
 
 
