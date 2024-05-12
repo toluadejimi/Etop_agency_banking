@@ -300,12 +300,14 @@ class TransferController extends Controller
 
         $var = curl_exec($curl);
 
-        dd($var);
+
         curl_close($curl);
 
 
         $var = json_decode($var);
         $code = $var->code ?? null;
+
+        dd($var);
 
 
         if ($code == 00) {
