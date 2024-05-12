@@ -327,6 +327,17 @@ class BillsController extends Controller
 
         }
 
+
+
+        if($request->amount  >  $f_amount){
+
+            return response()->json([
+                'status' => false,
+                'message' => "Insufficient Funds",
+            ], 500);
+
+        }
+
         User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
 
 
