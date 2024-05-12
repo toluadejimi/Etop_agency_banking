@@ -76,6 +76,7 @@ if (!function_exists('psb_token')) {
         $publickey = env('9PSBPUBKEY');
         $privatekey = env('9PSBPRIKEY');
         $Url = env('9PSBURL');
+        $url = $Url."$Url/authenticate";
 
 
 
@@ -88,7 +89,7 @@ if (!function_exists('psb_token')) {
         $post_data = json_encode($data);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/authenticate",
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
