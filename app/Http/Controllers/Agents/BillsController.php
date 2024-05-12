@@ -208,9 +208,9 @@ class BillsController extends Controller
 
 
         $data = array(
-            'billerId' => $request->biller_id,
+            'billerId' => $request->billerId,
             'customerId' => $request->customerId,
-            'itemId' => $request->service_id,
+            'itemId' => $request->serviceId,
             'amount' => "600"
 
         );
@@ -286,7 +286,7 @@ class BillsController extends Controller
 
             'billerId' => $request->billerId,
             'customerId' => $request->customerId,
-            'itemId' => $request->itemId,
+            'itemId' => $request->serviceId,
             'customerPhone' => $request->customerPhone,
             'customerName' => $request->customerName,
             'amount' => $request->amount,
