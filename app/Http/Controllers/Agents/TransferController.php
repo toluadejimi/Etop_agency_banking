@@ -55,7 +55,7 @@ class TransferController extends Controller
         ));
 
         $var = curl_exec($curl);
-        dd($var, $post_data);
+        dd($var, $post_data, $token);
 
         curl_close($curl);
         $var = json_decode($var);
