@@ -104,7 +104,8 @@ if (!function_exists('psb_token')) {
         ));
 
         $var = curl_exec($curl);
-        dd($var, $url);
+
+        dd($url, $var);
 
         curl_close($curl);
         $var = json_decode($var);
