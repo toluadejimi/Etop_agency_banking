@@ -274,7 +274,7 @@ class TransferController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/merchant/account/transfer", //"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",
+            CURLOPT_URL => "$Url/merchant/account/transfer",//"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",//
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -298,7 +298,7 @@ class TransferController extends Controller
         $var = json_decode($var);
         $code = $var->code ?? null;
 
-        dd($var);
+        dd($var, $post_data, $string);
 
 
 
