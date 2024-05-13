@@ -640,8 +640,9 @@ class BillsController extends Controller
     {
         $Url = env('9PSBILLURL');
         $token = psb_vas_token();
-        $phoneNumber1 = substr($request->phone, 4);
-        $phoneNumber = "0" . $phoneNumber1;
+        $phone = $request->phone;
+
+
 
         if($token == 0){
             return response()->json([
@@ -651,7 +652,7 @@ class BillsController extends Controller
 
         }
 
-        $url = $Url."/topup/dataPlans?phone=$phoneNumber";
+        $url = $Url."/topup/dataPlans?phone=$phone";
 
         $curl = curl_init();
 
