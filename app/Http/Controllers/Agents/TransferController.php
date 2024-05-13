@@ -203,16 +203,7 @@ class TransferController extends Controller
         $pin = $request->pin;
         $beneficiary = $request->beneficiary;
         $user_pin = Auth()->user()->pin;
-        $accoutNumber = VirtualAccount::where('user_id', Auth::id())->first()->v_account_no ?? null;
 
-        if($accoutNumber == null){
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Generate an account number',
-            ], 500);
-
-        }
 
 
 
@@ -230,7 +221,7 @@ class TransferController extends Controller
         }
 
 
-        $string = env('9PSBPRIKEY').$accoutNumber.$destinationAccountNumber.$destinationBankCode.$amount.$ref;
+        $string = env('9PSBPRIKEY').env('DEBITACCOUNT').$destinationAccountNumber.$destinationBankCode.$amount.$ref;
         $hash = hash('sha512',  $string);
 
 
@@ -253,7 +244,7 @@ class TransferController extends Controller
                     'number' =>  $destinationAccountNumber,
                     'bank' =>  $destinationBankCode,
                     'name' => $destinationAccountName,
-                    'senderaccountnumber' => $accoutNumber,
+                    'senderaccountnumber' => env('DEBITACCOUNT'),
                     'sendername' => "ETOP-".Auth::user()->first_name. " ".Auth::user()->last_name,
                 ],
 
@@ -283,7 +274,7 @@ class TransferController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/merchant/account/transfer",
+            CURLOPT_URL => "$Url/merchant/account/transfer", //"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -308,6 +299,7 @@ class TransferController extends Controller
         $code = $var->code ?? null;
 
         dd($var);
+
 
 
         if ($code == 00) {
