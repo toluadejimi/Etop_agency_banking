@@ -559,7 +559,6 @@ class BillsController extends Controller
         $var = curl_exec($curl);
         curl_close($curl);
 
-        dd($var, $debit_account);
 
         $var = json_decode($var);
         $status = $var->status ?? null;
@@ -568,7 +567,6 @@ class BillsController extends Controller
 
 
         if($status == "success" && $responseCode == "200"){
-            $data = $var->data;
 
                 $balance = User::where('id', Auth::id())->first()->main_wallet;
                 $trasnaction = new Transaction();
