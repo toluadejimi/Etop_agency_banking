@@ -131,8 +131,6 @@ class BillsController extends Controller
 
 
 
-
-
     }
 
 
@@ -368,9 +366,6 @@ class BillsController extends Controller
 
 
 
-
-
-
         if($status == "success" && $responseCode == "200"){
             $data = $var->data;
 
@@ -452,7 +447,6 @@ class BillsController extends Controller
 
 
         User::where('id', Auth::id())->increment('main_wallet', $f_amount);
-
         $balance = User::where('id', Auth::id())->first()->main_wallet;
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
@@ -471,7 +465,7 @@ class BillsController extends Controller
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
-        $trasnaction->transaction_type = "BILLS";
+        $trasnaction->transaction_type = "REVERSED";
         $trasnaction->credit = $f_amount;
         $trasnaction->charge = $chrage;
         $trasnaction->note = "Transaction Reversed";
@@ -496,7 +490,7 @@ class BillsController extends Controller
 
         $Url = env('9PSBILLURL');
         $token = psb_vas_token();
-        $debit_account = env('9PSBDEBITACCOUNT');
+        $debit_account = env('DEBITACCOUNT');
 
         $trans_id = "EVAS".reference();
 
@@ -565,6 +559,9 @@ class BillsController extends Controller
 
         $var = curl_exec($curl);
         curl_close($curl);
+        
+        
+       // dd($var);
         $var = json_decode($var);
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;

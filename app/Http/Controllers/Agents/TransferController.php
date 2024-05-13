@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Agents;
 use App\Http\Controllers\Controller;
 use App\Models\Beneficiary;
 use App\Models\Setting;
+use App\Models\User;
+use App\Models\Transaction;
 use App\Models\VirtualAccount;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -220,11 +222,25 @@ class TransferController extends Controller
             ], 500);
         }
 
+        $charge = Setting::where('id', 1)->first()->transfer_charge;
+        $f_amount = $request->amount + $charge;
+
+        $usr = User::where('id', Auth::id())->first();
+        if($f_amount > $usr->main_wallet){
+
+            return response()->json([
+
+                'status' => false,
+                'message' => 'Insufficient Funds',
+
+            ], 500);
+
+        }
+
+        User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
 
         $string = env('9PSBPRIKEY').env('DEBITACCOUNT').$destinationAccountNumber.$destinationBankCode.$amount.$ref;
         $hash = hash('sha512',  $string);
-
-
 
         $data = array(
             'transaction' => [
@@ -274,7 +290,7 @@ class TransferController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/merchant/account/transfer",//"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",//
+            CURLOPT_URL => "https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",//"$Url/merchant/account/transfer",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -298,27 +314,60 @@ class TransferController extends Controller
         $var = json_decode($var);
         $code = $var->code ?? null;
 
-        dd($var, $post_data, $string);
+//        dd($var, $post_data, $string);
 
 
 
         if ($code == 00) {
-            $name = $var->customer->account->name;
+
+            $balance = User::where('id', Auth::id())->first()->main_wallet;
+            $trasnaction = new Transaction();
+            $trasnaction->user_id = Auth::id();
+            $trasnaction->ref_trans_id = $ref;
+            $trasnaction->transaction_type = "TRANSFEROUT";
+            $trasnaction->debit = $f_amount;
+            $trasnaction->charge = $charge;
+            $trasnaction->note = "Transaction Successful";
+            $trasnaction->amount = $request->amount;
+            $trasnaction->balance = $balance;
+            $trasnaction->status = 2;
+            $trasnaction->save();
 
             return response()->json([
                 'status' => true,
-                'customer_name' => $name,
+                'message' => "Transaction Successful",
             ], 200);
 
 
         } else {
 
-            $name = "Invalid Account, Check information again";
+            User::where('id', Auth::id())->increment('main_wallet', $f_amount);
+            $balance = User::where('id', Auth::id())->first()->main_wallet;
+            $trasnaction = new Transaction();
+            $trasnaction->user_id = Auth::id();
+            $trasnaction->ref_trans_id = $ref;
+            $trasnaction->transaction_type = "BILLS";
+            $trasnaction->credit = $f_amount;
+            $trasnaction->charge = 0;
+            $trasnaction->note = "Transaction Failed";
+            $trasnaction->amount = $request->amount;
+            $trasnaction->balance = $balance;
+            $trasnaction->status = 3;
+            $trasnaction->save();
 
-            return response()->json([
-                'status' => true,
-                'customer_name' => $name,
-            ], 200);
+
+            $balance = User::where('id', Auth::id())->first()->main_wallet;
+            $trasnaction = new Transaction();
+            $trasnaction->user_id = Auth::id();
+            $trasnaction->ref_trans_id = $ref;
+            $trasnaction->transaction_type = "REVERSED";
+            $trasnaction->credit = $f_amount;
+            $trasnaction->charge = 0;
+            $trasnaction->note = "Transaction Reversed";
+            $trasnaction->amount = $request->amount;
+            $trasnaction->balance = $balance;
+            $trasnaction->status = 4;
+            $trasnaction->save();
         }
 
 
