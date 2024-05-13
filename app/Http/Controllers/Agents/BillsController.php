@@ -585,7 +585,7 @@ class BillsController extends Controller
 
             return response()->json([
                 'status' => true,
-                'data' => $data,
+                'data' => "Transaction Successful",
             ], 200);
 
         }
