@@ -265,7 +265,7 @@ class TransferController extends Controller
                 ],
 
 
-                "hash" => $hash
+                "hash" => strtoupper($hash)
 
 
             ],
