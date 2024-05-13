@@ -282,6 +282,7 @@ class BillsController extends Controller
 
         $data = array(
 
+            'categoryID' => $request->categoryID,
             'billerId' => $request->billerId,
             'customerId' => $request->customerId,
             'itemId' => $request->serviceId,
@@ -303,11 +304,11 @@ class BillsController extends Controller
 
         }
 
-        if($request->biller_id == 1){
+        if($request->categoryID == 1){
             $chrage = Setting::where('id', 1)->first()->eletric_charge;
-        }elseif ($request->biller_id == 2){
+        }elseif ($request->categoryID == 2){
             $chrage = Setting::where('id', 1)->first()->bet_charge;
-        }elseif ($request->biller_id == 3){
+        }elseif ($request->categoryID == 3){
             $chrage = Setting::where('id', 1)->first()->cable_charge;
         }else{
             $chrage = Setting::where('id', 1)->first()->bills_charge;
@@ -473,7 +474,7 @@ class BillsController extends Controller
 
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed, \n NGN $r_amount has been refunded back your wallet",
         ], 500);
 
 
@@ -624,7 +625,7 @@ class BillsController extends Controller
 
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, \n $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed, \n NGN $r_amount has been refunded back your wallet",
         ], 500);
 
 
@@ -697,7 +698,7 @@ class BillsController extends Controller
 
         $Url = env('9PSBILLURL');
         $token = psb_vas_token();
-        $debit_account = env('9PSBDEBITACCOUNT');
+        $debit_account = env('DEBITACCOUNT');
 
         $trans_id = "EVAS".reference();
 
@@ -715,6 +716,7 @@ class BillsController extends Controller
         $post_data = json_encode($data);
 
         if($token == 0){
+
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -722,20 +724,11 @@ class BillsController extends Controller
 
         }
 
-        if($request->biller_id == 1){
-            $chrage = Setting::where('id', 1)->first()->eletric_charge;
-        }elseif ($request->biller_id == 2){
-            $chrage = Setting::where('id', 1)->first()->bet_charge;
-        }elseif ($request->biller_id == 3){
-            $chrage = Setting::where('id', 1)->first()->cable_charge;
-        }else{
-            $chrage = Setting::where('id', 1)->first()->bills_charge;
-        }
 
         $usr = User::where('id', Auth::id())->first() ?? null;
-        $f_amount = $usr->main_wallet;
+        $f_amount = $request->amount;
 
-        if($request->amount >  $f_amount){
+        if($usr->main_wallet < $f_amount){
 
             return response()->json([
                 'status' => false,
@@ -788,8 +781,6 @@ class BillsController extends Controller
             $trasnaction->status = 2;
             $trasnaction->save();
 
-
-
             return response()->json([
                 'status' => true,
                 'data' => $data,
@@ -800,7 +791,6 @@ class BillsController extends Controller
 
 
         User::where('id', Auth::id())->increment('main_wallet', $f_amount);
-
         $balance = User::where('id', Auth::id())->first()->main_wallet;
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
@@ -830,9 +820,11 @@ class BillsController extends Controller
 
 
         $r_amount = number_format($f_amount, 2);
+        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        send_notification($message);
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed, \n NGN $r_amount has been refunded back your wallet",
         ], 500);
 
 
