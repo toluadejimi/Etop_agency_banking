@@ -55,7 +55,7 @@ Route::group(['prefix' => 'agent'], function () {
 
 
         //VIRTAL ACCOUNT
-        Route::post('create-virtual-account', [VirtualAccountController::class, 'create_virtual_account']);
+        Route::post('create-account', [VirtualAccountController::class, 'create_virtual_account']);
 
 
 
