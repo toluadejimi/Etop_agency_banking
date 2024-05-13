@@ -525,9 +525,7 @@ class BillsController extends Controller
         }
 
         $usr = User::where('id', Auth::id())->first() ?? null;
-        $f_amount = $usr->main_wallet;
-
-        if($request->amount >  $f_amount){
+        if($request->amount  >  $usr->main_wallet){
 
             return response()->json([
                 'status' => false,
@@ -536,7 +534,8 @@ class BillsController extends Controller
 
         }
 
-        User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
+
+        User::where('id', Auth::id())->decrement('main_wallet', $request->amount);
 
 
         $curl = curl_init();
@@ -559,9 +558,9 @@ class BillsController extends Controller
 
         $var = curl_exec($curl);
         curl_close($curl);
-        
-        
-       // dd($var);
+
+        dd($var);
+
         $var = json_decode($var);
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
@@ -576,7 +575,7 @@ class BillsController extends Controller
                 $trasnaction->user_id = Auth::id();
                 $trasnaction->ref_trans_id = $trans_id;
                 $trasnaction->transaction_type = "BILLS";
-                $trasnaction->debit = $f_amount;
+                $trasnaction->debit = $request->amount;
                 $trasnaction->charge = 0;
                 $trasnaction->note = "Successful Transaction | $request->phone | AIRTIME ";
                 $trasnaction->amount = $request->amount;
@@ -602,7 +601,7 @@ class BillsController extends Controller
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
         $trasnaction->transaction_type = "BILLS";
-        $trasnaction->credit = $f_amount;
+        $trasnaction->credit = $request->amount;
         $trasnaction->charge = $chrage;
         $trasnaction->note = "Transaction Failed";
         $trasnaction->amount = $request->amount;
@@ -615,9 +614,9 @@ class BillsController extends Controller
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
-        $trasnaction->transaction_type = "BILLS";
-        $trasnaction->credit = $f_amount;
-        $trasnaction->charge = $chrage;
+        $trasnaction->transaction_type = "REVERSED";
+        $trasnaction->credit = $request->amount;
+        $trasnaction->charge = 0;
         $trasnaction->note = "Transaction Reversed";
         $trasnaction->amount = $request->amount;
         $trasnaction->balance = $balance;
@@ -625,7 +624,7 @@ class BillsController extends Controller
         $trasnaction->save();
 
 
-        $r_amount = number_format($f_amount, 2);
+        $r_amount = number_format($request->amount, 2);
         return response()->json([
             'status' => false,
             'message' => "Transaction failed, $r_amount has been refunded back your wallet",
