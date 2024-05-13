@@ -559,11 +559,9 @@ class BillsController extends Controller
         $var = curl_exec($curl);
         curl_close($curl);
 
-
         $var = json_decode($var);
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
-
 
 
         if($status == "success" && $responseCode == "200"){
@@ -622,6 +620,9 @@ class BillsController extends Controller
 
 
         $r_amount = number_format($request->amount, 2);
+        $message = json_encode($var);
+        send_notification($message);
+
         return response()->json([
             'status' => false,
             'message' => "Transaction failed, $r_amount has been refunded back your wallet",
