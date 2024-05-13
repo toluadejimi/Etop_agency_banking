@@ -314,21 +314,10 @@ class BillsController extends Controller
         }
 
         $usr = User::where('id', Auth::id())->first() ?? null;
-        $f_amount = $usr->main_wallet + $chrage;
+        $f_amount = $request->amount + $chrage;
 
 
-        if($request->amount  <  $f_amount){
-
-            return response()->json([
-                'status' => false,
-                'message' => "Insufficient Funds",
-            ], 500);
-
-        }
-
-
-
-        if($request->amount  < $f_amount){
+        if($usr->main_wallet  <  $f_amount){
 
             return response()->json([
                 'status' => false,
@@ -336,10 +325,10 @@ class BillsController extends Controller
             ], 500);
 
         }
+
+
 
         User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
-
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -475,7 +464,13 @@ class BillsController extends Controller
         $trasnaction->save();
 
 
+
+
+
         $r_amount = number_format($f_amount, 2);
+        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        send_notification($message);
+
         return response()->json([
             'status' => false,
             'message' => "Transaction failed, $r_amount has been refunded back your wallet",
