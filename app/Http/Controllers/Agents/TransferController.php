@@ -371,7 +371,7 @@ class TransferController extends Controller
 
 
         $r_amount = number_format($request->amount, 2);
-        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url";
+        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
         send_notification($message);
 
         return response()->json([
