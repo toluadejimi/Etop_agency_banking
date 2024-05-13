@@ -265,11 +265,12 @@ class TransferController extends Controller
                 ],
 
 
-                "hash" => strtoupper($hash)
+
 
 
             ],
 
+            "hash" => strtoupper($hash)
 
 
         );
