@@ -290,7 +290,7 @@ class TransferController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",//"$Url/merchant/account/transfer",
+            CURLOPT_URL => "$Url/merchant/account/transfer",//"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -313,9 +313,6 @@ class TransferController extends Controller
 
         $var = json_decode($var);
         $code = $var->code ?? null;
-
-//        dd($var, $post_data, $string);
-
 
 
         if ($code == 00) {
@@ -369,6 +366,16 @@ class TransferController extends Controller
             $trasnaction->status = 4;
             $trasnaction->save();
         }
+
+
+        $r_amount = number_format($request->amount, 2);
+        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        send_notification($message);
+
+        return response()->json([
+            'status' => false,
+            'message' => "Transaction failed, \n $r_amount has been refunded back your wallet",
+        ], 500);
 
 
     }

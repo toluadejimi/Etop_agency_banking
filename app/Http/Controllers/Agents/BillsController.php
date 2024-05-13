@@ -629,7 +629,7 @@ class BillsController extends Controller
 
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed, \n $r_amount has been refunded back your wallet",
         ], 500);
 
 
