@@ -494,9 +494,13 @@ class BillsController extends Controller
 
         $trans_id = "EVAS".reference();
 
+
+        $phoneNumber1 = substr($request->phone, 4);
+        $phoneNumber = "0" . $phoneNumber1;
+
         $data = array(
 
-            'phoneNumber' => $request->phone,
+            'phoneNumber' => $phoneNumber,
             'network' => $request->network,
             'amount' => $request->amount,
             'debitAccount' => $debit_account,
