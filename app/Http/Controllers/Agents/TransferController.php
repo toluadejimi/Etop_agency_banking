@@ -287,10 +287,12 @@ class TransferController extends Controller
 
         }
 
+        $url = "$Url/merchant/account/transfer";
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "$Url/merchant/account/transfer",//"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",
+            CURLOPT_URL => $url,//"https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/account/enquiry",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -369,7 +371,7 @@ class TransferController extends Controller
 
 
         $r_amount = number_format($request->amount, 2);
-        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url";
         send_notification($message);
 
         return response()->json([
