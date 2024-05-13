@@ -592,8 +592,7 @@ class BillsController extends Controller
 
 
 
-        User::where('id', Auth::id())->increment('main_wallet', $f_amount);
-
+        User::where('id', Auth::id())->increment('main_wallet', $request->amount);
         $balance = User::where('id', Auth::id())->first()->main_wallet;
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
