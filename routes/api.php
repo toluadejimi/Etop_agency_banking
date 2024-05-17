@@ -86,6 +86,8 @@ Route::group(['prefix' => 'agent'], function () {
         //Transaction
         Route::get('all-transaction', [App\Http\Controllers\Agents\TransactionController::class, 'all_transaction']);
         Route::post('transaction-status', [App\Http\Controllers\Agents\TransactionController::class, 'status_transaction']);
+        Route::any('transaction-history', [App\Http\Controllers\Agents\TransactionController::class, 'transaction_history']);
+
 
 
 
