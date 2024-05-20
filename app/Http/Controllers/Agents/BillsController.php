@@ -583,7 +583,7 @@ class BillsController extends Controller
 
             return response()->json([
                 'status' => true,
-                'data' => "Transaction Successful",
+                'message' => "Transaction Successful",
             ], 200);
 
         }
@@ -797,7 +797,7 @@ class BillsController extends Controller
         $trasnaction->ref_trans_id = $trans_id;
         $trasnaction->transaction_type = "BILLS";
         $trasnaction->credit = $f_amount;
-        $trasnaction->charge = $chrage;
+        $trasnaction->charge = 0;
         $trasnaction->note = "Transaction Failed";
         $trasnaction->amount = $request->amount;
         $trasnaction->balance = $balance;
@@ -811,7 +811,7 @@ class BillsController extends Controller
         $trasnaction->ref_trans_id = $trans_id;
         $trasnaction->transaction_type = "BILLS";
         $trasnaction->credit = $f_amount;
-        $trasnaction->charge = $chrage;
+        $trasnaction->charge = 0;
         $trasnaction->note = "Transaction Reversed";
         $trasnaction->amount = $request->amount;
         $trasnaction->balance = $balance;
