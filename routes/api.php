@@ -33,7 +33,7 @@ Route::post('delete_user', [StoredataController::class, 'delete_user']);
 
 
 Route::any('virtual-notification', [VirtualAccountController::class, 'virtual_notification']);
-Route::any('pos-log', [PosTransactionController::class, 'PosLogs']);
+Route::any('pos-logs', [PosTransactionController::class, 'PosLogs']);
 Route::any('pos', [PosTransactionController::class, 'pos']);
 Route::any('eod', [PosTransactionController::class, 'eod_transactions']);
 
