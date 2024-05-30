@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers\Agents;
 
-use App\Models\User;
-use App\Models\Charge;
+use App\Http\Controllers\Controller;
 use App\Models\PosLog;
 use App\Models\Setting;
 use App\Models\Terminal;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PosTransactionController extends Controller
 {
-   
 
-  
 
     public function PosLogs(request $request)
     {
@@ -34,7 +31,6 @@ class PosTransactionController extends Controller
         $cardName = $request->cardName;
         $userID = $request->UserID;
         $DataKey = env('DATAKEY');
-
 
 
         if ($key == null) {
@@ -99,7 +95,6 @@ class PosTransactionController extends Controller
         $cardName = $request->cardName;
         $userID = $request->UserID;
         $DataKey = env('DATAKEY');
-
 
 
         //update Transactions
@@ -171,7 +166,6 @@ class PosTransactionController extends Controller
         }
 
 
-
         $userID = Terminal::where('serial_no', $serialNO)->first()->user_id ?? null;
         if ($userID == null) {
 
@@ -185,8 +179,7 @@ class PosTransactionController extends Controller
         }
 
 
-
-        $trans_id = "EPOS".reference();
+        $trans_id = "EPOS" . reference();
         $pos_charge = Setting::where('id', 1)->first()->pos_charge;
         $cap = Setting::where('id', 1)->first()->cap;
         $user_id = $userID;
@@ -195,8 +188,6 @@ class PosTransactionController extends Controller
 
         $type = User::where('id', $user_id)
             ->first()->type ?? null;
-
-
 
 
         if ($main_wallet == null && $user_id == null) {
@@ -222,10 +213,9 @@ class PosTransactionController extends Controller
         }
 
 
-
         if ($responseCode == 00 && $transactionType == "PURCHASE") {
             User::where('id', $user_id)->increment('main_wallet', $w_amount);
-    
+
             PosLog::where('e_ref', $RRN)->update([
                 'status' => 1,
                 'note' => "Successful | $pan | $amount"
@@ -254,8 +244,55 @@ class PosTransactionController extends Controller
 
             $ip = $request->ip();
             $amount4 = number_format($w_amount, 2);
-            $result = $f_name . " " . $l_name . "| fund NGN " . $amount4 . " | using ENKPPAY POS" . "\n\nIP========> " . $ip;
+            $result = $f_name . " " . $l_name . "| fund NGN " . $amount4 . " | using ETOP POS" . "\n\nIP========> " . $ip;
             send_notification($result);
+
+
+            $token = psb_token();
+            $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
+            $hash = hash('sha512', $string);
+
+            $data = array(
+
+                'referenceno' => $RRN,
+                'terminalid' => $serialNO,
+                'transactionamount' => number_format($amount, 2),
+                'merchantservicechargepercent' => "0.00",
+                'merchantservicechargeamount' => number_format($echarge, 2),
+                'transactionamountlessmsc' => number_format($w_amount, 2),
+                'responsecode' => "00",
+                'hash' => strtoupper($hash)
+
+
+            );
+            $post_data = json_encode($data);
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/pssp/instantsettlement",//"$Url/merchant/virtualaccount/create",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $post_data,
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    "Authorization: Bearer $token"
+                ),
+            ));
+
+            $var = curl_exec($curl);
+            curl_close($curl);
+
+
+
+             $var = json_decode($var);
+
+
 
 
 
@@ -325,7 +362,6 @@ class PosTransactionController extends Controller
         }
 
 
-
         $today = $request->date;
         $transaction = Transaction::select('e_ref', 'amount', 'sender_name', 'created_at', 'status')->where('user_id', $request->user_id)->whereDate('created_at', $today)->get();
         $terminalNo = Terminal::where('user_id', $request->user_id)->first()->serial_no;
@@ -339,7 +375,6 @@ class PosTransactionController extends Controller
             ])->count();
 
 
-
         $totalFail = Transaction::whereDate('created_at', $today)
             ->where([
                 'user_id' => $request->user_id,
@@ -351,8 +386,6 @@ class PosTransactionController extends Controller
                 'user_id' => $request->user_id,
                 'status' => 1
             ])->sum('amount');
-
-
 
 
         return response()->json([
@@ -369,7 +402,6 @@ class PosTransactionController extends Controller
 
         ], 200);
     }
-
 
 
 }
