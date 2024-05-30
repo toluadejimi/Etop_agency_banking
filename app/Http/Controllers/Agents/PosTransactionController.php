@@ -259,7 +259,7 @@ class PosTransactionController extends Controller
 
 
             $token = psb_token();
-            $string = env('9PSBPRIKEY') . $RRN . $terminalID . "00" . number_format($amount, 2) . number_format($w_amount, 2);
+            $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
             $hash = hash('sha512', $string);
 
             $data = array(
@@ -280,7 +280,7 @@ class PosTransactionController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://baastest.9psb.com.ng/ipaymw-api/v1/merchant/pssp/instantsettlement",//"$Url/merchant/virtualaccount/create",
+                CURLOPT_URL => "$Url/merchant/pssp/instantsettlement",//"$Url/merchant/virtualaccount/create",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
