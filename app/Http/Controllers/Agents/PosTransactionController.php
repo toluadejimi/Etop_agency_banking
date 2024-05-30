@@ -165,6 +165,16 @@ class PosTransactionController extends Controller
             ], 500);
         }
 
+       $ck_trx =  PosLog::where('e_ref', $RRN)->first();
+        if($ck_trx->status == 2){
+
+            return response()->json([
+                'status' => false,
+                'message' => "Duplicate Transaction",
+            ], 500);
+
+        }
+
 
         $userID = Terminal::where('serial_no', $serialNO)->first()->user_id ?? null;
         if ($userID == null) {
@@ -249,7 +259,7 @@ class PosTransactionController extends Controller
 
 
             $token = psb_token();
-            $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
+            $string = env('9PSBPRIKEY') . $RRN . $terminalID . "00" . number_format($amount, 2) . number_format($w_amount, 2);
             $hash = hash('sha512', $string);
 
             $data = array(
@@ -286,11 +296,20 @@ class PosTransactionController extends Controller
             ));
 
             $var = curl_exec($curl);
+
+
             curl_close($curl);
-
-
-
              $var = json_decode($var);
+             $status = $var->code ?? null;
+
+
+
+            if($status != 00){
+
+                $parametersJson = "E-TOP ERROR ===> ". json_encode($var);
+                send_notification($parametersJson);
+
+            }
 
 
 
