@@ -258,6 +258,7 @@ class PosTransactionController extends Controller
             send_notification($result);
 
 
+            $Url = env('9PSTRANSFERURL');
             $token = psb_token();
             $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
             $hash = hash('sha512', $string);
