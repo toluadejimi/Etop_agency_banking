@@ -167,8 +167,6 @@ class PosTransactionController extends Controller
 
        $ck_trx =  PosLog::where('e_ref', $RRN)->first()->status ?? null;
 
-        dd($ck_trx);
-
         if($ck_trx->status == 2){
 
             return response()->json([
@@ -260,120 +258,124 @@ class PosTransactionController extends Controller
             $result = "ETOP POS FUNDED " . $f_name . " " . $l_name . "| fund NGN " . $amount4 . " | using ETOP POS" . "\n\nIP========> " . $ip;
             send_notification($result);
 
+
+            try {
+
+
+                $Url = env('9PSTRANSFERURL');
+                $token = psb_token();
+                $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
+                $hash = hash('sha512', $string);
+
+                $data = array(
+
+                    'referenceno' => $RRN,
+                    'terminalid' => $serialNO,
+                    'transactionamount' => number_format($amount, 2),
+                    'merchantservicechargepercent' => "0.00",
+                    'merchantservicechargeamount' => number_format($echarge, 2),
+                    'transactionamountlessmsc' => number_format($w_amount, 2),
+                    'responsecode' => "00",
+                    'hash' => strtoupper($hash)
+
+
+                );
+                $post_data = json_encode($data);
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "$Url/merchant/pssp/instantsettlement",//"$Url/merchant/virtualaccount/create",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => $post_data,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json',
+                        "Authorization: Bearer $token"
+                    ),
+                ));
+
+                $var = curl_exec($curl);
+
+
+                curl_close($curl);
+                $var = json_decode($var);
+                $status = $var->code ?? null;
+
+
+                if($status != 00){
+
+                    $parametersJson = "E-TOP ERROR ===> ". json_encode($var);
+                    send_notification($parametersJson);
+
+                }
+
+
+            } catch (\Exception $th) {
+                $parametersJson = $th->getMessage();
+                send_notification($parametersJson);
+            }
+
+
+
+
             return response()->json([
                 'status' => true,
                 'message' => 'Transaction Successful',
             ], 200);
-        }
-
-//
-//            $Url = env('9PSTRANSFERURL');
-//            $token = psb_token();
-//            $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
-//            $hash = hash('sha512', $string);
-//
-//            $data = array(
-//
-//                'referenceno' => $RRN,
-//                'terminalid' => $serialNO,
-//                'transactionamount' => number_format($amount, 2),
-//                'merchantservicechargepercent' => "0.00",
-//                'merchantservicechargeamount' => number_format($echarge, 2),
-//                'transactionamountlessmsc' => number_format($w_amount, 2),
-//                'responsecode' => "00",
-//                'hash' => strtoupper($hash)
-//
-//
-//            );
-//            $post_data = json_encode($data);
-//
-//            $curl = curl_init();
-//
-//            curl_setopt_array($curl, array(
-//                CURLOPT_URL => "$Url/merchant/pssp/instantsettlement",//"$Url/merchant/virtualaccount/create",
-//                CURLOPT_RETURNTRANSFER => true,
-//                CURLOPT_ENCODING => '',
-//                CURLOPT_MAXREDIRS => 10,
-//                CURLOPT_TIMEOUT => 0,
-//                CURLOPT_FOLLOWLOCATION => true,
-//                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//                CURLOPT_CUSTOMREQUEST => 'POST',
-//                CURLOPT_POSTFIELDS => $post_data,
-//                CURLOPT_HTTPHEADER => array(
-//                    'Content-Type: application/json',
-//                    "Authorization: Bearer $token"
-//                ),
-//            ));
-//
-//            $var = curl_exec($curl);
-//
-//
-//            curl_close($curl);
-//             $var = json_decode($var);
-//             $status = $var->code ?? null;
-//
-//
-//
-//            if($status != 00){
-//
-//                $parametersJson = "E-TOP ERROR ===> ". json_encode($var);
-//                send_notification($parametersJson);
-//
-//            }
-//
-//
 
 
 
+        } else {
 
-//        } else {
-//
-//            //update Transactions
-//
-//            PosLog::where('e_ref', $RRN)->update([
-//
-//                'status' => 4,
-//                'note' => "Failed | $message"
-//
-//            ]);
-//
-//
-//            $balance = User::where('id', $user_id)->first()->main_wallet;
-//
-//            $trasnaction = new Transaction();
-//            $trasnaction->user_id = $user_id;
-//            $trasnaction->ref_trans_id = $trans_id;
-//            $trasnaction->e_ref = $RRN;
-//            $trasnaction->transaction_type = $transactionType;
-//            $trasnaction->credit = 0;
-//            $trasnaction->charge = 0;
-//            $trasnaction->note = "$message | $cardName | $pan | $message";
-//            $trasnaction->amount = $amount;
-//            $trasnaction->balance = $balance;
-//            $trasnaction->serial_no = $terminalID;
-//            $trasnaction->status = 4;
-//            $trasnaction->save();
-//
-//            $f_name = User::where('id', $user_id)->first()->first_name ?? null;
-//            $l_name = User::where('id', $user_id)->first()->last_name ?? null;
-//
-//            $ip = $request->ip();
-//            $amount4 = number_format($w_amount, 2);
-//            $message = $f_name . " " . $l_name . "| fund NGN " . $amount . " | Failed on ENKPAY POS" . "\n\nIP========> " . $ip;
-//            $parametersJson = json_encode($request->all());
-//            $result = "Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
-//            send_notification($result);
-//
-//
-//            return response()->json([
-//                'status' => false,
-//                'message' => 'Transaction Failed',
-//            ], 500);
-//        }
+            //update Transactions
+
+            PosLog::where('e_ref', $RRN)->update([
+
+                'status' => 4,
+                'note' => "Failed | $message"
+
+            ]);
+
+
+            $balance = User::where('id', $user_id)->first()->main_wallet;
+
+            $trasnaction = new Transaction();
+            $trasnaction->user_id = $user_id;
+            $trasnaction->ref_trans_id = $trans_id;
+            $trasnaction->e_ref = $RRN;
+            $trasnaction->transaction_type = $transactionType;
+            $trasnaction->credit = 0;
+            $trasnaction->charge = 0;
+            $trasnaction->note = "$message | $cardName | $pan | $message";
+            $trasnaction->amount = $amount;
+            $trasnaction->balance = $balance;
+            $trasnaction->serial_no = $terminalID;
+            $trasnaction->status = 4;
+            $trasnaction->save();
+
+            $f_name = User::where('id', $user_id)->first()->first_name ?? null;
+            $l_name = User::where('id', $user_id)->first()->last_name ?? null;
+
+            $ip = $request->ip();
+            $amount4 = number_format($w_amount, 2);
+            $message = $f_name . " " . $l_name . "| fund NGN " . $amount . " | Failed on ENKPAY POS" . "\n\nIP========> " . $ip;
+            $parametersJson = json_encode($request->all());
+            $result = "Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
+            send_notification($result);
+
+
             return response()->json([
                 'status' => false,
-               'message' => 'Transaction Failed',
+                'message' => 'Transaction Failed',
             ], 500);
+        }
+
     }
 
 
