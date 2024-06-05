@@ -165,7 +165,10 @@ class PosTransactionController extends Controller
             ], 500);
         }
 
-       $ck_trx =  PosLog::where('e_ref', $RRN)->first();
+       $ck_trx =  PosLog::where('e_ref', $RRN)->first()->status ?? null;
+
+        dd($ck_trx);
+
         if($ck_trx->status == 2){
 
             return response()->json([
