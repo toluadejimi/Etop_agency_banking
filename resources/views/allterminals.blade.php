@@ -49,7 +49,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Search"
-                                                name="email"
+                                                name="serial_no"
                                                 data-search-service="#service-table-59"
                                             />
                                             <span
