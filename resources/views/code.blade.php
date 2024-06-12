@@ -15,31 +15,31 @@
         rel="stylesheet"
     />
     <link
-        href="{{url('')}}/public/assets/bower_components/select2/dist/css/select2.min.css"
+        href="{{url('')}}/assets/bower_components/select2/dist/css/select2.min.css"
         rel="stylesheet"
     />
     <link
-        href="{{url('')}}/public/assets/bower_components/bootstrap-daterangepicker/daterangepicker.css"
+        href="{{url('')}}/assets/bower_components/bootstrap-daterangepicker/daterangepicker.css"
         rel="stylesheet"
     />
-    <link href="{{url('')}}/public/assets/bower_components/dropzone/dist/dropzone.css" rel="stylesheet"/>
+    <link href="{{url('')}}/assets/bower_components/dropzone/dist/dropzone.css" rel="stylesheet"/>
     <link
-        href="{{url('')}}/public/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
-        rel="stylesheet"
-    />
-    <link
-        href="{{url('')}}/public/assets/bower_components/fullcalendar/dist/fullcalendar.min.css"
+        href="{{url('')}}/assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
         rel="stylesheet"
     />
     <link
-        href="{{url('')}}/public/assets/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css"
+        href="{{url('')}}/assets/bower_components/fullcalendar/dist/fullcalendar.min.css"
         rel="stylesheet"
     />
     <link
-        href="{{url('')}}/public/assets/bower_components/slick-carousel/slick/slick.css"
+        href="{{url('')}}/assets/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css"
         rel="stylesheet"
     />
-    <link href="{{url('')}}/public/assets/css/main.css%3Fversion=4.5.0.css" rel="stylesheet"/>
+    <link
+        href="{{url('')}}/assets/bower_components/slick-carousel/slick/slick.css"
+        rel="stylesheet"
+    />
+    <link href="{{url('')}}/assets/css/main.css%3Fversion=4.5.0.css" rel="stylesheet"/>
 </head>
 <body class="auth-wrapper">
 
@@ -75,7 +75,7 @@
                 </div>
             @endif
 
-            <a href="/"><img alt="" src="{{url('')}}/public/assets/img/logo.svg" height="80" width="200"/></a>
+            <a href="/"><img alt="" src="{{url('')}}/assets/img/logo.svg" height="80" width="200"/></a>
         </div>
 
 
