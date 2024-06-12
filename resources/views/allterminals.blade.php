@@ -40,7 +40,7 @@
                             <h6 class="element-header">All users</h6>
                             <div class="element-box">
 
-                                <div class="d-flex justify-content-start col-12">
+                                <div class="d-flex justify-content-start col-12 my-3">
 
                                     <form action="search_user" method="post">
                                         @csrf
