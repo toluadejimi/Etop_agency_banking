@@ -168,7 +168,6 @@ class PosTransactionController extends Controller
        $ck_trx =  PosLog::where('e_ref', $RRN)->first() ?? null;
 
         if($ck_trx->status == 2){
-
             return response()->json([
                 'status' => false,
                 'message' => "Duplicate Transaction",

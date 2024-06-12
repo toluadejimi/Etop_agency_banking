@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard HTML Template</title>
-    <meta charset="utf-8"/>
-    <meta content="ie=edge" http-equiv="x-ua-compatible"/>
-    <meta content="template language" name="keywords"/>
-    <meta content="Tamerlan Soziev" name="author"/>
-    <meta content="Admin dashboard html template" name="description"/>
-    <meta content="width=device-width,initial-scale=1" name="viewport"/>
-    <link href="favicon.png" rel="shortcut icon"/>
-    <link href="apple-touch-icon.png" rel="apple-touch-icon"/>
+    <title>ETOP | TMS</title>
+    <meta charset="utf-8" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta content="template language" name="keywords" />
+    <meta content="TMS" name="author" />
+    <meta content="Terminal Management System" name="description" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <link href="favicon.png" rel="shortcut icon" />
+    <link href="apple-touch-icon.png" rel="apple-touch-icon" />
     <link
         href="http://fast.fonts.net/cssapi/487b73f1-c2d1-43db-8526-db577e4c822b.css"
         rel="stylesheet"

@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 
+function getPaginate($paginate = 20)
+{
+    return $paginate;
+}
+
+function paginateLinks($data)
+{
+    return $data->appends(request()->all())->links();
+}
+
 
 
 if (!function_exists('error_response')) {

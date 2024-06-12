@@ -48,6 +48,15 @@ Route::get('code', [AuthController::class, 'code']);
 Route::group(['prefix'=>'admin'], function(){
 
     Route::get('admin-dashboard', [DashboardController::class, 'admin_dashboard']);
+    Route::get('new-users', [DashboardController::class, 'new_user']);
+    Route::post('create_new_customer', [DashboardController::class, 'create_new_customer']);
+    Route::get('users', [DashboardController::class, 'all_customer']);
+    Route::any('search_user', [DashboardController::class, 'search_user']);
+
+
+
+
+
 
     //Terminal
     Route::get('/new-terminal', [TerminalController::class, 'create_terminal_view']);
