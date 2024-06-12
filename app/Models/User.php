@@ -58,4 +58,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+
+
+    public function terminal()
+    {
+        return $this->hasMany(Terminal::class);
+    }
 }

@@ -13,4 +13,10 @@ class Terminal extends Model
     protected $casts = [
         'accountBalance' => 'string',
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

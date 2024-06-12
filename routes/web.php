@@ -58,8 +58,19 @@ Route::group(['prefix'=>'admin'], function(){
 
 
 
+
+
     //Terminal
     Route::get('/new-terminal', [TerminalController::class, 'create_terminal_view']);
+    Route::any('create_new_terminal', [TerminalController::class, 'create_new_terminal']);
+    Route::any('list-terminals', [TerminalController::class, 'list_terminals']);
+
+
+
+
+
+
+
     Route::post('/generateSecret', [LoginSecurityController::class, 'generate2faSecret'])->name('generate2faSecret');
     Route::post('/enable2fa', [LoginSecurityController::class, 'enable2fa'])->name('enable2fa');
     Route::post('/disable2fa', [LoginSecurityController::class, 'disable2fa'])->name('disable2fa');

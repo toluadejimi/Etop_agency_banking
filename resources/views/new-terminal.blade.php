@@ -20,145 +20,108 @@
                                 <div class="element-wrapper">
                                     <div class="element-box">
 
+
+
                                         <h6 class="element-header">Add New Terminal</h6>
                                         <div class="element-box">
+
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger my-4">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                            @if (session()->has('message'))
+                                                <div class="alert alert-success">
+                                                    {{ session()->get('message') }}
+                                                </div>
+                                            @endif
+                                            @if (session()->has('error'))
+                                                <div class="alert alert-danger mt-2">
+                                                    {{ session()->get('error') }}
+                                                </div>
+                                            @endif
+
                                             <form action="create_new_terminal" method="post">
                                                 @csrf
 
 
+                                                <fieldset class="form-group">
+                                                    <legend><span>Customer Information</span></legend>
                                                 <div class="row">
-                                                    <div class="col-sm-4">
+                                                    <div class="col-xl-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for=""> Select Customer</label
-                                                            ><select
-                                                                class="form-control"
-                                                                name="user_id" required>
-                                                                @foreach($users as $data)
-                                                                    <option value="{{$data->id}}">{{$data->first_name}} {{$data->last_name}}</option>
-                                                                @endforeach
+                                                            >
 
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label for=""> Select Customer</label
-                                                            ><select
-                                                                class="form-control"
-                                                                name="user_id">
-                                                                @foreach($users as $data)
-                                                                    <option value="{{$data->id}}">{{$data->first_name}} {{$data->last_name}}</option>
-                                                                @endforeach
-
-                                                            </select>
+                                                            <div>
+                                                                <select class="form-control select2" live-search="true" multiple="false" name="user_id">
+                                                                    @foreach($users as $data)
+                                                                        <option value="{{$data->id}}">{{$data->first_name}} {{$data->last_name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
 
 
-                                                    <div class="col-sm-4">
+                                                    <div class="col-xl-6 col-sm-12">
                                                         <div class="form-group">
-                                                            <label for="">Confirm Password</label
+                                                            <label for="">Merchant Name</label
                                                             ><input
                                                                 class="form-control"
-                                                                placeholder="Password"
-                                                                type="password"
+                                                                placeholder="Merchant Name"
+                                                                name="merchantName"
+                                                                type="text"
                                                             />
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label for=""> Email address</label
-                                                    ><input
-                                                        class="form-control"
-                                                        placeholder="Enter email"
-                                                        type="email"
-                                                    />
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <label for=""> Regular select</label
-                                                    ><select class="form-control">
-                                                        <option>Select State</option>
-                                                        <option>New York</option>
-                                                        <option>California</option>
-                                                        <option>Boston</option>
-                                                        <option>Texas</option>
-                                                        <option>Colorado</option>
-                                                    </select>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for=""> Multiselect</label
-                                                    ><select class="form-control select2" multiple="true">
-                                                        <option selected="true">New York</option>
-                                                        <option selected="true">California</option>
-                                                        <option>Boston</option>
-                                                        <option>Texas</option>
-                                                        <option>Colorado</option>
-                                                    </select>
-                                                </div>
+                                                </fieldset>
+
+
                                                 <fieldset class="form-group">
-                                                    <legend><span>Section Example</span></legend>
+                                                    <legend><span>Terminal Information</span></legend>
                                                     <div class="row">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-xl-6 col-sm-12">
                                                             <div class="form-group">
-                                                                <label for=""> First Name</label
+                                                                <label for="">TID Number  | {{$terminalno}}</label
                                                                 ><input
                                                                     class="form-control"
-                                                                    placeholder="First Name"
+                                                                    placeholder="Terminal No (TID)"
+                                                                    name="terminalNo"
+                                                                    type="text"
                                                                 />
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-6">
+
+
+                                                        <div class="col-xl-6 col-sm-12">
                                                             <div class="form-group">
-                                                                <label for="">Last Name</label
+                                                                <label for="">Serial Number</label
                                                                 ><input
                                                                     class="form-control"
-                                                                    placeholder="Last Name"
+                                                                    placeholder="Serial No"
+                                                                    name="deviceSN"
+                                                                    type="text"
                                                                 />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label for=""> Date Picker</label>
-                                                                <div class="date-input">
-                                                                    <input
-                                                                        class="single-daterange form-control"
-                                                                        placeholder="Date of birth"
-                                                                        value="04/12/1978"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label for="">Twitter Username</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text">@</div>
-                                                                    </div>
-                                                                    <input
-                                                                        class="form-control"
-                                                                        placeholder="Twitter Username"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label> Example textarea</label
-                                                        ><textarea class="form-control" rows="3"></textarea>
+
+
+
+
+
                                                     </div>
                                                 </fieldset>
-                                                <div class="form-check">
-                                                    <label class="form-check-label"
-                                                    ><input class="form-check-input" type="checkbox" />I
-                                                        agree to terms and conditions</label
-                                                    >
-                                                </div>
+
+
+
                                                 <div class="form-buttons-w">
                                                     <button class="btn btn-primary" type="submit">
                                                         Submit

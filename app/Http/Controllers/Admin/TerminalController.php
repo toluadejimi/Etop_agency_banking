@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Terminal;
+use App\Models\TidConfig;
 use App\Models\User;
+use App\Models\VirtualAccount;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,43 +18,48 @@ class TerminalController extends Controller
     public function create_terminal_view(request $request)
     {
 
+
+        $data['terminalno'] = Terminal::latest()->first()->terminalNo;
         $data['users'] = User::latest()->where('role', 2)->get();
         return view('new-terminal', $data);
 
     }
 
 
-    public function create_terminal(request $request)
+    public function create_new_terminal(request $request)
     {
+
 
 
         if ($request->user_id == null) {
             return back()->with('error', 'Attach a customer to terminal');
         }
 
+
         if (Auth::user()->role == 1) {
-
-
-            $ter = Terminal::where('serialNumber', $request->serialNumber)->first() ?? null;
+            $ter = Terminal::where('serial_no', $request->deviceSN)->first() ?? null;
             if ($ter == null) {
 
-                $term = new Terminal();
-                $term->tid = $request->tid;
+                $v_number = VirtualAccount::where('user_id', $request->user_id)->first()->v_account_no ?? null;
+
+                $term = new TidConfig();
                 $term->user_id = $request->user_id;
-                $term->bank_id = $request->bank_id;
-                $term->ip = $request->ip;
-                $term->port = $request->port;
-                $term->ssl = $request->ssl;
-                $term->compKey1 = $request->compKey1;
-                $term->compKey2 = $request->compKey2;
-                $term->baseUrl = $request->baseurl;
-                $term->logoUrl = $request->logoUrl;
-                $term->serialNumber = $request->serialNumber;
-                $term->merchantName = $request->merchantName;
-                $term->mid = $request->mid;
-                $term->merchantaddress = $request->merchantaddress;
-                $term->pin = bcrypt($request->pin);
                 $term->save();
+
+
+                $term = new Terminal();
+                $term->user_id = $request->user_id;
+                $term->serial_no = $request->deviceSN;
+                $term->v_account_no = $v_number;
+                $term->description = $request->merchantName;
+                $term->terminalNo = $request->terminalNo;
+                $term->merchantName = $request->merchantName;
+                $term->deviceSN = $request->deviceSN;
+                $term->save();
+
+
+
+
 
 
 //                try {
@@ -103,12 +110,12 @@ class TerminalController extends Controller
 //                }
 
 
-                return response()->json([
-                    'status' => true,
-                    'message' => "Terminal has been created successfully"
-                ], 200);
+                return back()->with('message', 'Terminal Create Successfully');
+
 
             }
+
+
 
             if ($ter != null) {
                 return back()->with('error', 'Terminal Account Already  Exist');
@@ -120,6 +127,11 @@ class TerminalController extends Controller
 
         return back()->with('error', 'Something went wrong');
     }
+
+
+
+
+
 
     public function update_terminal(request $request)
     {
@@ -199,27 +211,20 @@ class TerminalController extends Controller
     }
 
 
-    public function view_all_terminal(request $request)
+    public function list_terminals(request $request)
     {
 
 
 
         if (Auth::user()->role == 1 || Auth::user()->role == 2 ) {
 
-            $ter = Terminal::latest()->paginate(10) ?? null;
-            if ($ter == null) {
-                return response()->json([
-                    'status' => false,
-                    'message' => "No Terminal Found"
-                ], 422);
+            $terminals = Terminal::latest()->paginate(10) ?? null;
 
+            if($terminals != null){
+                return  view('allterminals', compact('terminals'));
             }
 
 
-            return response()->json([
-                'status' => true,
-                'data' => $ter
-            ], 200);
 
         }
 
