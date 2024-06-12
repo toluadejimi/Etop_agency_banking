@@ -14,6 +14,12 @@
         href="http://fast.fonts.net/cssapi/487b73f1-c2d1-43db-8526-db577e4c822b.css"
         rel="stylesheet"
     />
+
+
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
     <link
         href="{{url('')}}/public/assets/bower_components/select2/dist/css/select2.min.css"
         rel="stylesheet"

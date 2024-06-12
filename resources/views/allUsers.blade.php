@@ -40,7 +40,7 @@
                             <h6 class="element-header">All users</h6>
                             <div class="element-box">
 
-                                <div class="d-flex justify-content-start col-6">
+                                <div class="d-flex justify-content-start col-12">
 
                                     <form action="search_user" method="post">
                                         @csrf
@@ -116,10 +116,9 @@
                                                 @endif
 
                                                 <td>
-                                                    <a href="view_user?id={{$data->id}}" class="btn btn-info">View</a>
-                                                    <a href="suspend_user?id={{$data->id}}" class="btn btn-warning">Suspend</a>
-                                                    <a href="delete_user?id={{$data->id}}"
-                                                       class="btn btn-danger">Delete</a>
+                                                    <a href="view_user?id={{$data->id}}" class="btn btn-info my-1"><i class="bi bi-eye-fill"></i></a>
+                                                    <a href="suspend_user?id={{$data->id}}" class="btn btn-warning my-1"><i class="bi bi-exclamation-diamond-fill"></i></a>
+                                                    <a href="delete_user?id={{$data->id}}" class="btn btn-danger my-1"><i class="bi bi-trash"></i></a>
 
                                                 </td>
 
@@ -144,7 +143,6 @@
 
                 </div>
 
-
                 <div class="floated-colors-btn second-floated-btn">
                     <div class="os-toggler-w">
                         <div class="os-toggler-i">
@@ -155,7 +153,59 @@
                 </div>
 
             </div>
+            <div class="content-panel">
+                <div class="content-panel-close">
+                    <i class="os-icon os-icon-close"></i>
+                </div>
+                <div class="element-wrapper">
+                    <h6 class="element-header">Quick Links</h6>
+                    <div class="element-box-tp">
+                        <div class="el-buttons-list full-width">
+                            <a class="btn btn-white btn-sm" href="#"
+                            ><i class="os-icon os-icon-delivery-box-2"></i
+                                ><span>Create new terminal</span></a
+                            ><a class="btn btn-white btn-sm" href="index.html#"
+                            ><i class="os-icon os-icon-window-content"></i
+                                ><span>Create new customer</span></a
+                            ><a class="btn btn-white btn-sm" href="#"
+                            ><i class="os-icon os-icon-settings"></i
+                                ><span>System Settings</span></a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="element-wrapper">
+                    <h6 class="element-header">Bank Settings</h6>
+                    <div class="element-box-tp">
 
+                    </div>
+                </div>
+                <div class="element-wrapper">
+                    <h6 class="element-header">Charge Settings</h6>
+                    <div class="element-box-tp">
+
+                    </div>
+                </div>
+
+
+                <div class="element-wrapper">
+                    <h6 class="element-header">Active Terminals</h6>
+                    <div class="element-box less-padding">
+                        <div class="el-chart-w">
+                            <canvas
+                                height="120"
+                                id="donutChart1"
+                                width="120"
+                            ></canvas>
+                            <div class="inside-donut-chart-label">
+                                <strong>50</strong><span>Active</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
