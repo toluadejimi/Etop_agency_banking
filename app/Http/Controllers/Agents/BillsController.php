@@ -14,62 +14,58 @@ class BillsController extends Controller
     public function get_categories(request $request)
     {
 
-            $Url = env('9PSBILLURL');
-            $ip = request()->server('REMOTE_ADDR');
-            $token = psb_vas_token($ip);
-            $url = $Url."/billspayment/categories";
+        $Url = env('9PSBILLURL');
+        $ip = request()->server('REMOTE_ADDR');
+        $token = psb_vas_token($ip);
+        $url = $Url . "/billspayment/categories";
 
-            if($token == 0){
-                return response()->json([
-                    'status' => false,
-                    'message' => "Please try again later",
-                ], 500);
+        if ($token == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => "Please try again later",
+            ], 500);
 
-            }
-            $curl = curl_init();
+        }
+        $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    "Authorization: Bearer $token"
-                ),
-            ));
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Authorization: Bearer $token"
+            ),
+        ));
 
-            $var = curl_exec($curl);
-            curl_close($curl);
-            $var = json_decode($var);
-            $status = $var->status ?? null;
-            $responseCode = $var->responseCode ?? null;
-
-
-            if($status == "success" && $responseCode == "200"){
-                $data = $var->data;
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+        $status = $var->status ?? null;
+        $responseCode = $var->responseCode ?? null;
 
 
-                return response()->json([
-                    'status' => true,
-                    'data' => $data,
-                ], 200);
+        if ($status == "success" && $responseCode == "200") {
+            $data = $var->data;
 
-            }
 
+            return response()->json([
+                'status' => true,
+                'data' => $data,
+            ], 200);
+
+        }
 
 
         return response()->json([
             'status' => false,
             'message' => "Please try again later",
         ], 500);
-
-
-
 
 
     }
@@ -82,7 +78,7 @@ class BillsController extends Controller
         $token = psb_vas_token();
         $biller_id = $request->biller_id;
 
-        if($token == 0){
+        if ($token == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -113,7 +109,7 @@ class BillsController extends Controller
         $status = $var->status ?? null;
         $responseCode = $var->responseCode ?? null;
 
-        if($status == "success" && $responseCode == "200"){
+        if ($status == "success" && $responseCode == "200") {
             $data = $var->data;
 
 
@@ -130,7 +126,6 @@ class BillsController extends Controller
         ], 500);
 
 
-
     }
 
 
@@ -141,7 +136,7 @@ class BillsController extends Controller
         $token = psb_vas_token();
         $biller_id = $request->biller_type_id;
 
-        if($token == 0){
+        if ($token == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -173,8 +168,7 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-
-        if($status == "success" && $responseCode == "200"){
+        if ($status == "success" && $responseCode == "200") {
             $data = $var->data;
 
             return response()->json([
@@ -190,11 +184,7 @@ class BillsController extends Controller
         ], 500);
 
 
-
-
-
     }
-
 
 
     public function validate_biller(request $request)
@@ -202,7 +192,7 @@ class BillsController extends Controller
 
         $Url = env('9PSBILLURL');
         $token = psb_vas_token();
-        $url = $Url."/billspayment/validate";
+        $url = $Url . "/billspayment/validate";
 
 
         $data = array(
@@ -216,7 +206,7 @@ class BillsController extends Controller
         $post_data = json_encode($data);
 
 
-        if($token == 0){
+        if ($token == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -251,9 +241,9 @@ class BillsController extends Controller
 
         $responseCode = $var->responseCode ?? null;
 
-        if($status == "success" && $responseCode == "200"){
-            $data2['name'] =  $var->data->customerName;
-            $data2['other_field'] =  $var->data->otherField;
+        if ($status == "success" && $responseCode == "200") {
+            $data2['name'] = $var->data->customerName;
+            $data2['other_field'] = $var->data->otherField;
 
 
             return response()->json([
@@ -278,7 +268,7 @@ class BillsController extends Controller
         $Url = env('9PSBILLURL');
         $token = psb_vas_token();
 
-        $trans_id = "EVAS".reference();
+        $trans_id = "EVAS" . reference();
 
         $data = array(
 
@@ -290,13 +280,13 @@ class BillsController extends Controller
             'customerName' => $request->customerName,
             'amount' => $request->amount,
             'debitAccount' => env('DEBITACCOUNT'),
-            'transactionReference'=> $trans_id
+            'transactionReference' => $trans_id
 
         );
 
         $post_data = json_encode($data);
 
-        if($token == 0){
+        if ($token == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -304,13 +294,13 @@ class BillsController extends Controller
 
         }
 
-        if($request->categoryID == 1){
+        if ($request->categoryID == 1) {
             $chrage = Setting::where('id', 1)->first()->eletric_charge;
-        }elseif ($request->categoryID == 2){
+        } elseif ($request->categoryID == 2) {
             $chrage = Setting::where('id', 1)->first()->bet_charge;
-        }elseif ($request->categoryID == 3){
+        } elseif ($request->categoryID == 3) {
             $chrage = Setting::where('id', 1)->first()->cable_charge;
-        }else{
+        } else {
             $chrage = Setting::where('id', 1)->first()->bills_charge;
         }
 
@@ -318,7 +308,7 @@ class BillsController extends Controller
         $f_amount = $request->amount + $chrage;
 
 
-        if($usr->main_wallet  <  $f_amount){
+        if ($usr->main_wallet < $f_amount) {
 
             return response()->json([
                 'status' => false,
@@ -326,7 +316,6 @@ class BillsController extends Controller
             ], 500);
 
         }
-
 
 
         User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
@@ -355,19 +344,19 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-
-        if($status == "success" && $responseCode == "200"){
+        if ($status == "success" && $responseCode == "200") {
             $data = $var->data;
 
-            if($request->biller_id == 1 ){
+            if ($request->biller_id == 1) {
 
                 $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $token_purchased =  $var->data->token;
-                $unit =  $var->data->otherField;
+                $token_purchased = $var->data->token;
+                $unit = $var->data->otherField;
 
                 $trasnaction = new Transaction();
                 $trasnaction->user_id = Auth::id();
                 $trasnaction->ref_trans_id = $trans_id;
+                $trasnaction->e_ref = $trans_id;
                 $trasnaction->transaction_type = "BILLS";
                 $trasnaction->debit = $f_amount;
                 $trasnaction->charge = $chrage;
@@ -377,11 +366,12 @@ class BillsController extends Controller
                 $trasnaction->status = 2;
                 $trasnaction->save();
 
-            }elseif ($request->biller_id == 2){
+            } elseif ($request->biller_id == 2) {
 
                 $balance = User::where('id', Auth::id())->first()->main_wallet;
                 $trasnaction = new Transaction();
                 $trasnaction->user_id = Auth::id();
+                $trasnaction->e_ref = $trans_id;
                 $trasnaction->ref_trans_id = $trans_id;
                 $trasnaction->transaction_type = "BILLS";
                 $trasnaction->debit = $f_amount;
@@ -393,11 +383,12 @@ class BillsController extends Controller
                 $trasnaction->save();
 
 
-            }elseif ($request->biller_id == 3){
+            } elseif ($request->biller_id == 3) {
 
                 $balance = User::where('id', Auth::id())->first()->main_wallet;
                 $trasnaction = new Transaction();
                 $trasnaction->user_id = Auth::id();
+                $trasnaction->e_ref = $trans_id;
                 $trasnaction->ref_trans_id = $trans_id;
                 $trasnaction->transaction_type = "BILLS";
                 $trasnaction->debit = $f_amount;
@@ -409,12 +400,13 @@ class BillsController extends Controller
                 $trasnaction->save();
 
 
-            }else{
+            } else {
 
                 $balance = User::where('id', Auth::id())->first()->main_wallet;
                 $trasnaction = new Transaction();
                 $trasnaction->user_id = Auth::id();
                 $trasnaction->ref_trans_id = $trans_id;
+                $trasnaction->e_ref = $trans_id;
                 $trasnaction->transaction_type = "BILLS";
                 $trasnaction->debit = $f_amount;
                 $trasnaction->charge = $chrage;
@@ -435,12 +427,12 @@ class BillsController extends Controller
         }
 
 
-
         User::where('id', Auth::id())->increment('main_wallet', $f_amount);
         $balance = User::where('id', Auth::id())->first()->main_wallet;
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
+        $trasnaction->e_ref = $trans_id;
         $trasnaction->transaction_type = "BILLS";
         $trasnaction->credit = $f_amount;
         $trasnaction->charge = $chrage;
@@ -455,6 +447,7 @@ class BillsController extends Controller
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
+        $trasnaction->e_ref = $trans_id;
         $trasnaction->transaction_type = "REVERSED";
         $trasnaction->credit = $f_amount;
         $trasnaction->charge = $chrage;
@@ -465,11 +458,8 @@ class BillsController extends Controller
         $trasnaction->save();
 
 
-
-
-
         $r_amount = number_format($f_amount, 2);
-        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        $message = "ERROR FROM ETOP AGENCY ======>" . json_encode($var) . "\n\n REQUEST ======> $post_data";
         send_notification($message);
 
         return response()->json([
@@ -488,7 +478,7 @@ class BillsController extends Controller
         $token = psb_vas_token();
         $debit_account = env('DEBITACCOUNT');
 
-        $trans_id = "EVAS".reference();
+        $trans_id = "EVAS" . reference();
 
 
         $phoneNumber1 = substr($request->phone, 4);
@@ -500,13 +490,13 @@ class BillsController extends Controller
             'network' => $request->network,
             'amount' => $request->amount,
             'debitAccount' => $debit_account,
-            'transactionReference' =>  $trans_id,
+            'transactionReference' => $trans_id,
 
         );
 
         $post_data = json_encode($data);
 
-        if($token == 0){
+        if ($token == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -514,18 +504,18 @@ class BillsController extends Controller
 
         }
 
-        if($request->biller_id == 1){
+        if ($request->biller_id == 1) {
             $chrage = Setting::where('id', 1)->first()->eletric_charge;
-        }elseif ($request->biller_id == 2){
+        } elseif ($request->biller_id == 2) {
             $chrage = Setting::where('id', 1)->first()->bet_charge;
-        }elseif ($request->biller_id == 3){
+        } elseif ($request->biller_id == 3) {
             $chrage = Setting::where('id', 1)->first()->cable_charge;
-        }else{
+        } else {
             $chrage = Setting::where('id', 1)->first()->bills_charge;
         }
 
         $usr = User::where('id', Auth::id())->first() ?? null;
-        if($request->amount  >  $usr->main_wallet){
+        if ($request->amount > $usr->main_wallet) {
 
             return response()->json([
                 'status' => false,
@@ -564,21 +554,21 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-        if($status == "success" && $responseCode == "200"){
+        if ($status == "success" && $responseCode == "200") {
 
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->ref_trans_id = $trans_id;
-                $trasnaction->transaction_type = "BILLS";
-                $trasnaction->debit = $request->amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Successful Transaction | $request->phone | AIRTIME ";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 2;
-                $trasnaction->save();
-
+            $balance = User::where('id', Auth::id())->first()->main_wallet;
+            $trasnaction = new Transaction();
+            $trasnaction->user_id = Auth::id();
+            $trasnaction->ref_trans_id = $trans_id;
+            $trasnaction->e_ref = $trans_id;
+            $trasnaction->transaction_type = "BILLS";
+            $trasnaction->debit = $request->amount;
+            $trasnaction->charge = 0;
+            $trasnaction->note = "Successful Transaction | $request->phone | AIRTIME ";
+            $trasnaction->amount = $request->amount;
+            $trasnaction->balance = $balance;
+            $trasnaction->status = 2;
+            $trasnaction->save();
 
 
             return response()->json([
@@ -589,12 +579,12 @@ class BillsController extends Controller
         }
 
 
-
         User::where('id', Auth::id())->increment('main_wallet', $request->amount);
         $balance = User::where('id', Auth::id())->first()->main_wallet;
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
+        $trasnaction->e_ref = $trans_id;
         $trasnaction->transaction_type = "BILLS";
         $trasnaction->credit = $request->amount;
         $trasnaction->charge = $chrage;
@@ -609,6 +599,7 @@ class BillsController extends Controller
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
+        $trasnaction->e_ref = $trans_id;
         $trasnaction->transaction_type = "REVERSED";
         $trasnaction->credit = $request->amount;
         $trasnaction->charge = 0;
@@ -620,7 +611,7 @@ class BillsController extends Controller
 
 
         $r_amount = number_format($request->amount, 2);
-        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        $message = "ERROR FROM ETOP AGENCY ======>" . json_encode($var) . "\n\n REQUEST ======> $post_data";
         send_notification($message);
 
         return response()->json([
@@ -639,8 +630,7 @@ class BillsController extends Controller
         $phone = $request->phone;
 
 
-
-        if($token == 0){
+        if ($token == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Please try again later",
@@ -648,7 +638,7 @@ class BillsController extends Controller
 
         }
 
-        $url = $Url."/topup/dataPlans?phone=$phone";
+        $url = $Url . "/topup/dataPlans?phone=$phone";
 
         $curl = curl_init();
 
@@ -674,7 +664,7 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-        if($status == "success" && $responseCode == "200"){
+        if ($status == "success" && $responseCode == "200") {
             $data = $var->data;
             return response()->json([
                 'status' => true,
@@ -689,7 +679,6 @@ class BillsController extends Controller
         ], 500);
 
 
-
     }
 
 
@@ -700,7 +689,7 @@ class BillsController extends Controller
         $token = psb_vas_token();
         $debit_account = env('DEBITACCOUNT');
 
-        $trans_id = "EVAS".reference();
+        $trans_id = "EVAS" . reference();
 
         $data = array(
 
@@ -709,13 +698,13 @@ class BillsController extends Controller
             'amount' => $request->network,
             'productId' => $request->product_id,
             'debitAccount' => $debit_account,
-            'transactionReference' =>  $trans_id,
+            'transactionReference' => $trans_id,
 
         );
 
         $post_data = json_encode($data);
 
-        if($token == 0){
+        if ($token == 0) {
 
             return response()->json([
                 'status' => false,
@@ -728,7 +717,7 @@ class BillsController extends Controller
         $usr = User::where('id', Auth::id())->first() ?? null;
         $f_amount = $request->amount;
 
-        if($usr->main_wallet < $f_amount){
+        if ($usr->main_wallet < $f_amount) {
 
             return response()->json([
                 'status' => false,
@@ -764,13 +753,13 @@ class BillsController extends Controller
         $responseCode = $var->responseCode ?? null;
 
 
-
-        if($status == "success" && $responseCode == "200"){
+        if ($status == "success" && $responseCode == "200") {
             $data = $var->data;
 
             $balance = User::where('id', Auth::id())->first()->main_wallet;
             $trasnaction = new Transaction();
             $trasnaction->user_id = Auth::id();
+            $trasnaction->e_ref = $trans_id;
             $trasnaction->ref_trans_id = $trans_id;
             $trasnaction->transaction_type = "BILLS";
             $trasnaction->debit = $f_amount;
@@ -789,12 +778,12 @@ class BillsController extends Controller
         }
 
 
-
         User::where('id', Auth::id())->increment('main_wallet', $f_amount);
         $balance = User::where('id', Auth::id())->first()->main_wallet;
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
+        $trasnaction->e_ref = $trans_id;
         $trasnaction->transaction_type = "BILLS";
         $trasnaction->credit = $f_amount;
         $trasnaction->charge = 0;
@@ -809,6 +798,7 @@ class BillsController extends Controller
         $trasnaction = new Transaction();
         $trasnaction->user_id = Auth::id();
         $trasnaction->ref_trans_id = $trans_id;
+        $trasnaction->e_ref = $trans_id;
         $trasnaction->transaction_type = "BILLS";
         $trasnaction->credit = $f_amount;
         $trasnaction->charge = 0;
@@ -820,7 +810,7 @@ class BillsController extends Controller
 
 
         $r_amount = number_format($f_amount, 2);
-        $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data";
+        $message = "ERROR FROM ETOP AGENCY ======>" . json_encode($var) . "\n\n REQUEST ======> $post_data";
         send_notification($message);
         return response()->json([
             'status' => false,
@@ -829,8 +819,6 @@ class BillsController extends Controller
 
 
     }
-
-
 
 
 }

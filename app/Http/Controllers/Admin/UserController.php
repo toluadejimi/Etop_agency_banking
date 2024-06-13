@@ -111,7 +111,6 @@ class UserController extends Controller
     public function get_users(request $request)
     {
         $ck = User::where('id', 'id', $request->id;
-
         $data['user'] = User::where('id', $request->id)->first();
         $data['user'] = User::where('id', $request->id)->first();
 
