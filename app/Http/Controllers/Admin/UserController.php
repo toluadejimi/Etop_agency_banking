@@ -110,21 +110,14 @@ class UserController extends Controller
 
     public function get_users(request $request)
     {
+        $ck = User::where('id', 'id', $request->id;
 
-        if (Auth::user()->role == 1 || Auth::user()->role == 2) {
-            $users = User::all();
-            return response()->json([
-                'status' => true,
-                'data' => $users
-            ], 200);
+        $data['user'] = User::where('id', $request->id)->first();
+        $data['user'] = User::where('id', $request->id)->first();
 
-        } else {
 
-            return response()->json([
-                'status' => false,
-                'message' => "You dont have permission to create a terminal"
-            ], 422);
-        }
+        return view('user_view', $data);
+
     }
 
 

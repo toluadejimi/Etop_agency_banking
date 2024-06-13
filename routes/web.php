@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TerminalController;
@@ -64,6 +65,14 @@ Route::group(['prefix'=>'admin'], function(){
     Route::get('/new-terminal', [TerminalController::class, 'create_terminal_view']);
     Route::any('create_new_terminal', [TerminalController::class, 'create_new_terminal']);
     Route::any('list-terminals', [TerminalController::class, 'list_terminals']);
+
+
+    Route::any('settings', [AdminController::class, 'setting']);
+    Route::any('update_setting', [AdminController::class, 'update_setting']);
+
+
+
+
 
 
 
