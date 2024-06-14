@@ -199,7 +199,7 @@ class BillsController extends Controller
             'billerId' => $request->billerId,
             'customerId' => $request->customerId,
             'itemId' => $request->serviceId,
-            'amount' => "600"
+            'amount' => $request->amount,
 
         );
 
@@ -235,8 +235,12 @@ class BillsController extends Controller
         $var = curl_exec($curl);
         curl_close($curl);
         $var = json_decode($var);
+
+        dd($var, $post_data);
         $status = $var->status ?? null;
         $message = $var->message ?? null;
+
+
 
 
         $responseCode = $var->responseCode ?? null;
