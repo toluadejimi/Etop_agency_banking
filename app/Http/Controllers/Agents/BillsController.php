@@ -445,29 +445,13 @@ class BillsController extends Controller
         $trasnaction->status = 3;
         $trasnaction->save();
 
-
-        $balance = User::where('id', Auth::id())->first()->main_wallet;
-        $trasnaction = new Transaction();
-        $trasnaction->user_id = Auth::id();
-        $trasnaction->ref_trans_id = $trans_id;
-        $trasnaction->e_ref = $trans_id;
-        $trasnaction->transaction_type = "REVERSED";
-        $trasnaction->credit = $f_amount;
-        $trasnaction->charge = $chrage;
-        $trasnaction->note = "Transaction Reversed";
-        $trasnaction->amount = $request->amount;
-        $trasnaction->balance = $balance;
-        $trasnaction->status = 4;
-        $trasnaction->save();
-
-
         $r_amount = number_format($f_amount, 2);
         $message = "ERROR FROM ETOP AGENCY ======>" . json_encode($var) . "\n\n REQUEST ======> $post_data";
         send_notification($message);
 
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, \n NGN $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed",
         ], 500);
 
 
@@ -797,19 +781,19 @@ class BillsController extends Controller
         $trasnaction->save();
 
 
-        $balance = User::where('id', Auth::id())->first()->main_wallet;
-        $trasnaction = new Transaction();
-        $trasnaction->user_id = Auth::id();
-        $trasnaction->ref_trans_id = $trans_id;
-        $trasnaction->e_ref = $trans_id;
-        $trasnaction->transaction_type = "BILLS";
-        $trasnaction->credit = $f_amount;
-        $trasnaction->charge = 0;
-        $trasnaction->note = "Transaction Reversed";
-        $trasnaction->amount = $request->amount;
-        $trasnaction->balance = $balance;
-        $trasnaction->status = 4;
-        $trasnaction->save();
+//        $balance = User::where('id', Auth::id())->first()->main_wallet;
+//        $trasnaction = new Transaction();
+//        $trasnaction->user_id = Auth::id();
+//        $trasnaction->ref_trans_id = $trans_id;
+//        $trasnaction->e_ref = $trans_id;
+//        $trasnaction->transaction_type = "BILLS";
+//        $trasnaction->credit = $f_amount;
+//        $trasnaction->charge = 0;
+//        $trasnaction->note = "Transaction Reversed";
+//        $trasnaction->amount = $request->amount;
+//        $trasnaction->balance = $balance;
+//        $trasnaction->status = 4;
+//        $trasnaction->save();
 
 
         $r_amount = number_format($f_amount, 2);
@@ -817,7 +801,7 @@ class BillsController extends Controller
         send_notification($message);
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, \n NGN $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed",
         ], 500);
 
 

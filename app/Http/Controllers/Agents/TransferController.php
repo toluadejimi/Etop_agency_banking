@@ -355,19 +355,6 @@ class TransferController extends Controller
             $trasnaction->status = 3;
             $trasnaction->save();
 
-
-            $balance = User::where('id', Auth::id())->first()->main_wallet;
-            $trasnaction = new Transaction();
-            $trasnaction->user_id = Auth::id();
-            $trasnaction->ref_trans_id = $ref;
-            $trasnaction->transaction_type = "REVERSED";
-            $trasnaction->credit = $f_amount;
-            $trasnaction->charge = 0;
-            $trasnaction->note = "Transaction Reversed";
-            $trasnaction->amount = $request->amount;
-            $trasnaction->balance = $balance;
-            $trasnaction->status = 4;
-            $trasnaction->save();
         }
 
 
@@ -377,7 +364,7 @@ class TransferController extends Controller
 
         return response()->json([
             'status' => false,
-            'message' => "Transaction failed, \n $r_amount has been refunded back your wallet",
+            'message' => "Transaction failed",
         ], 500);
 
 
