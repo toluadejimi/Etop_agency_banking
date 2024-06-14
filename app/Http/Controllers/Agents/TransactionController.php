@@ -77,7 +77,7 @@ class TransactionController extends Controller
     }
 
 
-    public function transaction_history(request $request)
+    public function transaction_his(request $request)
     {
 
         $end_date = $request->startDate;
