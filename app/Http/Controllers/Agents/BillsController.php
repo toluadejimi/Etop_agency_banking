@@ -236,7 +236,6 @@ class BillsController extends Controller
         curl_close($curl);
         $var = json_decode($var);
 
-        dd($var, $post_data);
         $status = $var->status ?? null;
         $message = $var->message ?? null;
 
