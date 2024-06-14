@@ -72,6 +72,7 @@ Route::group(['prefix' => 'agent'], function () {
         Route::post('buy-data', [BillsController::class, 'buy_data']);
         Route::post('get-data-plans', [BillsController::class, 'get_data_plans']);
 
+        Route::get('contact', [AuthController::class, 'contact']);
 
 
 

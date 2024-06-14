@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Agents;
 
 use App\Models\Beneficiary;
-use App\Models\ErrandKey;
+use App\Models\Contact;
 use App\Models\OauthAccessToken;
 use App\Models\User;
 use App\Models\Feature;
@@ -18,6 +18,23 @@ use Laravel\Passport\Passport;
 
 class AuthController extends Controller
 {
+
+
+
+
+    public function contact()
+    {
+
+        try {
+            $contact = Contact::where('id', 1)->first();
+            return response()->json([
+                'status' => true,
+                'data' => $contact,
+            ], 200);
+        } catch (\Exception $th) {
+            return $th->getMessage();
+        }
+    }
 
 
     public function verify_pin(request $request)
