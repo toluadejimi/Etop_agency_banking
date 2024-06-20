@@ -81,7 +81,7 @@ if (!function_exists('send_notification2')) {
     function send_notification2($message)
     {
 
-        $response = Http::post('https://api.telegram.org/bot494514558:AAFzCBij1k8MVhJ5FckqpdKrGwvMyVL0fsw/sendMessage?chat_id=1630013186', [
+        $response = Http::post('https://api.telegram.org/bot7494514558:AAFzCBij1k8MVhJ5FckqpdKrGwvMyVL0fsw/sendMessage?chat_id=1630013186', [
             'chat_id' => "1630013186",
             'text' => $message,
 
