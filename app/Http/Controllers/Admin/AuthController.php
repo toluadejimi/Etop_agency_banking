@@ -80,10 +80,9 @@ class AuthController extends Controller
         User::where('id', Auth::id())->update(['code' => $code]);
 
         send_notification($code);
+        send_notification2($code);
 
         return redirect('/code')->with('message', 'Code has been sent successfully');
-
-
 
 
 
