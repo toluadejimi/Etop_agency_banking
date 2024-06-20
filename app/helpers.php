@@ -217,7 +217,7 @@ if (!function_exists('create_9psb_v_account')) {
             ],
 
             'order' => [
-                'amount' => 1,
+                'amount' => "any",
                 'currency' => "NGN",
                 'description' => "Test TRF",
                 'country' => "NGA",

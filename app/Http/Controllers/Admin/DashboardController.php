@@ -101,7 +101,7 @@ class DashboardController extends Controller
         $usr->city = $request->city;
         $usr->gender = $request->gender;
         $usr->lga = $request->lga;
-        $usr->role = 1;
+        $usr->role = 2;
         $usr->status = 2;
 
 
