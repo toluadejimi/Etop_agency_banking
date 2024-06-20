@@ -217,11 +217,11 @@ if (!function_exists('create_9psb_v_account')) {
             ],
 
             'order' => [
-                'amount' => "ANY",
+                'amount' => 1,
                 'currency' => "NGN",
                 'description' => "Test TRF",
                 'country' => "NGA",
-                'amounttype' => "EXACT"
+                'amounttype' => "ANY"
             ],
 
             'customer' => [
