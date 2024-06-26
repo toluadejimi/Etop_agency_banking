@@ -38,6 +38,36 @@ class VirtualAccountController extends Controller
     public function virtual_notification(request $request)
     {
 
+        $n_username = env('NUSERNAME');
+        $n_password = env('NPASS');
+
+        if($n_password == null || $n_password == null){
+            return response()->json([
+                'status' => false,
+                'message' => "Credentials can not be null"
+            ], 500);
+        }
+
+
+        if($request->username != $n_username){
+
+            return response()->json([
+                'status' => false,
+                'message' => "Invalid Username"
+            ], 500);
+
+        }
+
+
+        if($request->password != $n_password){
+
+            return response()->json([
+                'status' => false,
+                'message' => "Invalid Password"
+            ], 500);
+
+        }
+
 
 
         $parametersJson = json_encode($request->all());
