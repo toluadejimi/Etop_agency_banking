@@ -15,8 +15,7 @@
         rel="stylesheet"
     />
     <link
-        href="{{url('')}}/public/assets/bower_components/select2/dist/css/select2.min.css"
-        rel="stylesheet"
+        href="{{url('')}}/public/assets/bower_components/select2/dist/css/select2.min.css" rel="stylesheet"
     />
     <link
         href="{{url('')}}/public/assets/bower_components/bootstrap-daterangepicker/daterangepicker.css"
