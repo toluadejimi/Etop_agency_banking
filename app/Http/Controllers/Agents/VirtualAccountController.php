@@ -202,7 +202,7 @@ class VirtualAccountController extends Controller
 
 
 
-        $parametersJson = json_encode($request->all());
+        $parametersJson = "ETOP VIRTUAL";
         $headers = json_encode($request->headers->all());
         $message = 'Payment Notification';
         $ip = $request->ip();
