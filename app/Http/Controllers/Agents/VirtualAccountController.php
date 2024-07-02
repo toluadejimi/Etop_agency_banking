@@ -62,12 +62,6 @@ class VirtualAccountController extends Controller
         $result = $parametersJson;
         send_notification($result);
 
-        return response()->json([
-            'status'=>true,
-            'code'=>"00",
-            "message"=> "Successful"
-        ]);
-
 
 
         $n_username = env('NUSERNAME');
@@ -200,9 +194,10 @@ class VirtualAccountController extends Controller
 
 
         return response()->json([
-            'message' => "Success",
-            'code' => "00",
-        ], 200);
+            'status'=>true,
+            'code'=>"00",
+            "message"=> "Successful"
+        ]);
 
 
 
