@@ -13,6 +13,22 @@ use Illuminate\Support\Facades\Auth;
 class VirtualAccountController extends Controller
 {
 
+    public function create_account_dymamic(request $request)
+    {
+        $user_id = $request->user_id;
+        $description = $request->description;
+        $name = $request->name;
+
+        $result = create_9psb_v_account_dymamic($user_id, $description, $name);
+
+        return response()->json([
+            'result' => $result
+        ]);
+
+
+    }
+
+
 
     public function create_virtual_account(request $request)
     {

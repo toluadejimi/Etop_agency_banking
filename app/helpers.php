@@ -279,6 +279,87 @@ if (!function_exists('create_9psb_v_account')) {
 }
 
 
+if (!function_exists('create_9psb_v_account_dymamic')) {
+
+    function create_9psb_v_account_dymamic($user_id, $description, $name)
+    {
+
+        $Url = env('9PSBURL');
+        $token = psb_token();
+        $curl = curl_init();
+        $data = array(
+
+            'transaction' => [
+                'reference' => reference()
+            ],
+
+            'order' => [
+                'amount' => 1,
+                'currency' => "NGN",
+                'description' => $description,
+                'country' => "NGA",
+                'amounttype' => "EXACT"
+            ],
+
+            'customer' => [
+
+                'account' => [
+                    'name' => $name,
+                    'type' => "DYNAMICS"
+                ]
+
+            ],
+
+
+        );
+        $post_data = json_encode($data);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "$Url/merchant/virtualaccount/create",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Authorization: Bearer $token"
+            ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+        $status = $var->message ?? null;
+
+        if($status == "Success"){
+
+            $ver = new VirtualAccount();
+            $ver->v_account_no = $var->customer->account->number;
+            $ver->user_id = $user_id;
+            $ver->v_account_name = $var->customer->account->name;
+            $ver->v_bank_name = $var->customer->account->bank;
+            $ver->save();
+
+            $data['account_no'] = $var->customer->account->name;
+            $data['user_id'] = $user_id;
+            $data['name'] = $var->customer->account->name;
+
+            return $data;
+
+        }
+
+        $message = $var;
+        send_notification($message);
+
+        return 0;
+    }
+}
+
+
 if (!function_exists('login')) {
 
     function login($deviceIdentifier, $phone, $deviceName, $password, $email, $device_id)
