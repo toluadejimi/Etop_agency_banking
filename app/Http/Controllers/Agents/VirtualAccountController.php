@@ -191,13 +191,14 @@ class VirtualAccountController extends Controller
         $trx->save();
 
 
-        $parametersJson = "ETOP VIRTUAL";
-        $headers = json_encode($request->headers->all());
-        $message = 'Payment Notification';
-        $ip = $request->ip();
 
-        $result = " Header========> " . $headers . "\n\n Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
-        send_notification($result);
+        $user = User::where('id', $user_id)->first() ?? null;
+        $ip = $request->ip();
+        $amo = number_format($amount, 2);
+        $message = $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
+        send_notification($message);
+
+
 
 
         return response()->json([
