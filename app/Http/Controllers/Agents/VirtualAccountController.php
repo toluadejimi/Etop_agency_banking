@@ -64,45 +64,45 @@ class VirtualAccountController extends Controller
 
 
 
-        $n_username = env('NUSERNAME');
-        $n_password = env('NPASS');
+//        $n_username = env('NUSERNAME');
+//        $n_password = env('NPASS');
+//
+//        if($n_password == null || $n_password == null){
+//            return response()->json([
+//                'status' => false,
+//                'message' => "Credentials can not be null"
+//            ], 500);
+//        }
+//
+//
+//        if($request->username != $n_username){
+//
+//            $result = "Incorrect Invalid";
+//            send_notification($result);
+//
+//            return response()->json([
+//                'status' => false,
+//                'message' => "Invalid Username"
+//
+//            ], 500);
+//
+//        }
 
-        if($n_password == null || $n_password == null){
-            return response()->json([
-                'status' => false,
-                'message' => "Credentials can not be null"
-            ], 500);
-        }
-
-
-        if($request->username != $n_username){
-
-            $result = "Incorrect Invalid";
-            send_notification($result);
-
-            return response()->json([
-                'status' => false,
-                'message' => "Invalid Username"
-
-            ], 500);
-
-        }
-
-
-        if($request->password != $n_password){
-
-            $result = "Incorrect Password";
-            send_notification($result);
-
-
-            return response()->json([
-                'status' => false,
-                'message' => "Invalid Password"
-            ], 500);
-
-
-
-        }
+//
+//        if($request->password != $n_password){
+//
+//            $result = "Incorrect Password";
+//            send_notification($result);
+//
+//
+//            return response()->json([
+//                'status' => false,
+//                'message' => "Invalid Password"
+//            ], 500);
+//
+//
+//
+//        }
 
 
 
