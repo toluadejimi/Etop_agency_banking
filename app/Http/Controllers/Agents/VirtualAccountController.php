@@ -57,6 +57,8 @@ class VirtualAccountController extends Controller
     {
 
 
+        dd($request->all());
+
         $parametersJson = json_encode($request->all());
 
         $result = $parametersJson;
