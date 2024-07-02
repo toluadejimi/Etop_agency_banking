@@ -111,7 +111,6 @@ class VirtualAccountController extends Controller
 
 
 
-
         $refrence = $request->transaction['reference'];
         $sessionid = $request->transaction['sessionid'];
         $date = $request->transaction['date'];
