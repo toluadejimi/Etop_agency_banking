@@ -145,7 +145,7 @@ class VirtualAccountController extends Controller
 
 
 
-        $ck_tx = Transaction::where('e_ref', $refrence)->where('status', 2)->first() ?? null;
+        $ck_tx = Transaction::where('sessionId', $sessionid)->where('status', 2)->first() ?? null;
         if ($ck_tx != null) {
 
             $message = 'ETOP AGENCY Duplicate Payment Notification';
