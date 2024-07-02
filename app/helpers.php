@@ -620,7 +620,7 @@ if (!function_exists('select_account')) {
 
     if (!function_exists('send_api_notification')) {
 
-        send_api_notification($sessionid, $receiver_account_number, $amount){
+        function send_api_notification($sessionid, $receiver_account_number, $amount){
 
 
         try {
