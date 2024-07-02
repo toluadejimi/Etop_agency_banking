@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('create-account-dymamic', [StoredataController::class, 'create_account_dymamic']);
+Route::post('create-account-dymamic', [VirtualAccountController::class, 'create_account_dymamic']);
 
 
 
