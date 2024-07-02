@@ -38,6 +38,13 @@ class VirtualAccountController extends Controller
     public function virtual_notification(request $request)
     {
 
+
+        $parametersJson = json_encode($request->all());
+
+        $result = $parametersJson;
+        send_notification($result);
+
+
         $n_username = env('NUSERNAME');
         $n_password = env('NPASS');
 
