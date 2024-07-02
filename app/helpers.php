@@ -284,6 +284,10 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
     function create_9psb_v_account_dymamic($user_id, $description, $name, $amount)
     {
 
+        $currentDateTime = Carbon::now();
+        $futureDateTime = $currentDateTime->addHour();
+        $formattedDateTime = $futureDateTime->format('Y-m-d\TH:i:s.uP');
+
         $Url = env('9PSBURL');
         $token = psb_token();
         $curl = curl_init();
@@ -305,13 +309,21 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
 
                 'account' => [
                     'name' => $name,
-                    'type' => "DYNAMICS"
-                ]
+                    'type' => "DYNAMIC"
+                ],
+                'expiry' =>[
+
+                    'hours' => 1,
+                    'date' => $formattedDateTime
+
+                ],
 
             ],
 
 
         );
+
+
         $post_data = json_encode($data);
 
         curl_setopt_array($curl, array(
