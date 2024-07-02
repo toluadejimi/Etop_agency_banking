@@ -311,12 +311,12 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
                     'name' => $name,
                     'type' => "DYNAMIC"
                 ],
-//                'expiry' =>[
-//
-//                    'hours' => 1,
-//                    'date' => $formattedDateTime
-//
-//                ],
+                'expiry' =>[
+
+                    'hours' => 1,
+                    'date' => $formattedDateTime
+
+                ],
 
             ],
 
@@ -364,10 +364,13 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
 
         }
 
-        $message = $var;
+        $data['9psb'] = $var;
+        $data['request'] = $post_data;
+
+        $message = $data;
         send_notification($message);
 
-        return 0;
+        return $data;
     }
 }
 
