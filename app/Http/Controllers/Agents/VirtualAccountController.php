@@ -191,6 +191,14 @@ class VirtualAccountController extends Controller
         $trx->save();
 
 
+        $parametersJson = "ETOP VIRTUAL";
+        $headers = json_encode($request->headers->all());
+        $message = 'Payment Notification';
+        $ip = $request->ip();
+
+        $result = " Header========> " . $headers . "\n\n Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
+        send_notification($result);
+
 
         return response()->json([
             'status'=>true,
@@ -201,12 +209,6 @@ class VirtualAccountController extends Controller
 
 
 
-        $parametersJson = "ETOP VIRTUAL";
-        $headers = json_encode($request->headers->all());
-        $message = 'Payment Notification';
-        $ip = $request->ip();
 
-        $result = " Header========> " . $headers . "\n\n Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
-        send_notification($result);
     }
 }
