@@ -83,9 +83,16 @@ class VirtualAccountController extends Controller
 
         if($request->username != $n_username){
 
+
+
+            $result = "Incorrect Invalid";
+            send_notification($result);
+
+
             return response()->json([
                 'status' => false,
                 'message' => "Invalid Username"
+
             ], 500);
 
         }
@@ -93,119 +100,122 @@ class VirtualAccountController extends Controller
 
         if($request->password != $n_password){
 
+            $result = "Incorrect Password";
+            send_notification($result);
+
+
             return response()->json([
                 'status' => false,
                 'message' => "Invalid Password"
             ], 500);
 
+
+
         }
 
 
 
+
+
+
+
+
+
+        $refrence = $request->transaction['reference'];
+        $sessionid = $request->transaction['sessionid'];
+        $date = $request->transaction['date'];
+        $receiver_name = $request->customer['account']['name'];
+        $receiver_account_number = $request->customer['account']['number'];
+        $receiver_bank = $request->customer['account']['bank'];
+        $sender_bankcode = $request->customer['account']['senderbankcode'];
+        $sender_bankname = $request->customer['account']['senderbankname'];
+        $sender_accountnumber = $request->customer['account']['senderaccountnumber'];
+        $sender_name = $request->customer['account']['sendername'];
+        $amount = $request['order']['amount'];
+        $currency = $request['order']['currency'];
+        $description = $request['order']['description'];
+
+
+        $ck_va = VirtualAccount::where('v_account_no', $receiver_account_number)->first() ?? null;
+        if($ck_va == null){
+
+            $message = 'ETOP AGENCY User Not found';
+            $ip = $request->ip();
+            $reault = $message . "\n\nIP========> " . $ip;
+            send_notification($reault);
+
+            return response()->json([
+                'message' => "Virtual Account not found",
+                'code' => "00",
+            ], 200);
+
+        }
+
+
+
+
+
+        $ck_tx = Transaction::where('e_ref', $refrence)->where('status', 2)->first() ?? null;
+        if ($ck_tx != null) {
+
+            $message = 'ETOP AGENCY Duplicate Payment Notification';
+            $ip = $request->ip();
+            $reault = $message . "\n\nIP========> " . $ip;
+            send_notification($reault);
+
+            return response()->json([
+                'message' => "Duplicate Transaction",
+                'code' => "00",
+            ], 200);
+        }
+
+
+
+        $virtal_account_charge = Setting::where('id', 1)->first()->virtual_account_charge;
+        $final_amount = $amount - $virtal_account_charge;
+        $user_id = VirtualAccount::where('v_account_no', $receiver_account_number)->first()->user_id;
+        User::where('id', $user_id)->increment('main_wallet', $final_amount);
+        $user = User::where('id', $user_id)->first();
+
+
+        //Save Account
+
+        $trx = new Transaction();
+        $trx->ref_trans_id = "ETOP" . reference();
+        $trx->e_ref = $refrence;
+        $trx->user_id = $user->id;
+        $trx->amount = $amount;
+        $trx->credit = $final_amount;
+        $trx->charge = $virtal_account_charge;
+        $trx->balance = $user->main_wallet;
+        $trx->sender_name = $sender_name;
+        $trx->sender_bank = $sender_bankname;
+        $trx->sender_account_no = $sender_accountnumber;
+        $trx->receiver_name = $receiver_name;
+        $trx->receiver_bank = $receiver_bank;
+        $trx->receiver_account_no = $receiver_account_number;
+        $trx->sessionId = $sessionid;
+        $trx->note = $description;
+        $trx->status = 2;
+        $trx->transaction_type = "VIRTUAL ACCOUNT";
+        $trx->save();
+
+
+
+        return response()->json([
+            'message' => "Success",
+            'code' => "00",
+        ], 200);
+
+
+
+
         $parametersJson = json_encode($request->all());
+        $headers = json_encode($request->headers->all());
+        $message = 'Payment Notification';
+        $ip = $request->ip();
 
-        $result = $parametersJson;
+        $result = " Header========> " . $headers . "\n\n Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
         send_notification($result);
-
-
-
-
-
-//        $refrence = $request->transaction['reference'];
-//        $sessionid = $request->transaction['sessionid'];
-//        $date = $request->transaction['date'];
-//        $receiver_name = $request->customer['account']['name'];
-//        $receiver_account_number = $request->customer['account']['number'];
-//        $receiver_bank = $request->customer['account']['bank'];
-//        $sender_bankcode = $request->customer['account']['senderbankcode'];
-//        $sender_bankname = $request->customer['account']['senderbankname'];
-//        $sender_accountnumber = $request->customer['account']['senderaccountnumber'];
-//        $sender_name = $request->customer['account']['sendername'];
-//        $amount = $request['order']['amount'];
-//        $currency = $request['order']['currency'];
-//        $description = $request['order']['description'];
-//
-//
-//        $ck_va = VirtualAccount::where('v_account_no', $receiver_account_number)->first() ?? null;
-//        if($ck_va == null){
-//
-//            $message = 'ETOP AGENCY User Not found';
-//            $ip = $request->ip();
-//            $reault = $message . "\n\nIP========> " . $ip;
-//            send_notification($reault);
-//
-//            return response()->json([
-//                'message' => "Virtual Account not found",
-//                'code' => "00",
-//            ], 200);
-//
-//        }
-//
-//
-//
-//
-//
-//        $ck_tx = Transaction::where('e_ref', $refrence)->where('status', 2)->first() ?? null;
-//        if ($ck_tx != null) {
-//
-//            $message = 'ETOP AGENCY Duplicate Payment Notification';
-//            $ip = $request->ip();
-//            $reault = $message . "\n\nIP========> " . $ip;
-//            send_notification($reault);
-//
-//            return response()->json([
-//                'message' => "Duplicate Transaction",
-//                'code' => "00",
-//            ], 200);
-//        }
-//
-//
-//
-//        $virtal_account_charge = Setting::where('id', 1)->first()->virtual_account_charge;
-//        $final_amount = $amount - $virtal_account_charge;
-//        $user_id = VirtualAccount::where('v_account_no', $receiver_account_number)->first()->user_id;
-//        User::where('id', $user_id)->increment('main_wallet', $final_amount);
-//        $user = User::where('id', $user_id)->first();
-//
-//
-//        //Save Account
-//
-//        $trx = new Transaction();
-//        $trx->ref_trans_id = "ETOP" . reference();
-//        $trx->e_ref = $refrence;
-//        $trx->user_id = $user->id;
-//        $trx->amount = $amount;
-//        $trx->credit = $final_amount;
-//        $trx->charge = $virtal_account_charge;
-//        $trx->balance = $user->main_wallet;
-//        $trx->sender_name = $sender_name;
-//        $trx->sender_bank = $sender_bankname;
-//        $trx->sender_account_no = $sender_accountnumber;
-//        $trx->receiver_name = $receiver_name;
-//        $trx->receiver_bank = $receiver_bank;
-//        $trx->receiver_account_no = $receiver_account_number;
-//        $trx->sessionId = $sessionid;
-//        $trx->note = $description;
-//        $trx->status = 2;
-//        $trx->transaction_type = "VIRTUAL ACCOUNT";
-//        $trx->save();
-//
-//
-//
-//        return response()->json([
-//            'message' => "Success",
-//            'code' => "00",
-//        ], 200);
-//
-//
-//
-//
-//        $parametersJson = json_encode($request->all());
-//        $headers = json_encode($request->headers->all());
-//        $message = 'Payment Notification';
-//        $ip = $request->ip();
-//
-//        $result = " Header========> " . $headers . "\n\n Body========> " . $parametersJson . "\n\n Message========> " . $message . "\n\nIP========> " . $ip;
-//        send_notification($result);
     }
 }
