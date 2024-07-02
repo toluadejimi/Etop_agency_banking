@@ -311,12 +311,12 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
                     'name' => $name,
                     'type' => "DYNAMIC"
                 ],
-                'expiry' =>[
-
-                    'hours' => 1,
-                    'date' => $formattedDateTime
-
-                ],
+//                'expiry' =>[
+//
+//                    'hours' => 1,
+//                    'date' => $formattedDateTime
+//
+//                ],
 
             ],
 
