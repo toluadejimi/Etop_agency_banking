@@ -151,53 +151,6 @@ class StoredataController extends Controller
 
 
 
-    public function store_pos_transaction(request $request)
-    {
-        $current_time = time();
-        $one_hour_later = $current_time + 3600; // 3600 seconds = 1 hour
-        $created_at = date('Y-m-d H:i:s', $one_hour_later);
-
-        $trasnaction = new PosLog();
-        $trasnaction->RRN = $request->RRN;
-        $trasnaction->STAN = $request->STAN;
-        $trasnaction->accountBalance = $request->accountBalance;
-        $trasnaction->acquiringInstitutionIdCode = $request->acquiringInstitutionIdCode;
-        $trasnaction->authCode = $request->authCode;
-        $trasnaction->cardCardSequenceNum = $request->cardCardSequenceNum;
-        $trasnaction->cardExpireData = $request->cardExpireData;
-        $trasnaction->forwardingInstCode = $request->forwardingInstCode;
-        $trasnaction->merchantNo = $request->merchantNo;
-        $trasnaction->amount = $request->amount;
-        $trasnaction->accountType = $request->accountType;
-        $trasnaction->tid = $request->tid;
-        $trasnaction->merchantName = $request->merchantName;
-        $trasnaction->pan = $request->pan;
-        $trasnaction->pinBlock = $request->pinBlock;
-        $trasnaction->receiptNumber = $request->receiptNumber;
-        $trasnaction->respCode = $request->respCode;
-        $trasnaction->responseMessage = $request->responseMessage;
-        $trasnaction->status = $request->status;
-        $trasnaction->successResponse = $request->successResponse;
-        $trasnaction->systemTraceAuditNo = $request->systemTraceAuditNo;
-        $trasnaction->terminalId = $request->terminalId;
-        $trasnaction->transactionDate = $request->transactionDate;
-        $trasnaction->transactionDateTime = $request->transactionDateTime;
-        $trasnaction->transactionTime = $request->transactionTime;
-        $trasnaction->transactionType = $request->transactionType;
-        $trasnaction->cardName = $request->cardName;
-        $trasnaction->SerialNo = $request->SerialNo;
-        $trasnaction->createdAt= $created_at;
-        $trasnaction->updatedAt= $created_at;
-        $trasnaction->user_id= $request->user_id;
-        $trasnaction->save();
-
-        return response([
-            'status' => true,
-            'message'=>'data stored'
-        ], 200);
-
-
-    }
 
 
 

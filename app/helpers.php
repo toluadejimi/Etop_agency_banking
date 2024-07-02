@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Terminal;
 use App\Models\TidConfig;
 use App\Models\VirtualAccount;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use App\Models\OauthAccessToken;
@@ -612,6 +613,52 @@ if (!function_exists('select_account')) {
 
         return $account_array;
     }
-}
+
+
+
+
+
+    if (!function_exists('send_api_notification')) {
+
+        send_api_notification($sessionid, $receiver_account_number, $amount){
+
+
+        try {
+
+            $curl = curl_init();
+            $data = array(
+
+                'sessionid' => $sessionid,
+                'receiver_account_number' => $receiver_account_number,
+                'amount' => $amount,
+
+            );
+            $post_data = json_encode($data);
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://web.enkpay.com/api/e-payment',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $post_data,
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
+            ));
+
+            $var = curl_exec($curl);
+            curl_close($curl);
+
+
+        } catch (QueryException $e) {
+            echo "$e";
+        }
+
+    }
+
 
 

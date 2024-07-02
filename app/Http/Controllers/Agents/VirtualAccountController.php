@@ -191,8 +191,16 @@ class VirtualAccountController extends Controller
         $trx->save();
 
 
-
         $user = User::where('id', $user_id)->first() ?? null;
+
+        if($user->id == 95){
+            send_api_notification($sessionid, $receiver_account_number, $amount);
+        }
+
+
+
+
+
         $ip = $request->ip();
         $amo = number_format($amount, 2);
         $message = $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
