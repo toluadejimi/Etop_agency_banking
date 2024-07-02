@@ -83,11 +83,8 @@ class VirtualAccountController extends Controller
 
         if($request->username != $n_username){
 
-
-
             $result = "Incorrect Invalid";
             send_notification($result);
-
 
             return response()->json([
                 'status' => false,
