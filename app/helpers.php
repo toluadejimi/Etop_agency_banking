@@ -281,7 +281,7 @@ if (!function_exists('create_9psb_v_account')) {
 
 if (!function_exists('create_9psb_v_account_dymamic')) {
 
-    function create_9psb_v_account_dymamic($user_id, $description, $name)
+    function create_9psb_v_account_dymamic($user_id, $description, $name, $amount)
     {
 
         $Url = env('9PSBURL');
@@ -294,7 +294,7 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
             ],
 
             'order' => [
-                'amount' => 1,
+                'amount' => $amount,
                 'currency' => "NGN",
                 'description' => $description,
                 'country' => "NGA",

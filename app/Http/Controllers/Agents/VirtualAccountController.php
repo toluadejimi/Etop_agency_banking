@@ -18,10 +18,10 @@ class VirtualAccountController extends Controller
         $user_id = $request->user_id;
         $description = $request->description;
         $name = $request->name;
+        $amount = $request->amount;
 
-        dd($request->all());
 
-        $result = create_9psb_v_account_dymamic($user_id, $description, $name);
+        $result = create_9psb_v_account_dymamic($user_id, $description, $name, $amount);
 
         return response()->json([
             'result' => $result
