@@ -20,8 +20,6 @@ Route::post('create-account-dymamic', [StoredataController::class, 'create_accou
 
 
 
-
-
 //other database
 Route::post('store-user', [StoredataController::class, 'store_user']);
 Route::post('store-terminal', [StoredataController::class, 'store_terminal']);
