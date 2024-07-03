@@ -311,7 +311,7 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
                 'currency' => "NGN",
                 'description' => $description,
                 'country' => "NGA",
-                'amounttype' => "EXACT"
+                'amounttype' => "ANY"
             ],
 
             'customer' => [
