@@ -797,7 +797,7 @@ class BillsController extends Controller
 
 
         $r_amount = number_format($f_amount, 2);
-        $message = "ERROR FROM ETOP AGENCY ======>" . json_encode($var) . "\n\n REQUEST ======> $post_data";
+        $message = "ERROR FROM ETOP DATA AGENCY ======>" . json_encode($var) . "\n\n REQUEST ======> $post_data";
         send_notification($message);
         return response()->json([
             'status' => false,
