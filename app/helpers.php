@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\Dyaccount;
 use App\Models\User;
 use App\Models\Terminal;
 use App\Models\TidConfig;
@@ -285,9 +286,11 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
     function create_9psb_v_account_dymamic($user_id, $description, $name, $amount)
     {
 
-        $currentDateTime = Carbon::now();
-        $futureDateTime = $currentDateTime->addHour();
-        $formattedDateTime = $futureDateTime->format('Y-m-d\TH:i:s.uP');
+        $current_time = new DateTime();
+        $current_time->setTimezone(new DateTimeZone('Europe/London')); // +01:00 as per your example
+        $formatted_date = $current_time->format('Y-m-d\TH:i:s.uP');
+
+        //dd( $current_time, $current_time, $formatted_date);
 
         $Url = env('9PSBURL');
         $token = psb_token();
@@ -307,19 +310,20 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
             ],
 
             'customer' => [
-
                 'account' => [
                     'name' => $name,
-                    'type' => "DYNAMIC"
+                    'type' => "STATIC"
                 ],
-                'expiry' =>[
 
+                'expiry' => [
                     'hours' => 1,
-                    'date' => $formattedDateTime
-
+                    'date' => "2024-07-03T6:25:31.7993952+01:00"
                 ],
 
             ],
+
+
+
 
 
         );
@@ -357,7 +361,8 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
             $ver->v_bank_name = $var->customer->account->bank;
             $ver->save();
 
-            $data['account_no'] = $var->customer->account->name;
+            $data['account_no'] = $var->customer->account->number;
+            $data['account_name'] = $var->customer->account->name;
             $data['user_id'] = $user_id;
             $data['name'] = $var->customer->account->name;
 
