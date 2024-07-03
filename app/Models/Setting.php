@@ -11,5 +11,6 @@ class Setting extends Model
 
     protected $casts = [
         'transfer_charge' => 'string',
+        'hour' => 'integer',
     ];
 }

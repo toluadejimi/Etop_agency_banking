@@ -195,7 +195,7 @@ class TransferController extends Controller
 
         $ref = "TRF" . reference();
         $wallet = $request->wallet;
-        $amount = number_format($request->amount,2);
+        $amount = number_format($request->amount,2, '.', '');
         $destinationAccountNumber = $request->account_number;
         $destinationBankCode = $request->code;
         $destinationAccountName = $request->customer_name;

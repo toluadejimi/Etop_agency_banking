@@ -2,6 +2,7 @@
 
 
 use App\Models\Dyaccount;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Terminal;
 use App\Models\TidConfig;
@@ -290,6 +291,10 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
         $current_time->setTimezone(new DateTimeZone('Europe/London')); // +01:00 as per your example
         $formatted_date = $current_time->format('Y-m-d\TH:i:s.uP');
 
+        $hour = 1.;
+        $zero = 0;
+
+
         //dd( $current_time, $current_time, $formatted_date);
 
         $Url = env('9PSBURL');
@@ -316,8 +321,8 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
                 ],
 
                 'expiry' => [
-                    'hours' => 1,
-                    'date' => "2024-07-03T6:25:31.7993952+01:00"
+                    'hours' => 24,
+                    'date' => "2024-07-03T12:35:44.381081+24:00"
                 ],
 
             ],
