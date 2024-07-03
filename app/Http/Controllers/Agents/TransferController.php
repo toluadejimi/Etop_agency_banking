@@ -324,6 +324,7 @@ class TransferController extends Controller
             $trasnaction = new Transaction();
             $trasnaction->user_id = Auth::id();
             $trasnaction->ref_trans_id = $ref;
+            $trasnaction->e_ref = $ref;
             $trasnaction->transaction_type = "TRANSFEROUT";
             $trasnaction->debit = $f_amount;
             $trasnaction->charge = $charge;
@@ -345,6 +346,7 @@ class TransferController extends Controller
             $balance = User::where('id', Auth::id())->first()->main_wallet;
             $trasnaction = new Transaction();
             $trasnaction->user_id = Auth::id();
+            $trasnaction->e_ref = $ref;
             $trasnaction->ref_trans_id = $ref;
             $trasnaction->transaction_type = "BILLS";
             $trasnaction->credit = $f_amount;
