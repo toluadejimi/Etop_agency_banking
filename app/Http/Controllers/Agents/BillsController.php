@@ -680,9 +680,9 @@ class BillsController extends Controller
 
         $data = array(
 
-            'phoneNumber' => $request->phone,
+            'phoneNumber' => $request->phoneNumber,
             'network' => $request->network,
-            'amount' => $request->network,
+            'amount' => $request->amount,
             'productId' => $request->product_id,
             'debitAccount' => $debit_account,
             'transactionReference' => $trans_id,
