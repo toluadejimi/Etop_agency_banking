@@ -359,7 +359,7 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
 
         if($status == "Success"){
 
-            $ver = new Dyaccount();
+            $ver = new VirtualAccount();
             $ver->v_account_no = $var->customer->account->number;
             $ver->user_id = $user_id;
             $ver->v_account_name = $var->customer->account->name;
