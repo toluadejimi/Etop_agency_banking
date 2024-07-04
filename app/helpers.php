@@ -362,6 +362,8 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
             $ver->user_id = $user_id;
             $ver->v_account_name = $var->customer->account->name;
             $ver->v_bank_name = $var->customer->account->bank;
+            $ver->amount = $amount;
+
             $ver->save();
 
             $data['account_no'] = $var->customer->account->number;
