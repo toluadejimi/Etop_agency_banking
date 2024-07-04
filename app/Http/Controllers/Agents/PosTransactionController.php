@@ -211,7 +211,7 @@ class PosTransactionController extends Controller
         //Both Commission
         $amount1 = $pos_charge / 100;
         $amount2 = $amount1 * $amount;
-        $charge = number_format($amount2, 3);
+        $charge = round($amount2, 2);
 
         if ($charge >= $cap) {
             $w_amount = $amount - $cap;
@@ -225,7 +225,6 @@ class PosTransactionController extends Controller
 
         if ($responseCode == 00 && $transactionType == "PURCHASE") {
             User::where('id', $user_id)->increment('main_wallet', $w_amount);
-
             PosLog::where('e_ref', $RRN)->update([
                 'status' => 1,
                 'note' => "Successful | $pan | $amount"
