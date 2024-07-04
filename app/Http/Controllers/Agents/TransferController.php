@@ -207,11 +207,6 @@ class TransferController extends Controller
         $user_pin = Auth()->user()->pin;
 
 
-
-
-
-
-
         if (Hash::check($pin, $user_pin) == false) {
 
             return response()->json([
@@ -222,8 +217,37 @@ class TransferController extends Controller
             ], 500);
         }
 
-        $charge = Setting::where('id', 1)->first()->transfer_out_charge;
-        $f_amount = $request->amount + $charge;
+
+
+
+
+
+
+
+
+        $transfer_charge = Setting::where('id', 1)->first()->transfer_out_charge;
+        $tcap = Setting::where('id', 1)->first()->transfer_out_cap;
+
+
+        $amount1 = $transfer_charge / 100;
+        $amount2 = $amount1 * $request->amount;
+        $tcharge = round($amount2, 2);
+
+        if ($tcharge >= $tcap) {
+            $f_amount = $request->amount - $tcap;
+            $echarge = $tcap;
+
+        } else {
+            $f_amount = $request->amount - $tcharge;
+            $echarge = $tcharge;
+        }
+
+
+
+
+
+
+
 
         $usr = User::where('id', Auth::id())->first();
         if($f_amount > $usr->main_wallet){
@@ -263,9 +287,6 @@ class TransferController extends Controller
                     'senderaccountnumber' => env('DEBITACCOUNT'),
                     'sendername' => "ETOP-".Auth::user()->first_name. " ".Auth::user()->last_name,
                 ],
-
-
-
 
 
             ],
@@ -327,7 +348,7 @@ class TransferController extends Controller
             $trasnaction->e_ref = $ref;
             $trasnaction->transaction_type = "TRANSFEROUT";
             $trasnaction->debit = $f_amount;
-            $trasnaction->charge = $charge;
+            $trasnaction->charge = $echarge;
             $trasnaction->note = "Transaction Successful";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
