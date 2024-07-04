@@ -222,7 +222,7 @@ class TransferController extends Controller
             ], 500);
         }
 
-        $charge = Setting::where('id', 1)->first()->transfer_charge;
+        $charge = Setting::where('id', 1)->first()->transfer_out_charge;
         $f_amount = $request->amount + $charge;
 
         $usr = User::where('id', Auth::id())->first();

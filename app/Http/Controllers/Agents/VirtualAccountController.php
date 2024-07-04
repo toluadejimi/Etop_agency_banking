@@ -133,7 +133,7 @@ class VirtualAccountController extends Controller
 
             $ck_wa = Webaccount::where('v_account_no', $receiver_account_number)->first() ?? null;
             if($ck_wa != null){
-                $ck_tx = Webaccount::where('sessionId', $sessionid)->where('status', 2)->first() ?? null;
+                $ck_tx = Transaction::where('sessionId', $sessionid)->where('status', 2)->first() ?? null;
                 if ($ck_tx != null) {
 
                     $message = 'ETOP AGENCY Duplicate Payment Notification';
@@ -209,13 +209,6 @@ class VirtualAccountController extends Controller
 
 
 
-
-
-
-
-
-
-
             $message = 'ETOP AGENCY User Not found';
             $ip = $request->ip();
             $reault = $message . "\n\nIP========> " . $ip;
@@ -227,6 +220,9 @@ class VirtualAccountController extends Controller
             ], 200);
 
         }
+
+
+
 
 
 
