@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Agents;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\Transaction;
+use App\Models\Webaccount;
 use Illuminate\Http\Request;
 use App\Models\VirtualAccount;
 use App\Http\Controllers\Controller;
@@ -128,6 +129,92 @@ class VirtualAccountController extends Controller
 
         $ck_va = VirtualAccount::where('v_account_no', $receiver_account_number)->first() ?? null;
         if($ck_va == null){
+
+
+            $ck_wa = Webaccount::where('v_account_no', $receiver_account_number)->first() ?? null;
+            if($ck_wa != null){
+                $ck_tx = Webaccount::where('sessionId', $sessionid)->where('status', 2)->first() ?? null;
+                if ($ck_tx != null) {
+
+                    $message = 'ETOP AGENCY Duplicate Payment Notification';
+                    $ip = $request->ip();
+                    $reault = $message . "\n\nIP========> " . $ip;
+                    send_notification($reault);
+
+                    return response()->json([
+                        'message' => "Duplicate Transaction",
+                        'code' => "00",
+                    ], 200);
+                }
+
+
+                $virtal_account_charge = Setting::where('id', 1)->first()->virtual_account_charge;
+                $final_amount = $amount - $virtal_account_charge;
+                $user_id = Webaccount::where('v_account_no', $receiver_account_number)->first()->user_id;
+                User::where('id', $user_id)->increment('main_wallet', $final_amount);
+                $user = User::where('id', $user_id)->first();
+
+
+                //Save Account
+
+                $trx = new Transaction();
+                $trx->ref_trans_id = "ETOP" . reference();
+                $trx->e_ref = $refrence;
+                $trx->user_id = $user->id;
+                $trx->amount = $amount;
+                $trx->credit = $final_amount;
+                $trx->charge = $virtal_account_charge;
+                $trx->balance = $user->main_wallet;
+                $trx->sender_name = $sender_name;
+                $trx->sender_bank = $sender_bankname;
+                $trx->sender_account_no = $sender_accountnumber;
+                $trx->receiver_name = $receiver_name;
+                $trx->receiver_bank = $receiver_bank;
+                $trx->receiver_account_no = $receiver_account_number;
+                $trx->sessionId = $sessionid;
+                $trx->note = $description;
+                $trx->status = 2;
+                $trx->transaction_type = "VIRTUAL ACCOUNT";
+                $trx->save();
+
+
+                $user = User::where('id', $user_id)->first() ?? null;
+
+                if($user->id == 95){
+                    send_api_notification($sessionid, $receiver_account_number, $amount);
+                }
+
+
+
+                $ip = $request->ip();
+                $amo = number_format($amount, 2);
+                $message = $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
+                send_notification($message);
+
+
+
+
+                return response()->json([
+                    'status'=>true,
+                    'code'=>"00",
+                    "message"=> "Successful"
+                ]);
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
 
             $message = 'ETOP AGENCY User Not found';
             $ip = $request->ip();
