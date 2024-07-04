@@ -5,6 +5,7 @@ use App\Models\Dyaccount;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Terminal;
+use App\Models\Webaccount;
 use App\Models\TidConfig;
 use App\Models\VirtualAccount;
 use Illuminate\Database\QueryException;
@@ -356,7 +357,7 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
 
         if($status == "Success"){
 
-            $ver = new VirtualAccount();
+            $ver = new Webaccount();
             $ver->v_account_no = $var->customer->account->number;
             $ver->user_id = $user_id;
             $ver->v_account_name = $var->customer->account->name;
