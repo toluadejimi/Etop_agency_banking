@@ -220,31 +220,21 @@ class TransferController extends Controller
 
 
 
-
-
-
-
-
         $transfer_charge = Setting::where('id', 1)->first()->transfer_out_charge;
         $tcap = Setting::where('id', 1)->first()->transfer_out_cap;
-
 
         $amount1 = $transfer_charge / 100;
         $amount2 = $amount1 * $request->amount;
         $tcharge = round($amount2, 2);
 
         if ($tcharge >= $tcap) {
-            $f_amount = $request->amount - $tcap;
+            $f_amount = $request->amount + $tcap;
             $echarge = $tcap;
 
         } else {
-            $f_amount = $request->amount - $tcharge;
+            $f_amount = $request->amount + $tcharge;
             $echarge = $tcharge;
         }
-
-
-
-
 
 
 
