@@ -311,24 +311,21 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
                 'currency' => "NGN",
                 'description' => $description,
                 'country' => "NGA",
-                'amounttype' => "ANY"
+                'amounttype' => "EXACT"
             ],
 
             'customer' => [
                 'account' => [
                     'name' => $name,
-                    'type' => "STATIC"
+                    'type' => "DYNAMIC",
+                    'expiry' => [
+                    'hours' => 10,
+                    'date'=> null
+                    ],
                 ],
 
-                'expiry' => [
-                    'hours' => 24,
-                    'date' => "2024-07-03T12:35:44.381081+24:00"
-                ],
 
             ],
-
-
-
 
 
         );
