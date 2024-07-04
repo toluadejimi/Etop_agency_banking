@@ -159,12 +159,10 @@ class TransferController extends Controller
 
         } else {
 
-            $name = "Invalid Account, Check information again";
-
             return response()->json([
-                'status' => true,
-                'customer_name' => $name,
-            ], 200);
+                'status' => false,
+                'message' => "Invalid Account, \n Check information again",
+            ], 500);
         }
 
 
@@ -235,7 +233,6 @@ class TransferController extends Controller
             $f_amount = $request->amount + $tcharge;
             $echarge = $tcharge;
         }
-
 
 
 
