@@ -107,7 +107,7 @@ if (!function_exists('wallet_balance')) {
 
         $var = curl_exec($curl);
 
-        dd($var, $url);
+        //dd($var, $url);
 
         curl_close($curl);
         $var = json_decode($var);
