@@ -148,7 +148,7 @@ class VirtualAccountController extends Controller
                 }
 
 
-                $virtal_account_charge = Setting::where('id', 1)->first()->virtual_account_charge;
+                $virtal_account_charge = Setting::where('id', 1)->first()->transfer_in_charge;
                 $vcap = Setting::where('id', 1)->first()->transfer_in_cap;
 
                 $amount1 = $virtal_account_charge / 100;
