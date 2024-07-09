@@ -136,6 +136,8 @@
                                                     <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-danger">BANK - TRANSFER</span> </td>
                                                 @elseif($data->transaction_type == "BILLS")
                                                     <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-success">BILLS</span> </td>
+                                                @elseif($data->transaction_type == "VIRTUAL ACCOUNT")
+                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span> </td>
                                                 @endif
 
                                                 @if($data->status == 2)
