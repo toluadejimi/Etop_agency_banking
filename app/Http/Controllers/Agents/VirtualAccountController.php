@@ -160,7 +160,7 @@ class VirtualAccountController extends Controller
                     $echarge = $vcap;
 
                 } else {
-                    $final_amount = $amount + $vcharge;
+                    $final_amount = $amount - $vcharge;
                     $echarge = $vcharge;
                 }
 
