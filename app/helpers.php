@@ -71,9 +71,55 @@ if (!function_exists('wallet_balance')) {
     function wallet_balance($message)
     {
 
+        $Url = env('9PSTRANSFERURL');
+        $token = psb_token();
+        $Url = env('9PSTRANSFERURL');
+        $url = $Url."merchant/account/balanceenquiry";
+        $account = env('DEBITACCOUNT');
 
 
+
+        $data = array(
+                'account' => [
+                   'accountnumber'=> $account
+            ]
+        );
+
+        $post_data = json_encode($data);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $post_data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Authorization: Bearer $token"
+            ),
+        ));
+
+        $var = curl_exec($curl);
+        curl_close($curl);
+        $var = json_decode($var);
+
+
+
+        $bal = $var->account->accountbalance ?? 0;
+
+
+
+        return $bal;
     }
+
+
+
 }
 
 

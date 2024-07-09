@@ -28,7 +28,7 @@ class DashboardController extends Controller
             $data['all_admins'] = User::where('role', 1)->count();
             $data['suspended_users'] = User::where('status', 3)->count();
             $data['total_wallet'] = User::sum('main_wallet');
-            $data['9psb_wallet_balance'] = wallet_balance() ?? 0;
+            $data['ninepsb_wallet_balance'] = wallet_balance() ?? 0;
 
 
             if($request->date == "today"){

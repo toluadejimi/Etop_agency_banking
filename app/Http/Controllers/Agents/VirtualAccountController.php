@@ -165,6 +165,8 @@ class VirtualAccountController extends Controller
                 }
 
 
+
+
                 $user_id = Webaccount::where('v_account_no', $receiver_account_number)->first()->user_id;
                 User::where('id', $user_id)->increment('main_wallet', $final_amount);
                 $user = User::where('id', $user_id)->first();
@@ -201,7 +203,7 @@ class VirtualAccountController extends Controller
 
 
                 $ip = $request->ip();
-                $amo = number_format($amount, 2);
+                $amo = number_format($final_amount, 2);
                 $message = $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
                 send_notification($message);
 
