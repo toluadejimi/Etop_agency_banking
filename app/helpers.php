@@ -54,6 +54,30 @@ if (!function_exists('error_pin_response')) {
 }
 
 
+if (!function_exists('error_pin_response')) {
+
+    function error_pin_response($message)
+    {
+        return response()->json([
+            'success' => false,
+            'error' => $message,
+        ], 200);
+    }
+}
+
+
+if (!function_exists('wallet_balance')) {
+
+    function wallet_balance($message)
+    {
+
+
+
+    }
+}
+
+
+
 if (!function_exists('user_balance')) {
 
     function user_balance($SerialNo)

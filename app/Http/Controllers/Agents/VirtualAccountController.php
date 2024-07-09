@@ -149,21 +149,35 @@ class VirtualAccountController extends Controller
 
 
                 $virtal_account_charge = Setting::where('id', 1)->first()->virtual_account_charge;
-                $final_amount = $amount - $virtal_account_charge;
+                $vcap = Setting::where('id', 1)->first()->transfer_in_cap;
+
+                $amount1 = $virtal_account_charge / 100;
+                $amount2 = $amount1 * $amount;
+                $vcharge = round($amount2, 2);
+
+                if ($vcharge >= $vcap) {
+                    $final_amount = $amount - $vcap;
+                    $echarge = $vcap;
+
+                } else {
+                    $final_amount = $amount + $vcharge;
+                    $echarge = $vcharge;
+                }
+
+
                 $user_id = Webaccount::where('v_account_no', $receiver_account_number)->first()->user_id;
                 User::where('id', $user_id)->increment('main_wallet', $final_amount);
                 $user = User::where('id', $user_id)->first();
 
 
                 //Save Account
-
                 $trx = new Transaction();
                 $trx->ref_trans_id = "ETOP" . reference();
                 $trx->e_ref = $refrence;
                 $trx->user_id = $user->id;
                 $trx->amount = $amount;
                 $trx->credit = $final_amount;
-                $trx->charge = $virtal_account_charge;
+                $trx->charge = $virtal_account_charge ?? $echarge;
                 $trx->balance = $user->main_wallet;
                 $trx->sender_name = $sender_name;
                 $trx->sender_bank = $sender_bankname;
