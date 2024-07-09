@@ -68,7 +68,7 @@ if (!function_exists('error_pin_response')) {
 
 if (!function_exists('wallet_balance')) {
 
-    function wallet_balance($message)
+    function wallet_balance()
     {
 
         $Url = env('9PSTRANSFERURL');
