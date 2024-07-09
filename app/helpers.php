@@ -74,7 +74,7 @@ if (!function_exists('wallet_balance')) {
         $Url = env('9PSTRANSFERURL');
         $token = psb_token();
         $Url = env('9PSTRANSFERURL');
-        $url = $Url."merchant/account/balanceenquiry";
+        $url = $Url."/account/balanceenquiry";
         $account = env('DEBITACCOUNT');
 
 
@@ -106,8 +106,13 @@ if (!function_exists('wallet_balance')) {
         ));
 
         $var = curl_exec($curl);
+
+
         curl_close($curl);
         $var = json_decode($var);
+
+
+
 
 
 
