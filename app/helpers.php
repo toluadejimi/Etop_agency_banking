@@ -775,7 +775,7 @@ if (!function_exists('select_account')) {
 
             curl_setopt_array($curl, array(
                 //https://baas.9psb.com.ng/ipaymw-api/v1
-                CURLOPT_URL => "https://baas.9psb.com.ng/iva-api/v1/merchant/account/transfer/reversalstatus",
+                CURLOPT_URL => "https://baas.9psb.com.ng/ipaymw-api/v1/merchant/account/transfer/reversalstatus",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
