@@ -793,7 +793,9 @@ if (!function_exists('select_account')) {
             $var = curl_exec($curl);
             curl_close($curl);
 
-            $message = $var;
+            $message['data'] = $var;
+            $message['token'] = $token;
+
             send_notification($message);
 
 
