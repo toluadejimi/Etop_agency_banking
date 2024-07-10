@@ -548,7 +548,7 @@ class TransferController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => "Transaction Failed \n".$var->message
+                'message' => "Transaction Failed \n Transaction Failed"
             ], 500);
 
         }
