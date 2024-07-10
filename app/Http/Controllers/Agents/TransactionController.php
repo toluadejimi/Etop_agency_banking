@@ -49,6 +49,44 @@ class TransactionController extends Controller
             ], 500);
         }
 
+        $status = Transaction::where('ref_trans_id', $ref_no)->first()->status ?? null;
+        if($status == 9){
+            $amount = Transaction::where('ref_trans_id', $ref_no)->first()->debit ?? null;
+            $ref = $request->ref_no;
+            $revasal = revesal($ref, $amount);
+
+            if($revasal == 0){
+
+                $trxs = Transaction::where('ref_trans_id', $ref)->where('status', 9)->first();
+                User::where('id', $trxs->user_id)->increment('main_wallet', $trxs->debit);
+                Transaction::where('ref_trans_id', $ref)->update(['status' => 3]);
+
+                $balance = User::where('id', Auth::id())->first()->main_wallet;
+                $trasnaction = new Transaction();
+                $trasnaction->user_id = Auth::id();
+                $trasnaction->e_ref = $ref;
+                $trasnaction->ref_trans_id = $ref;
+                $trasnaction->transaction_type = "REVERSAL";
+                $trasnaction->credit = $trxs->debit;
+                $trasnaction->charge = 0;
+                $trasnaction->note = "Reversed";
+                $trasnaction->amount = $trxs->amount;
+                $trasnaction->balance = $balance;
+                $trasnaction->status = 9;
+                $trasnaction->save();
+
+                $usr = User::where('id', $trxs->user_id)->first();
+                $amount = number_format($trxs->debit, 2);
+                $message = $usr->first_name." ".$usr->last_name."| got a reveasl of NGN $amount";
+                send_notification($message);
+
+            }
+
+        }
+
+
+
+
 
         $trx = Transaction::where('ref_trans_id', $ref_no)->first();
         $rrn = Transaction::where('ref_trans_id', $ref_no)->first()->e_ref ?? null;
