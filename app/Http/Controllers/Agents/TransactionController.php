@@ -18,7 +18,7 @@ class TransactionController extends Controller
     {
 
         $all_transactions = Transaction::latest()->where('user_id', Auth::id())
-            ->take('50')->get();
+            ->take('500')->get();
 
         return response()->json([
 
