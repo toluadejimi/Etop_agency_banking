@@ -785,7 +785,8 @@ if (!function_exists('select_account')) {
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => $post_data,
                 CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json'
+                    'Content-Type: application/json',
+                    "Authorization: Bearer $token"
                 ),
             ));
 
