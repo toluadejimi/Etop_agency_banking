@@ -91,14 +91,14 @@
                             </div>
 
 
-                            <h6 class="element-header">Profit Margin</h6>
+                            <h6 class="element-header mt-3">Profit Margin</h6>
                             <div class="element-content">
                                 <div class="row">
-                                    <div class="col-sm-4 col-xxxl-3">
+                                    <div class="col-sm-6 col-xxxl-3">
 
                                         @php
 
-                                          $profit =   $total_wallet - $ninepsb_wallet_balance;
+                                          $profit =    $ninepsb_wallet_balance - $total_wallet ;
 
                                             @endphp
 
