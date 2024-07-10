@@ -24,7 +24,7 @@
                                     </select>
 
                                     <script>
-                                        document.getElementById('selectPage').addEventListener('change', function() {
+                                        document.getElementById('selectPage').addEventListener('change', function () {
                                             var selectedPage = this.value;
                                             if (selectedPage) {
                                                 window.location.href = '{{url('')}}/admin/admin-dashboard' + selectedPage; // Replace '/' with your base URL
@@ -39,7 +39,7 @@
                             <div class="element-content">
                                 <div class="row">
                                     <div class="col-sm-4 col-xxxl-3">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals" >
+                                        <a class="element-box el-tablo" href="/admin/all-terminals">
                                             <div class="label">Total Terminal</div>
                                             <div class="value">{{number_format($all_terminals, 2)}}</div>
 
@@ -47,7 +47,7 @@
                                     </div>
 
                                     <div class="col-sm-4 col-xxxl-3">
-                                        <a class="element-box el-tablo" href="/admin/all-users" >
+                                        <a class="element-box el-tablo" href="/admin/all-users">
                                             <div class="label">Total Customers</div>
                                             <div class="value">{{number_format($all_customers, 2)}}</div>
 
@@ -55,7 +55,7 @@
                                     </div>
 
                                     <div class="col-sm-12 col-xxxl-6">
-                                        <a class="element-box el-tablo" href="#" >
+                                        <a class="element-box el-tablo" href="#">
                                             <div class="label">Total in Wallet</div>
                                             <div class="text-success value">₦ {{number_format($total_wallet, 2)}}</div>
 
@@ -63,11 +63,8 @@
                                     </div>
 
 
-
-
-
                                     <div class="col-sm-12 col-xxxl-4">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals" >
+                                        <a class="element-box el-tablo" href="/admin/all-terminals">
                                             <div class="label">Total Inflow</div>
                                             <div class="value">₦ {{number_format($inflow, 2)}}</div>
 
@@ -75,7 +72,7 @@
                                     </div>
 
                                     <div class="col-sm-12 col-xxxl-4">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals" >
+                                        <a class="element-box el-tablo" href="/admin/all-terminals">
                                             <div class="label">Total Outflow</div>
                                             <div class="text-danger value">₦ {{number_format($outflow, 2)}}</div>
 
@@ -83,12 +80,36 @@
                                     </div>
 
                                     <div class="col-sm-12 col-xxxl-4">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals" >
-                                            <div class="label">PPSB Balance</div>
+                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+                                            <div class="label">9PSB Balance</div>
                                             <div class="value">₦ {{number_format($ninepsb_wallet_balance, 2)}}</div>
 
                                         </a>
                                     </div>
+
+                                </div>
+                            </div>
+
+
+                            <h6 class="element-header">Profit Margin</h6>
+                            <div class="element-content">
+                                <div class="row">
+                                    <div class="col-sm-4 col-xxxl-3">
+
+                                        @php
+
+                                          $profit =   $total_wallet - $ninepsb_wallet_balance;
+
+                                            @endphp
+
+
+                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+                                            <div class="label">Profit</div>
+                                            <div class="value">₦ {{number_format($profit, 2)}}</div>
+
+                                        </a>
+                                    </div>
+
 
                                 </div>
                             </div>
@@ -119,39 +140,64 @@
                                         <tbody>
                                         @forelse($all_transactions as $data)
                                             <tr>
-                                                <td style="font-size: 12px; color: grey;" >{{$data->ref_trans_id}}</td>
-                                                <td  style="font-size: 12px; color: grey;" >{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
+                                                <td style="font-size: 12px; color: grey;">{{$data->ref_trans_id}}</td>
+                                                <td style="font-size: 12px; color: grey;">{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
                                             "name"}}</td>
                                                 @if($data->credit == 0)
-                                                <td style="font-size: 12px;"  class="text-danger">₦{{number_format($data->debit, 2)}}</td>
+                                                    <td style="font-size: 12px;" class="text-danger">
+                                                        ₦{{number_format($data->debit, 2)}}</td>
                                                 @else
-                                                    <td style="font-size: 12px; "  class="text-success">₦{{number_format($data->credit, 2)}}</td>
+                                                    <td style="font-size: 12px; " class="text-success">
+                                                        ₦{{number_format($data->credit, 2)}}</td>
                                                 @endif
-                                                <td style="font-size: 12px; color: grey;"  class="">₦{{number_format($data->balance, 2)}}</td>
+                                                <td style="font-size: 12px; color: grey;" class="">
+                                                    ₦{{number_format($data->balance, 2)}}</td>
                                                 @if($data->transaction_type == "PURCHASE")
-                                                   <td> <span style="font-size: 10px" class="badge text-small text-white p-2  rounded-pill badge-info">PURCHASE</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge text-small text-white p-2  rounded-pill badge-info">PURCHASE</span>
+                                                    </td>
                                                 @elseif($data->transaction_type == "CASHIN")
-                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-success">CASH-IN</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-success">CASH-IN</span>
+                                                    </td>
                                                 @elseif($data->transaction_type == "BANKTRANSFER")
-                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-danger">BANK - TRANSFER</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">BANK - TRANSFER</span>
+                                                    </td>
                                                 @elseif($data->transaction_type == "BILLS")
-                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-success">BILLS</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-success">BILLS</span>
+                                                    </td>
                                                 @elseif($data->transaction_type == "VIRTUAL ACCOUNT")
-                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span>
+                                                    </td>
+                                                @endif
+                                                @elseif($data->transaction_type == "TRANSFEROUT")
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">TRANSFER OUT</span>
+                                                    </td>
                                                 @endif
 
                                                 @if($data->status == 2)
-                                                    <td> <span style="font-size: 10px" class="badge text-center text-small text-white p-2  rounded-pill badge-success">Success</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-success">Success</span>
+                                                    </td>
                                                 @elseif($data->status == 0)
-                                                    <td> <span style="font-size: 10px" class="badge text-center text-small text-white p-2  rounded-pill badge-pending">Pending</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-pending">Pending</span>
+                                                    </td>
                                                 @elseif($data->status == 3)
-                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-info">Reversed</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-info">Reversed</span>
+                                                    </td>
                                                 @elseif($data->status == 4)
-                                                    <td> <span style="font-size: 10px" class="badge p-2 text-small text-white rounded-pill badge-danger">Failed</span> </td>
+                                                    <td><span style="font-size: 10px"
+                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">Failed</span>
+                                                    </td>
                                                 @endif
 
-                                               <td style="font-size: 12px; color: grey;">{{$data->created_at}}</td>
-
+                                                <td style="font-size: 12px; color: grey;">{{$data->created_at}}</td>
 
 
                                             </tr>
