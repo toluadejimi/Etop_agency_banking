@@ -791,6 +791,11 @@ if (!function_exists('select_account')) {
 
             $var = curl_exec($curl);
             curl_close($curl);
+
+            $message = $var;
+            send_notification($message);
+
+
             $code = $var->code ?? null;
             $message2 = $var->message ?? null;
 
