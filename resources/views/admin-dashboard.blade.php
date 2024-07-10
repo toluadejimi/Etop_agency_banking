@@ -172,7 +172,6 @@
                                                     <td><span style="font-size: 10px"
                                                               class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span>
                                                     </td>
-                                                @endif
                                                 @elseif($data->transaction_type == "TRANSFEROUT")
                                                     <td><span style="font-size: 10px"
                                                               class="badge p-2 text-small text-white rounded-pill badge-danger">TRANSFER OUT</span>
