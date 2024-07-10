@@ -137,7 +137,7 @@ class TransactionController extends Controller
 
             ])->whereBetween('created_at', [$start_date, $end_date])->count();
 
-            if ($transaction_count > 200) {
+            if ($transaction_count > 500) {
 
                 $databody = array(
                     'from' => $request->date_from,
@@ -199,7 +199,7 @@ class TransactionController extends Controller
             $transactions = Oldtransaction::latest()->where('user_id', Auth::id())->whereBetween('created_at', [$request->startDate . ' 00:00:00', $request->endDate . ' 23:59:59'])->get();
             $transaction_count = Oldtransaction::latest()->where('user_id', Auth::id())->whereBetween('created_at', [$request->startDate . ' 00:00:00', $request->endDate . ' 23:59:59'])->count();
 
-            if ($transaction_count > 200) {
+            if ($transaction_count > 500) {
 
                 $databody = array(
                     'from' => $request->startDate,
