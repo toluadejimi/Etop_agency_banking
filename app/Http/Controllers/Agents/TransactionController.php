@@ -57,23 +57,9 @@ class TransactionController extends Controller
 
             if($revasal == 0){
 
-                $trxs = Transaction::where('ref_trans_id', $ref)->where('status', 9)->first();
+                $trxs = Transaction::where('ref_trans_id', $ref)->where('status', 0)->first();
                 User::where('id', $trxs->user_id)->increment('main_wallet', $trxs->debit);
-                Transaction::where('ref_trans_id', $ref)->update(['status' => 3]);
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "REVERSAL";
-                $trasnaction->credit = $trxs->debit;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Reversed";
-                $trasnaction->amount = $trxs->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 9;
-                $trasnaction->save();
+                Transaction::where('ref_trans_id', $ref)->update(['status' => 4]);
 
                 $usr = User::where('id', $trxs->user_id)->first();
                 $amount = number_format($trxs->debit, 2);

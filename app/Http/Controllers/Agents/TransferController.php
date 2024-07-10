@@ -327,7 +327,7 @@ class TransferController extends Controller
             $trasnaction->note = "Request Processing In Progress";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
@@ -355,7 +355,7 @@ class TransferController extends Controller
             $trasnaction->note = "Response was received too late";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
@@ -382,7 +382,7 @@ class TransferController extends Controller
             $trasnaction->note = "Transaction Time out";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
@@ -409,7 +409,7 @@ class TransferController extends Controller
             $trasnaction->note = "System malfunction";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
@@ -436,7 +436,7 @@ class TransferController extends Controller
             $trasnaction->note = "Failed No Response";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
@@ -463,7 +463,7 @@ class TransferController extends Controller
             $trasnaction->note = "Request processing error";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
@@ -490,7 +490,7 @@ class TransferController extends Controller
             $trasnaction->note = "Empty Response";
             $trasnaction->amount = $request->amount;
             $trasnaction->balance = $balance;
-            $trasnaction->status = 9;
+            $trasnaction->status = 0;
             $trasnaction->save();
 
             $r_amount = number_format($request->amount, 2);
