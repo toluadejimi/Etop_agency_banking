@@ -792,12 +792,18 @@ if (!function_exists('select_account')) {
             $var = curl_exec($curl);
             curl_close($curl);
             $code = $var->code ?? null;
-            $message = $var->message ?? null;
+            $message2 = $var->message ?? null;
 
             if($code == "46"){
+                $message = "ETOP REVESAL Transaction Failed and its been reversed";
+                send_notification($message);
                 return 0;
             }else{
-                return $message;
+
+                $message = "ETOP REVESAL =>>>>".$message2;
+                send_notification($message);
+
+                return $message2;
             }
 
 

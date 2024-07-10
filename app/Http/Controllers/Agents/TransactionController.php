@@ -77,7 +77,7 @@ class TransactionController extends Controller
 
                 $usr = User::where('id', $trxs->user_id)->first();
                 $amount = number_format($trxs->debit, 2);
-                $message = $usr->first_name." ".$usr->last_name."| got a reveasl of NGN $amount";
+                $message = "ETOP REVESAL ==>>>>>>" .$usr->first_name." ".$usr->last_name."| got a reveasl of NGN $amount";
                 send_notification($message);
 
             }
