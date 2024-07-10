@@ -50,13 +50,13 @@ class TransactionController extends Controller
         }
 
         $status = Transaction::where('ref_trans_id', $ref_no)->first()->status ?? null;
-        if($status == 9){
+
+        if($status == 0){
             $amount = Transaction::where('ref_trans_id', $ref_no)->first()->debit ?? null;
             $ref = $request->ref_no;
             $revasal = revesal($ref, $amount);
 
             if($revasal == 0){
-
                 $trxs = Transaction::where('ref_trans_id', $ref)->where('status', 0)->first();
                 User::where('id', $trxs->user_id)->increment('main_wallet', $trxs->debit);
                 Transaction::where('ref_trans_id', $ref)->update(['status' => 4]);
@@ -65,7 +65,6 @@ class TransactionController extends Controller
                 $amount = number_format($trxs->debit, 2);
                 $message = "ETOP REVESAL ==>>>>>>" .$usr->first_name." ".$usr->last_name."| got a reveasl of NGN $amount";
                 send_notification($message);
-
             }
 
         }

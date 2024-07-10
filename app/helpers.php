@@ -759,7 +759,7 @@ if (!function_exists('select_account')) {
 
         try {
 
-            $Url = env('9PSBURL');
+            $Url = env('9PSTRANSFERURL');
             $token = psb_token();
             $curl = curl_init();
 
@@ -808,7 +808,7 @@ if (!function_exists('select_account')) {
                 $message = "ETOP REVESAL =>>>>".$message2;
                 send_notification($message);
 
-                return $message2;
+                return 1;
             }
 
 
