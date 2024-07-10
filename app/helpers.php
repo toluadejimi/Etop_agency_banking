@@ -761,7 +761,6 @@ if (!function_exists('select_account')) {
 
             $Url = env('9PSTRANSFERURL');
             $token = psb_token();
-            $curl = curl_init();
 
             $curl = curl_init();
             $data = array(
