@@ -190,7 +190,7 @@ class VirtualAccountController extends Controller
                 $trx->sessionId = $sessionid;
                 $trx->note = $description;
                 $trx->status = 2;
-                $trx->transaction_type = "VIRTUAL ACCOUNT";
+                $trx->transaction_type = "TRANSFERIN";
                 $trx->save();
 
 
