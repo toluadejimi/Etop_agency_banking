@@ -79,22 +79,26 @@
                                         </a>
                                     </div>
 
-                                    <div class="col-sm-12 col-xxxl-4">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+
+
+                                </div>
+                            </div>
+
+
+                            <h6 class="element-header mt-3">Margin</h6>
+                            <div class="element-content">
+                                <div class="row">
+
+                                    <div class="col-sm-12 col-xxxl-6">
+                                        <a class="element-box el-tablo" href="#">
                                             <div class="label">9PSB Balance</div>
                                             <div class="value">₦ {{number_format($ninepsb_wallet_balance, 2)}}</div>
 
                                         </a>
                                     </div>
 
-                                </div>
-                            </div>
 
-
-                            <h6 class="element-header mt-3">Profit Margin</h6>
-                            <div class="element-content">
-                                <div class="row">
-                                    <div class="col-sm-6 col-xxxl-6">
+                                    <div class="col-sm-12 col-xxxl-6">
 
                                         @php
 
