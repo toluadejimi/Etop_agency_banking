@@ -94,7 +94,7 @@
                             <h6 class="element-header mt-3">Profit Margin</h6>
                             <div class="element-content">
                                 <div class="row">
-                                    <div class="col-sm-6 col-xxxl-3">
+                                    <div class="col-sm-6 col-xxxl-6">
 
                                         @php
 
