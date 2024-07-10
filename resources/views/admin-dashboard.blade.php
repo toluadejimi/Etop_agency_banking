@@ -63,16 +63,16 @@
                                     </div>
 
 
-                                    <div class="col-sm-12 col-xxxl-4">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+                                    <div class="col-sm-12 col-xxxl-6">
+                                        <a class="element-box el-tablo" href="/all-transaction">
                                             <div class="label">Total Inflow</div>
                                             <div class="value">₦ {{number_format($inflow, 2)}}</div>
 
                                         </a>
                                     </div>
 
-                                    <div class="col-sm-12 col-xxxl-4">
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+                                    <div class="col-sm-12 col-xxxl-6">
+                                        <a class="element-box el-tablo" href="/all-transaction">
                                             <div class="label">Total Outflow</div>
                                             <div class="text-danger value">₦ {{number_format($outflow, 2)}}</div>
 
