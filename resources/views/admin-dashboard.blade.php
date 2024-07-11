@@ -143,8 +143,8 @@
                                         </thead>
                                         <tbody>
                                         @forelse($all_transactions as $data)
-                                            <tr>
-                                                <td style="font-size: 12px; color: grey;">{{$data->ref_trans_id}}</td>
+                                            <a>
+                                                <a href="open-trx?id={{$data->ref_trans_id}}"><td style="font-size: 12px; color: grey;">{{$data->ref_trans_id}}</td></a>
                                                 <td style="font-size: 12px; color: grey;">{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
                                             "name"}}</td>
                                                 @if($data->credit == 0)
