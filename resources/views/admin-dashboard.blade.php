@@ -119,7 +119,7 @@
 
                                         <a class="element-box el-tablo" href="/admin/all-terminals">
                                             <div class="label" >Total Pending</div>
-                                            <div  class="value">₦ {{number_format($pending, 2)}}</div>
+                                            <div style="color: darkorange"  class="value">₦ {{number_format($pending, 2)}}</div>
 
                                         </a>
                                     </div>
