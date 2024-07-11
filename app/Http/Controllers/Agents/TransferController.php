@@ -563,4 +563,28 @@ class TransferController extends Controller
     }
 
 
+
+
+    public function reverse(request $request){
+
+        $trx = Transaction::where('ref_trans_id', $request->ref)->first() ?? null;
+
+        if($trx != null){
+
+            if($trx->status == 0){
+                User::where('id', $trx->user_id)->increment('main_wallet', $trx->debit);
+                    Transaction::where('ref_trans_id', $request->ref)->update(['status'=> 3]) ?? null;
+                return back()->with('message', 'User has been successfully added');
+
+            }else{
+                return back()->with('error', 'Transaction has already been reversed');
+            }
+        }
+
+        return back()->with('error', 'Transaction not found);
+
+
+    }
+
+
 }

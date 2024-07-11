@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TerminalController;
+use App\Http\Controllers\Agents\TransferController;
 use App\Http\Controllers\LoginSecurityController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,8 @@ Route::group(['prefix'=>'admin'], function(){
     Route::post('create_new_customer', [DashboardController::class, 'create_new_customer']);
     Route::get('users', [DashboardController::class, 'all_customer']);
     Route::any('search_user', [DashboardController::class, 'search_user']);
+    Route::any('reverse', [TransferController::class, 'reverse']);
+
 
 
 
