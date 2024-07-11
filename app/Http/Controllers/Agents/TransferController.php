@@ -581,7 +581,7 @@ class TransferController extends Controller
             }
         }
 
-        return back()->with('error', 'Transaction not found);
+        return back()->with('error', 'Transaction not found');
 
 
     }
