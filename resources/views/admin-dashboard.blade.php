@@ -187,7 +187,10 @@
                                                     </td>
                                                 @elseif($data->status == 0)
                                                     <td><span style="font-size: 10px"
-                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-warning">Pending</span>
+                                                              class="badge text-center text-small  p-2  rounded-pill badge-warning">Pending</span>
+                                                    </td>
+
+                                                    <td><a href="/reverse?ref={{$data->ref_trans_id}}"> <span style="font-size: 10px"  class="badge text-center text-small text-white p-2  rounded-pill badge-secondary">Reverse</span></a>
                                                     </td>
                                                 @elseif($data->status == 3)
                                                     <td><span style="font-size: 10px"
