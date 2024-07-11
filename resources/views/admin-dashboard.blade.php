@@ -115,6 +115,16 @@
                                     </div>
 
 
+                                    <div class="col-sm-12 col-xxxl-6">
+
+                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+                                            <div class="label text-warning" >Total Pending</div>
+                                            <div  class="text-warning">₦ {{number_format($pending, 2)}}</div>
+
+                                        </a>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>

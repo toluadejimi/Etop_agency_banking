@@ -31,6 +31,7 @@ class DashboardController extends Controller
             $data['ninepsb_wallet_balance'] = wallet_balance() ?? 0;
 
 
+
             if($request->date == "today"){
                 $cdate = Carbon::today();
             }elseif ($request->date == "yesterday"){
@@ -43,14 +44,14 @@ class DashboardController extends Controller
                 $data['inflow'] = Transaction::where('status', 2)->sum('credit');
                 $data['outflow'] = Transaction::where('status', 2)->sum('debit');
                 $data['all_transactions'] = Transaction::latest()->take(100)->paginate(20);
+                $data['pending'] = Transaction::where('status', 0)->sum('amount');
+
             }else{
                 $data['inflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('credit');
                 $data['all_transactions'] = Transaction::latest()->wheredate('created_at', $cdate)->take(100)->paginate(20);
                 $data['outflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('debit');
+                $data['pending'] = Transaction::where('status', 0)->sum('amount');
             }
-
-
-
 
             return view('admin-dashboard', $data);
         }

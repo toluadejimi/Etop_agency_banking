@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PosLog;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -225,72 +226,21 @@ class TransactionController extends Controller
 
 
 
-    public function get_all_transactions($limit)
+    public function get_all_transactions()
     {
 
 
         if (Auth::user()->role == 1 || Auth::user()->role == 2) {
 
+            $data['all_transactions'] = Transaction::latest()->take(500)->paginate(10);
+            return view('all-transactions', $data);
 
-            if($limit == null){
-                return response()->json([
-                    'status' => false,
-                    'message' => "Add Transaction limit to your request"
-                ], 422);
-
-            }
-
-            $get_all_transaction = PosLog::latest()->take($limit)->paginate(10);
-            return response()->json([
-                'status' => true,
-                'data' => $get_all_transaction
-            ], 200);
-
-        }
-
-
-        if (Auth::user()->role == 3) {
-
-            if($limit == null){
-                return response()->json([
-                    'status' => false,
-                    'message' => "Add Transaction limit to your request"
-                ], 422);
-
-            }
-            $get_all_transaction = PosLog::latest()->where('bank_id',Auth::user()->bank_id )->take($limit)->paginate(10);
-            return response()->json([
-                'status' => true,
-                'data' => $get_all_transaction
-            ], 200);
-
-        }
-
-
-        if (Auth::user()->role == 4) {
-
-            if($limit == null){
-                return response()->json([
-                    'status' => false,
-                    'message' => "Add Transaction limit to your request"
-                ], 422);
-
-            }
-            $get_all_transaction = PosLog::latest()->where('user_id',Auth::id() )->take($limit)->paginate(10);
-            return response()->json([
-                'status' => true,
-                'data' => $get_all_transaction
-            ], 200);
 
         }else{
-
-            return response()->json([
-                'status' => false,
-                'message' => "You dont have permission"
-            ], 422);
-
-
+            return back()->with('error', 'You do not have permission');
         }
+
+
 
 
 

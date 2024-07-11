@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TerminalController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Agents\TransferController;
 use App\Http\Controllers\LoginSecurityController;
 use Illuminate\Support\Facades\Route;
@@ -57,8 +58,7 @@ Route::group(['prefix'=>'admin'], function(){
     Route::any('reverse', [TransferController::class, 'reverse']);
 
 
-
-
+    Route::any('all-transactions', [TransactionController::class, 'get_all_transactions']);
 
 
 
