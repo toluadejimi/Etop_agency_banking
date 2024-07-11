@@ -179,7 +179,7 @@ class VirtualAccountController extends Controller
                 $trx->user_id = $user->id;
                 $trx->amount = $amount;
                 $trx->credit = $final_amount;
-                $trx->charge = $virtal_account_charge ?? $echarge;
+                $trx->charge = $echarge ?? 0;
                 $trx->balance = $user->main_wallet;
                 $trx->sender_name = $sender_name;
                 $trx->sender_bank = $sender_bankname;
