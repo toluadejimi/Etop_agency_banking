@@ -188,7 +188,7 @@
                                                     </td>
                                                 @elseif($data->status == 0)
                                                     <td><span style="font-size: 10px"
-                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-pending">Pending</span>
+                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-warning">Pending</span>
                                                     </td>
                                                 @elseif($data->status == 3)
                                                     <td><span style="font-size: 10px"
