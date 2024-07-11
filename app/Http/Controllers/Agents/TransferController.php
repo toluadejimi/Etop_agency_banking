@@ -189,6 +189,13 @@ class TransferController extends Controller
         $token = psb_token();
 
 
+        $mar = $request->narration;
+
+        if($mar == null){
+
+            $narra = "Transfer from $request->customer_name";
+
+        }
 
 
         $ref = "TRF" . reference();
@@ -199,7 +206,7 @@ class TransferController extends Controller
         $destinationAccountName = $request->customer_name;
         $longitude = $request->longitude;
         $latitude = $request->latitude;
-        $get_description = $request->narration;
+        $get_description = $narra;
         $pin = $request->pin;
         $beneficiary = $request->beneficiary;
         $user_pin = Auth()->user()->pin;
