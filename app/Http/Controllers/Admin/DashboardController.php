@@ -18,54 +18,58 @@ class DashboardController extends Controller
     public function admin_dashboard(request $request)
     {
 
-        if(auth() == null){
+
+        if (auth()->check()) {
+
+            if (Auth::user()->role == 1  ) {
+
+                $data['users'] = User::count();
+                $data['successful_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 1)->sum('amount');
+                $data['failed_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 0)->sum('amount');
+                $data['all_terminals'] = Terminal::count();
+                $data['all_customers'] = User::where('role', 2)->count();
+                $data['all_admins'] = User::where('role', 1)->count();
+                $data['suspended_users'] = User::where('status', 3)->count();
+                $data['total_wallet'] = User::sum('main_wallet');
+                $data['ninepsb_wallet_balance'] = wallet_balance() ?? 0;
+
+
+
+                if($request->date == "today"){
+                    $cdate = Carbon::today();
+                }elseif ($request->date == "yesterday"){
+                    $cdate = Carbon::yesterday();
+                }else{
+                    $cdate = null;
+                }
+
+                if($cdate == null){
+                    $data['inflow'] = Transaction::where('status', 2)->sum('credit');
+                    $data['outflow'] = Transaction::where('status', 2)->sum('debit');
+                    $data['all_transactions'] = Transaction::latest()->take(100)->paginate(20);
+                    $data['pending'] = Transaction::where('status', 0)->sum('amount');
+                    $data['transfer_in_total'] = Transaction::where('status', 2)->where('transaction_type', 'TRANSFERIN')->sum('amount');
+
+
+                }else{
+                    $data['inflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('credit');
+                    $data['all_transactions'] = Transaction::latest()->wheredate('created_at', $cdate)->take(100)->paginate(20);
+                    $data['outflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('debit');
+                    $data['pending'] = Transaction::where('status', 0)->wheredate('created_at', $cdate)->sum('amount');
+                    $data['transfer_in_total'] = Transaction::wheredate('created_at', $cdate)->where('transaction_type', 'TRANSFERIN')->sum('amount');
+                }
+
+                return view('admin-dashboard', $data);
+            }
+
+            return back()->with('error', 'you do not have permission');
+        } else {
             return redirect('login');
         }
 
 
 
-        if (Auth::user()->role == 1  ) {
 
-            $data['users'] = User::count();
-            $data['successful_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 1)->sum('amount');
-            $data['failed_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 0)->sum('amount');
-            $data['all_terminals'] = Terminal::count();
-            $data['all_customers'] = User::where('role', 2)->count();
-            $data['all_admins'] = User::where('role', 1)->count();
-            $data['suspended_users'] = User::where('status', 3)->count();
-            $data['total_wallet'] = User::sum('main_wallet');
-            $data['ninepsb_wallet_balance'] = wallet_balance() ?? 0;
-
-
-
-            if($request->date == "today"){
-                $cdate = Carbon::today();
-            }elseif ($request->date == "yesterday"){
-                $cdate = Carbon::yesterday();
-            }else{
-                $cdate = null;
-            }
-
-            if($cdate == null){
-                $data['inflow'] = Transaction::where('status', 2)->sum('credit');
-                $data['outflow'] = Transaction::where('status', 2)->sum('debit');
-                $data['all_transactions'] = Transaction::latest()->take(100)->paginate(20);
-                $data['pending'] = Transaction::where('status', 0)->sum('amount');
-                $data['transfer_in_total'] = Transaction::where('status', 2)->where('transaction_type', 'TRANSFERIN')->sum('amount');
-
-
-            }else{
-                $data['inflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('credit');
-                $data['all_transactions'] = Transaction::latest()->wheredate('created_at', $cdate)->take(100)->paginate(20);
-                $data['outflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('debit');
-                $data['pending'] = Transaction::where('status', 0)->wheredate('created_at', $cdate)->sum('amount');
-                $data['transfer_in_total'] = Transaction::wheredate('created_at', $cdate)->where('transaction_type', 'TRANSFERIN')->sum('amount');
-            }
-
-            return view('admin-dashboard', $data);
-        }
-
-        return back()->with('error', 'you do not have permission');
 
 
 
