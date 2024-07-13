@@ -195,6 +195,8 @@ class TransferController extends Controller
 
             $narra = "Transfer from $request->customer_name";
 
+        }else{
+            $narra = $mar;
         }
 
 
@@ -227,8 +229,6 @@ class TransferController extends Controller
 
         $transfer_charge = Setting::where('id', 1)->first()->transfer_out_charge;
         $f_amount = $request->amount + $transfer_charge;
-
-
 
 
         $usr = User::where('id', Auth::id())->first();
