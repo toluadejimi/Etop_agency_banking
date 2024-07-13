@@ -18,6 +18,12 @@ class DashboardController extends Controller
     public function admin_dashboard(request $request)
     {
 
+        if(auth() == null){
+            return redirect('login');
+        }
+
+
+
         if (Auth::user()->role == 1  ) {
 
             $data['users'] = User::count();
