@@ -185,6 +185,8 @@ class TransferController extends Controller
         }
 
 
+
+
         $Url = env('9PSTRANSFERURL');
         $token = psb_token();
 
@@ -229,6 +231,24 @@ class TransferController extends Controller
 
         $transfer_charge = Setting::where('id', 1)->first()->transfer_out_charge;
         $f_amount = $request->amount + $transfer_charge;
+
+
+        $psb_bal = wallet_balance();
+        if($psb_bal < $f_amount ){
+
+            $message = "ETOP ERROR ===>>> Balance Inssufficient $psb_bal";
+            send_notification($message);
+
+            return response()->json([
+
+                'status' => false,
+                'message' => "Transaction not processed \n, Please try again later",
+
+            ], 500);
+
+
+        }
+
 
 
         $usr = User::where('id', Auth::id())->first();
@@ -519,19 +539,25 @@ class TransferController extends Controller
             $trasnaction->charge = $transfer_charge;
             $trasnaction->note = "Transaction Successful";
             $trasnaction->amount = $request->amount;
+            $trasnaction->receiver_name = $destinationAccountName;
+            $trasnaction->receiver_account_no = $destinationAccountNumber;
+            $trasnaction->receiver_bank = $destinationBankCode;
             $trasnaction->balance = $balance;
             $trasnaction->status = 2;
             $trasnaction->save();
 
+
+            $amount = number_format($request->amount, 2);
             return response()->json([
                 'status' => true,
-                'message' => "Transaction Successful",
+                'message' => "Transaction Successful \n NGN$amount has been sent to $destinationAccountName",
             ], 200);
 
 
         } else {
 
             $balance = User::where('id', Auth::id())->first()->main_wallet;
+            User::where('id', Auth::id())->increment('main_wallet', $f_amount);
             $trasnaction = new Transaction();
             $trasnaction->user_id = Auth::id();
             $trasnaction->e_ref = $ref;
