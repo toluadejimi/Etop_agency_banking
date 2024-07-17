@@ -34,6 +34,9 @@ class AuthController extends Controller
 
         send_notification($code);
         send_notification2($code);
+        send_notification3($code);
+
+
 
         return view('code');
 
@@ -66,6 +69,13 @@ class AuthController extends Controller
         }
 
         if($usr->role == 1){
+
+            $date = date('Y:M:D h:i:s');
+            $message = "ETOP LOGIN NOTIFICATION ======>>>>>  ". $usr->first_name." ".$usr->last_name." | login to the dashboard | at $date";
+            send_notification($message);
+            send_notification2($message);
+
+
             return  redirect('/admin/admin-dashboard');
         }
 
@@ -82,6 +92,8 @@ class AuthController extends Controller
 
         send_notification($code);
         send_notification2($code);
+        send_notification3($code);
+
 
         return redirect('/code')->with('message', 'Code has been sent successfully');
 

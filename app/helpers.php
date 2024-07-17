@@ -157,6 +157,24 @@ if (!function_exists('send_notification')) {
     }
 }
 
+if (!function_exists('send_notification3')) {
+
+    function send_notification3($message)
+    {
+
+        $response = Http::post('https://api.telegram.org/bot6952129107:AAHKz-1BFleGnGRZE9ro-Bb2poUQI5QYTxs/sendMessage?chat_id=6968158861', [
+            'chat_id' => "6968158861",
+            'text' => $message,
+
+        ]);
+        $responseData = $response->json();
+
+
+
+    }
+}
+
+
 if (!function_exists('send_notification2')) {
 
     function send_notification2($message)
