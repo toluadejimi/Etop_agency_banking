@@ -19,9 +19,6 @@ use Laravel\Passport\Passport;
 class AuthController extends Controller
 {
 
-
-
-
     public function contact()
     {
 

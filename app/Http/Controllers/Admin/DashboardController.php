@@ -32,6 +32,9 @@ class DashboardController extends Controller
                 $data['suspended_users'] = User::where('status', 3)->count();
                 $data['total_wallet'] = User::sum('main_wallet');
                 $data['ninepsb_wallet_balance'] = wallet_balance() ?? 0;
+                $data['settlement'] = settlement() ?? 0;
+
+
 
 
 
