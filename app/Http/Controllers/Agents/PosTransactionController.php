@@ -259,31 +259,27 @@ class PosTransactionController extends Controller
 
             try {
 
-
                 $Url = env('9PSTRANSFERURL');
                 $token = psb_token();
                 $string = env('9PSBPRIKEY') . $RRN . $serialNO . "00" . number_format($amount, 2) . number_format($w_amount, 2);
                 $hash = hash('sha512', $string);
 
                 $data = array(
-
                     'referenceno' => $RRN,
                     'terminalid' => $serialNO,
-                    'transactionamount' => number_format($amount, 2),
+                    'transactionamount' => number_format($request->amount,2, '.', ''),
                     'merchantservicechargepercent' => "0.00",
-                    'merchantservicechargeamount' => number_format($echarge, 2),
-                    'transactionamountlessmsc' => number_format($w_amount, 2),
+                    'merchantservicechargeamount' => number_format($echarge, 2, '.', ''),
+                    'transactionamountlessmsc' => number_format($w_amount, 2, '.', ''),
                     'responsecode' => "00",
                     'hash' => strtoupper($hash)
-
-
                 );
                 $post_data = json_encode($data);
 
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "$Url/merchant/pssp/instantsettlement",//"$Url/merchant/virtualaccount/create",
+                    CURLOPT_URL => "$Url/merchant/pssp/instantsettlement",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -299,18 +295,14 @@ class PosTransactionController extends Controller
                 ));
 
                 $var = curl_exec($curl);
-
-
                 curl_close($curl);
                 $var = json_decode($var);
                 $status = $var->code ?? null;
 
 
                 if($status != 00){
-
                     $parametersJson = "E-TOP ERROR ===> ". json_encode($var);
                     send_notification($parametersJson);
-
                 }
 
 
