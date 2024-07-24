@@ -233,21 +233,9 @@ class TransferController extends Controller
         $f_amount = $request->amount + $transfer_charge;
 
 
-        $psb_bal = wallet_balance();
-        if($psb_bal < $f_amount ){
-
-            $message = "ETOP ERROR ===>>> Balance Inssufficient $psb_bal";
-            send_notification($message);
-
-            return response()->json([
-
-                'status' => false,
-                'message' => "Transaction not processed \n, Please try again later",
-
-            ], 500);
 
 
-        }
+
 
 
 
@@ -263,9 +251,32 @@ class TransferController extends Controller
 
         }
 
+
+        $psb_bal = wallet_balance();
+        $settlement_bal = settlement();
+        $charge_account = env('DEBITACCOUNT');
+
+
+
+        if($psb_bal < $f_amount ){
+            $message = "ETOP ERROR ===>>> Main Balance Insufficient $psb_bal";
+            send_notification($message);
+        }elseif($settlement_bal < $f_amount){
+            $message = "ETOP ERROR ===>>> Settlement Balance Insufficient $settlement_bal";
+            send_notification($message);
+            return response()->json([
+
+                'status' => false,
+                'message' => "Transaction not processed \n Please try again later",
+
+            ], 500);
+        }else{
+            $charge_account = env('INSTANTACCOUNT');
+        }
+
         User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
 
-        $string = env('9PSBPRIKEY').env('DEBITACCOUNT').$destinationAccountNumber.$destinationBankCode.$amount.$ref;
+        $string = env('9PSBPRIKEY').$charge_account.$destinationAccountNumber.$destinationBankCode.$amount.$ref;
         $hash = hash('sha512',  $string);
 
         $data = array(
