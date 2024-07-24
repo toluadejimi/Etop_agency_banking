@@ -102,9 +102,9 @@
 
                                         @php
 
-                                          $profit =    $ninepsb_wallet_balance - $total_wallet ;
+                                          $profit =  ($ninepsb_wallet_balance + $settlement) - $total_wallet ;
 
-                                            @endphp
+                                        @endphp
 
 
                                         <a class="element-box el-tablo" href="/admin/all-terminals">
@@ -123,13 +123,13 @@
                                         </a>
                                     </div>
 
-                                    <div class="col-sm-12 col-xxxl-6">
+{{--                                    <div class="col-sm-12 col-xxxl-6">--}}
 
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
-                                            <div class="label" >Total Transfer IN</div>
-                                            <div style="color: #478100" class="value">₦ {{number_format($transfer_in_total, 2)}}</div>
-                                        </a>
-                                    </div>
+{{--                                        <a class="element-box el-tablo" href="/admin/all-terminals">--}}
+{{--                                            <div class="label" >Total Transfer IN</div>--}}
+{{--                                            <div style="color: #478100" class="value">₦ {{number_format($transfer_in_total, 2)}}</div>--}}
+{{--                                        </a>--}}
+{{--                                    </div>--}}
 
 
                                     <div class="col-sm-12 col-xxxl-6">
