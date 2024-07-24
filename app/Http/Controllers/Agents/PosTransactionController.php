@@ -301,9 +301,13 @@ class PosTransactionController extends Controller
 
 
                 if($status != 00){
-                    $parametersJson = "E-TOP ERROR ===> ". json_encode($var);
+                    $parametersJson = "E-TOP INSTANT SETTLEMENT ERROR ===> ". json_encode($var);
                     send_notification($parametersJson);
                 }
+
+                PosLog::where('e_ref', $RRN)->update([
+                    'instantsettlement' => 1
+                ]);
 
 
             } catch (\Exception $th) {
