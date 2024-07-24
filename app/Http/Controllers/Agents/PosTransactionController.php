@@ -276,6 +276,8 @@ class PosTransactionController extends Controller
                 );
                 $post_data = json_encode($data);
 
+
+
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
@@ -301,7 +303,7 @@ class PosTransactionController extends Controller
 
 
                 if($status != 00){
-                    $parametersJson = "E-TOP INSTANT SETTLEMENT ERROR ===> ". json_encode($var);
+                    $parametersJson = "E-TOP INSTANT SETTLEMENT ERROR ===> ". json_encode($var). "\n\n Request Body =====> $post_data";
                     send_notification($parametersJson);
                 }
 
