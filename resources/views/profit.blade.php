@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 
-    <div class="content-w">
+    <div class="content-w" style="margin-bottom: 300px">
 
 
         <div class="content-panel-toggler">
@@ -9,7 +9,7 @@
         </div>
 
 
-        <div class="content-i" style="margin-bottom: 100px">
+        <div class="content-i">
             <div class="content-box">
 
 
@@ -37,7 +37,6 @@
                                 </div>
                             </div>
                         </div>
-
 
 
                         <div class="element-wrapper">
@@ -85,8 +84,6 @@
                                                 </td>
 
 
-
-
                                             </tr>
                                         @empty
                                             <td>No data found</td>
@@ -132,18 +129,13 @@
                 </div>
 
 
-
-
-
-
             </div>
         </div>
 
 
-
-
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -160,19 +152,21 @@
                             <label>Enter Amount</label>
                             <input class="form-control" type="number" required name="amount">
 
-                            <button type="submit" class="btn btn-primary"> Add Profit </button>
+                            <button type="submit" class="btn btn-primary my-4"> Add Profit</button>
 
                         </form>
+
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+
                     </div>
+
+
                 </div>
             </div>
         </div>
-
 
 
     </div>
