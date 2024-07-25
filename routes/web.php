@@ -57,7 +57,7 @@ Route::group(['prefix'=>'admin'], function(){
     Route::any('search_user', [DashboardController::class, 'search_user']);
     Route::any('reverse', [TransferController::class, 'reverse']);
 
-    Route::get('profit-tracker', [TransferController::class, 'profict_tracker_view']);
+    Route::get('profit', [TransferController::class, 'profict_tracker_view']);
     Route::get('add-profit', [TransferController::class, 'add_profit']);
 
 

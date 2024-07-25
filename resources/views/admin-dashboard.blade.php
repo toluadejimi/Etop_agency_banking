@@ -141,13 +141,6 @@
                                     </div>
 
 
-                                    <div class="col-sm-12 col-xxxl-6">
-
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
-                                            <div class="label" >POS Transaction</div>
-                                            <div style="color: #478100" class="value">₦ {{number_format($pos, 2)}}</div>
-                                        </a>
-                                    </div>
 
 
 
