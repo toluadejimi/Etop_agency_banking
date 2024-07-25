@@ -767,6 +767,9 @@
                                 <li>
                                     <a href="/admin/export-transactions">Export Transactions</a>
                                 </li>
+                                <li>
+                                    <a href="/admin/profit">Profit Tracker</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
