@@ -25,7 +25,7 @@ class TransferController extends Controller
             return back()->with('error', 'You dont have permission to view this page');
         }
 
-        $data['profit'] = Profit::all()->paginate(10);
+        $data['profit'] = Profit::latest()->paginate(10);
         $data['total_profit'] = Profit::all()->paginate(10);
 
         return view('profit', $data);
