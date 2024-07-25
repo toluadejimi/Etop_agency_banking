@@ -9,7 +9,7 @@
         </div>
 
 
-        <div class="content-i">
+        <div class="content-i" style="margin-bottom: 100px">
             <div class="content-box">
 
 
@@ -123,9 +123,9 @@
                     <h6 class="element-header">Quick Links</h6>
                     <div class="element-box-tp">
                         <div class="el-buttons-list full-width">
-                            <a class="btn btn-white btn-sm" href="#"
+                            <a class="btn btn-white btn-sm" href="#" data-toggle="modal" data-target="#exampleModal"
                             ><i class="os-icon os-icon-delivery-box-2"></i
-                                ><span>Create new terminal</span></a
+                                ><span>Add Profit</span></a
                             >
                         </div>
                     </div>
@@ -140,23 +140,30 @@
         </div>
 
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-        </button>
+
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Profit</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        ...
+
+                        <form action="add-profit" method="post">
+                            @csrf
+
+                            <label>Enter Amount</label>
+                            <input class="form-control" type="number" required name="amount">
+
+                            <button type="submit" class="btn btn-primary"> Add Profit </button>
+
+                        </form>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
