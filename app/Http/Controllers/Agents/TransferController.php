@@ -26,7 +26,7 @@ class TransferController extends Controller
         }
 
         $data['profit'] = Profit::latest()->paginate(10);
-        $data['total_profit'] = Profit::all()->paginate(10);
+        $data['total_profit'] = Profit::where('status', 2)->sum('amount');
 
         return view('profit', $data);
 
