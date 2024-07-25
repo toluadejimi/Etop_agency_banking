@@ -284,7 +284,7 @@ class TransferController extends Controller
                         'number' =>  $destinationAccountNumber,
                         'bank' =>  $destinationBankCode,
                         'name' => $destinationAccountName,
-                        'senderaccountnumber' => env('DEBITACCOUNT'),
+                        'senderaccountnumber' => $charge_account,
                         'sendername' => "ETOP-".Auth::user()->first_name. " ".Auth::user()->last_name,
                     ],
 
@@ -609,7 +609,7 @@ class TransferController extends Controller
                         'number' =>  $destinationAccountNumber,
                         'bank' =>  $destinationBankCode,
                         'name' => $destinationAccountName,
-                        'senderaccountnumber' => env('DEBITACCOUNT'),
+                        'senderaccountnumber' => $charge_account,
                         'sendername' => "ETOP-".Auth::user()->first_name. " ".Auth::user()->last_name,
                     ],
 
