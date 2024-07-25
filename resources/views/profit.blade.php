@@ -126,49 +126,42 @@
                             <a class="btn btn-white btn-sm" href="#"
                             ><i class="os-icon os-icon-delivery-box-2"></i
                                 ><span>Create new terminal</span></a
-                            ><a class="btn btn-white btn-sm" href="index.html#"
-                            ><i class="os-icon os-icon-window-content"></i
-                                ><span>Create new customer</span></a
-                            ><a class="btn btn-white btn-sm" href="#"
-                            ><i class="os-icon os-icon-settings"></i
-                                ><span>System Settings</span></a
                             >
                         </div>
                     </div>
                 </div>
-                <div class="element-wrapper">
-                    <h6 class="element-header">Bank Settings</h6>
-                    <div class="element-box-tp">
-
-                    </div>
-                </div>
-                <div class="element-wrapper">
-                    <h6 class="element-header">Charge Settings</h6>
-                    <div class="element-box-tp">
-
-                    </div>
-                </div>
 
 
-                <div class="element-wrapper">
-                    <h6 class="element-header">Active Terminals</h6>
-                    <div class="element-box less-padding">
-                        <div class="el-chart-w">
-                            <canvas
-                                height="120"
-                                id="donutChart1"
-                                width="120"
-                            ></canvas>
-                            <div class="inside-donut-chart-label">
-                                <strong>50</strong><span>Active</span>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
+
+
 
             </div>
         </div>
+
+
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 
 @endsection
