@@ -52,6 +52,7 @@ Route::group(['prefix'=>'admin'], function(){
 
     Route::get('admin-dashboard', [DashboardController::class, 'admin_dashboard']);
     Route::get('new-users', [DashboardController::class, 'new_user']);
+
     Route::post('create_new_customer', [DashboardController::class, 'create_new_customer']);
     Route::get('users', [DashboardController::class, 'all_customer']);
     Route::any('search_user', [DashboardController::class, 'search_user']);
@@ -65,6 +66,9 @@ Route::group(['prefix'=>'admin'], function(){
 
 
     Route::any('all-transactions', [TransactionController::class, 'get_all_transactions']);
+    Route::any('search-trx', [TransactionController::class, 'search_transactions']);
+
+
 
 
 

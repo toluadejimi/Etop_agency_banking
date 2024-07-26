@@ -42,7 +42,7 @@
 
                                 <h6 class="element-header ">Filter</h6>
 
-                                <form action="search" method="post">
+                                <form action="search-trx" method="post">
                                     @csrf
 
                                     <div class="row">
@@ -60,9 +60,10 @@
 
                                                 <option value="">Select type</option>
                                                 <option value="TRANSFERIN">Transfer In</option>
+                                                <option value="PURCHASE">Purchase</option>
                                                 <option value="TRANSFEROUT">Transfer Out</option>
                                                 <option value="BILLS">Bills</option>
-                                                <option value="REVERSED">Revasal</option>
+                                                <option value="REVERSED">Reversal</option>
 
 
                                             </select>
@@ -73,7 +74,7 @@
 
                                         <div class="col-3">
                                             <label>Transaction Status</label>
-                                            <select class="form-control" name="transaction_type">
+                                            <select class="form-control" name="status">
                                                 <option value="">Select type</option>
                                                 <option value="0">Pending</option>
                                                 <option value="2">Successful</option>
@@ -89,7 +90,7 @@
 
                                         <div class="col-4">
                                             <label>Transaction Refrence</label>
-                                            <input type="text" class="form-control" name="ref"
+                                            <input type="text" class="form-control" name="rrn"
                                                    placeholder="Enter Transaction Refrence">
 
                                         </div>

@@ -11,6 +11,85 @@ use Illuminate\Support\Facades\Auth;
 class TransactionController extends Controller
 {
 
+
+
+
+    public function search_transactions(request $request)
+    {
+
+        if (Auth::user()->role == 1 || Auth::user()->role == 2) {
+
+            $rrn = $request->rrn;
+            $startofday = $request->from;
+            $endofday = $request->to;
+            $transaction_type = $request->transaction_type;
+            $status = $request->status;
+
+
+            if($startofday != null && $endofday == null &&  $rrn == null && $transaction_type == null && $status == null){
+                $data = Transaction::latest()->where('createdAt', $startofday)->paginate('50') ?? null;
+                return view('all-transactions', $data);
+
+            }
+
+
+            if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status == null){
+                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->paginate('50') ?? null;
+                return view('all-transactions', $data);
+
+            }
+
+            if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type != null && $status == null){
+                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                    where('transaction_type', $transaction_type)->paginate('50') ?? null;
+                return view('all-transactions', $data);
+
+            }
+
+            if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status != null){
+                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where('status', $status)->paginate('50') ?? null;
+                return view('all-transactions', $data);
+
+            }
+
+
+            if($startofday == null && $endofday == null &&  $rrn != null && $transaction_type == null && $status == null){
+                $data = Transaction::where('rrn', $rrn)->paginate('50') ?? null;
+                return view('all-transactions', $data);
+            }
+
+            if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type == null && $status != null){
+                $data = Transaction::where('status', $status)->paginate('50') ?? null;
+                return view('all-transactions', $data);
+            }
+
+            if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type != null && $status == null){
+                $data = Transaction::where('transaction_type', $transaction_type)->paginate('50') ?? null;
+                return view('all-transactions', $data);
+            }
+
+
+            if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type != null && $status != null){
+                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where([
+                    'status' => $status,
+                    'transaction_type' => $transaction_type,
+                ])->paginate('50') ?? null;
+                return view('all-transactions', $data);
+            }
+
+            return back()->with('error', 'Select a field');
+
+
+
+        }
+
+
+
+    }
+
+
     public function export_transactions(request $request)
     {
 
