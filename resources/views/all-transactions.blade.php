@@ -88,9 +88,6 @@
                                     <div class="row my-3">
 
 
-
-
-
                                         <div class="col-4">
                                             <label>Transaction Refrence</label>
                                             <input type="text" class="form-control" name="rrn"
@@ -133,128 +130,129 @@
                                                         <tbody>
                                                         @forelse($all_transactions as $data)
 
-                                                            <div class="modal fade" id="exampleModal{{$data->ref_trans_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                                 aria-hidden="true">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Add Profit</h5>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
+                                                            <tr>
 
-                                                                            <div class="row">
+                                                                <div class="modal fade" id="exampleModal{{$data->ref_trans_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLabel">Add Profit</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
 
-                                                                                <div class="col">
-                                                                                    <h6>Transaction Refrence</h6>
-                                                                                    <p>{{$data->ref_trans_id}}</p>
+                                                                                <div class="row">
+
+                                                                                    <div class="col">
+                                                                                        <h6>Transaction Refrence</h6>
+                                                                                        <p>{{$data->ref_trans_id}}</p>
+                                                                                    </div>
+
+                                                                                    <div class="col">
+                                                                                        <h6>Amount</h6>
+                                                                                        <p> @if($data->credit == 0)
+                                                                                                <td style="font-size: 12px;" class="text-danger">
+                                                                                                    ₦{{number_format($data->debit, 2)}}</td>
+                                                                                            @else
+                                                                                                <td style="font-size: 12px; " class="text-success">
+                                                                                                    ₦{{number_format($data->credit, 2)}}</td>
+                                                                                            @endif
+                                                                                        </p>
+                                                                                    </div>
+
+                                                                                    <div class="col">
+                                                                                        <h6>Customer</h6>
+                                                                                        <p> {{$data->user->first_name ?? "name"}} {{$data->user->last_name ?? "name"}}
+                                                                                        </p>
+                                                                                    </div>
+
+
                                                                                 </div>
 
-                                                                                <div class="col">
-                                                                                    <h6>Amount</h6>
-                                                                                    <p> @if($data->credit == 0)
-                                                                                            <td style="font-size: 12px;" class="text-danger">
-                                                                                                ₦{{number_format($data->debit, 2)}}</td>
-                                                                                        @else
-                                                                                            <td style="font-size: 12px; " class="text-success">
-                                                                                                ₦{{number_format($data->credit, 2)}}</td>
-                                                                                        @endif
-                                                                                    </p>
-                                                                                </div>
-
-                                                                                <div class="col">
-                                                                                    <h6>Customer</h6>
-                                                                                    <p> {{$data->user->first_name ?? "name"}} {{$data->user->last_name ?? "name"}}
-                                                                                    </p>
-                                                                                </div>
 
 
                                                                             </div>
-
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                            </div>
 
 
                                                                         </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                        </div>
-
-
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
+                                                                <td style="font-size: 12px; color: grey;">
+                                                                    <a href="#" data-toggle="modal" data-target="#exampleModal{{$data->ref_trans_id}}">{{$data->ref_trans_id}}</a>
+                                                                </td>
 
-
-                                                            <td style="font-size: 12px; color: grey;"><a href="#" data-toggle="modal" data-target="#exampleModal{{$data->ref_trans_id}}">{{$data->ref_trans_id}}</a>
-                                                            </td>
-
-                                                            <td style="font-size: 12px; color: grey;">{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
+                                                                <td style="font-size: 12px; color: grey;">{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
                                                                 "name"}}</td>
-                                                            @if($data->credit == 0)
-                                                                <td style="font-size: 12px;" class="text-danger">
-                                                                    ₦{{number_format($data->debit, 2)}}</td>
-                                                            @else
-                                                                <td style="font-size: 12px; " class="text-success">
-                                                                    ₦{{number_format($data->credit, 2)}}</td>
-                                                            @endif
+                                                                @if($data->credit == 0)
+                                                                    <td style="font-size: 12px;" class="text-danger">
+                                                                        ₦{{number_format($data->debit, 2)}}</td>
+                                                                @else
+                                                                    <td style="font-size: 12px; " class="text-success">
+                                                                        ₦{{number_format($data->credit, 2)}}</td>
+                                                                @endif
 
-                                                            <td style="font-size: 12px; color: black;">{{$data->charge}}</td>
+                                                                <td style="font-size: 12px; color: black;">{{$data->charge}}</td>
 
-                                                            <td style="font-size: 12px; color: grey;" class="">
-                                                                ₦{{number_format($data->balance, 2)}}</td>
-                                                            @if($data->transaction_type == "PURCHASE")
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge text-small text-white p-2  rounded-pill badge-info">PURCHASE</span>
-                                                                </td>
-                                                            @elseif($data->transaction_type == "CASHIN")
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-success">CASH-IN</span>
-                                                                </td>
-                                                            @elseif($data->transaction_type == "BANKTRANSFER")
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-danger">BANK - TRANSFER</span>
-                                                                </td>
-                                                            @elseif($data->transaction_type == "BILLS")
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-success">BILLS</span>
-                                                                </td>
-                                                            @elseif($data->transaction_type == "TRANSFERIN")
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span>
-                                                                </td>
-                                                            @elseif($data->transaction_type == "TRANSFEROUT")
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-danger">TRANSFER OUT</span>
-                                                                </td>
-                                                            @endif
+                                                                <td style="font-size: 12px; color: grey;" class="">
+                                                                    ₦{{number_format($data->balance, 2)}}</td>
+                                                                @if($data->transaction_type == "PURCHASE")
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge text-small text-white p-2  rounded-pill badge-info">PURCHASE</span>
+                                                                    </td>
+                                                                @elseif($data->transaction_type == "CASHIN")
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-success">CASH-IN</span>
+                                                                    </td>
+                                                                @elseif($data->transaction_type == "BANKTRANSFER")
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">BANK - TRANSFER</span>
+                                                                    </td>
+                                                                @elseif($data->transaction_type == "BILLS")
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-success">BILLS</span>
+                                                                    </td>
+                                                                @elseif($data->transaction_type == "TRANSFERIN")
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span>
+                                                                    </td>
+                                                                @elseif($data->transaction_type == "TRANSFEROUT")
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">TRANSFER OUT</span>
+                                                                    </td>
+                                                                @endif
 
-                                                            @if($data->status == 2)
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge text-center text-small text-white p-2  rounded-pill badge-success">Success</span>
-                                                                </td>
-                                                            @elseif($data->status == 0)
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge text-center text-small  p-2  rounded-pill badge-warning">Pending</span>
-                                                                </td>
+                                                                @if($data->status == 2)
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-success">Success</span>
+                                                                    </td>
+                                                                @elseif($data->status == 0)
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge text-center text-small  p-2  rounded-pill badge-warning">Pending</span>
+                                                                    </td>
 
-                                                                <td>
-                                                                    <a href="/admin/reverse?ref={{$data->ref_trans_id}}">
+                                                                    <td>
+                                                                        <a href="/admin/reverse?ref={{$data->ref_trans_id}}">
                                                                         <span style="font-size: 10px"
                                                                               class="badge text-center text-small text-white p-2  rounded-pill badge-secondary">Reverse</span></a>
-                                                                </td>
-                                                            @elseif($data->status == 3)
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-info">Reversed</span>
-                                                                </td>
-                                                            @elseif($data->status == 4)
-                                                                <td><span style="font-size: 10px"
-                                                                          class="badge p-2 text-small text-white rounded-pill badge-danger">Failed</span>
-                                                                </td>
-                                                            @endif
+                                                                    </td>
+                                                                @elseif($data->status == 3)
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-info">Reversed</span>
+                                                                    </td>
+                                                                @elseif($data->status == 4)
+                                                                    <td><span style="font-size: 10px"
+                                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">Failed</span>
+                                                                    </td>
+                                                                @endif
 
-                                                            <td style="font-size: 12px; color: grey;">{{$data->created_at}}</td>
+                                                                <td style="font-size: 12px; color: grey;">{{$data->created_at}}</td>
 
 
                                                             </tr>
@@ -267,9 +265,6 @@
                                                     </table>
                                                     {{ paginateLinks($all_transactions) }}
                                                 </div>
-
-
-
 
 
                                             </div>
