@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Viewer</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Log Viewer</h1>
-    <pre>{{ $logContent }}</pre>
-</div>
+<h1>Log Viewer</h1>
+<pre>{{ $logs }}</pre>
 </body>
 </html>

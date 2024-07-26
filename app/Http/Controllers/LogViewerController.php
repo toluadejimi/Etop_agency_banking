@@ -9,12 +9,9 @@ class LogViewerController extends Controller
 {
     public function index(Request $request)
     {
-        // Get the path to the log file
-        $logFile = storage_path('logs/laravel.log');
+        $logPath = storage_path('logs/laravel.log');
+        $logs = File::exists($logPath) ? File::get($logPath) : 'No logs found.';
 
-        // Read the log file
-        $logContent = File::exists($logFile) ? File::get($logFile) : '';
-
-        return view('logs.index', ['logContent' => $logContent]);
+        return view('log-index', ['logs' => $logs]);
     }
 }
