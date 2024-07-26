@@ -143,19 +143,19 @@
 
                                                                                 <div class="element-content">
                                                                                     <div class="row">
-                                                                                        <div class="col-sm-4 col-xxxl-3">
-                                                                                            <a class="element-box el-tablo" href="/admin/all-terminals">
+                                                                                        <div class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo" href="#">
                                                                                                 <h6>Transaction Refrence</h6>
                                                                                                 <p>{{$data->ref_trans_id}}</p>
-
                                                                                             </a>
                                                                                         </div>
 
-                                                                                        <div class="col-sm-3 col-xxxl-3">
-                                                                                            <a class="element-box el-tablo" href="/admin/all-users">
+                                                                                        <div class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo" href="#">
+                                                                                                <h6>Transaction Amount</h6>
                                                                                                 @if($data->credit == 0)
                                                                                                     <p style="font-size: 12px;" class="text-danger">
-                                                                                                        ₦{{number_format($data->debit, 2)}}</td>
+                                                                                                        ₦{{number_format($data->debit, 2)}}</p>
                                                                                                 @else
                                                                                                     <p style="font-size: 12px; " class="text-success">
                                                                                                         ₦{{number_format($data->credit, 2)}}</p>
@@ -163,11 +163,39 @@
                                                                                             </a>
                                                                                         </div>
 
-                                                                                        <div class="col-sm-12 col-xxxl-6">
+                                                                                        <div class="col-sm-6 col-xxxl-6">
                                                                                             <a class="element-box el-tablo" href="#">
-                                                                                                <h6>Customer</h6>
+                                                                                                <h6>Transaction Charge</h6>
+                                                                                                    <p style="font-size: 12px;" class="text-danger">
+                                                                                                        ₦{{number_format($data->charge, 2)}}</p>
+                                                                                            </a>
+                                                                                        </div>
+
+                                                                                        <div class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo" href="#">
+                                                                                                <h6>Transaction Balance</h6>
+                                                                                                <p style="font-size: 12px;" class="text-danger">
+                                                                                                    ₦{{number_format($data->balance, 2)}}</p>
+                                                                                            </a>
+                                                                                        </div>
+
+
+
+                                                                                        <div class="col-sm-12 col-xxxl-12">
+                                                                                            <a class="element-box el-tablo" href="#">
+                                                                                                <h6>Customer Name</h6>
                                                                                                 <p> {{$data->user->first_name ?? "name"}} {{$data->user->last_name ?? "name"}}
                                                                                                 </p>
+
+                                                                                            </a>
+                                                                                        </div>
+
+
+                                                                                        <div class="col-sm-12 col-xxxl-12">
+                                                                                            <a class="element-box el-tablo" href="#">
+                                                                                                <h6>Transaction Note</h6>
+                                                                                                <p> {{$data->note }} </p>
+
 
                                                                                             </a>
                                                                                         </div>
