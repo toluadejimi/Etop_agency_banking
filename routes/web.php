@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () {return view('login');});
 
-Route::get('/logs', [LogViewerController::class, 'index'])->name('logs.index');
+Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs.index');
 
 
 Route::get('login', [AuthController::class, 'login_form'])->name('login');
