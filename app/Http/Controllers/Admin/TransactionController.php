@@ -79,6 +79,16 @@ class TransactionController extends Controller
                 return view('all-transactions', compact('all_transactions'));
             }
 
+
+            if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type != null && $status != null){
+                $all_transactions = Transaction::latest()->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where([
+                    'status' => $status,
+                    'transaction_type' => $transaction_type,
+                ])->paginate('50') ?? null;
+                return view('all-transactions', compact('all_transactions'));
+            }
+
             return back()->with('error', 'Select a field');
 
 

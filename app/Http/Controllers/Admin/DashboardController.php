@@ -24,8 +24,8 @@ class DashboardController extends Controller
             if (Auth::user()->role == 1  ) {
 
                 $data['users'] = User::count();
-                $data['successful_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 1)->sum('amount');
-                $data['failed_transactions'] = PosLog::latest()->where('transactionType', 'PURCHASE')->where('status', 0)->sum('amount');
+                $data['successful_transactions'] = PosLog::where('transactionType', 'PURCHASE')->where('status', 1)->sum('amount');
+                $data['failed_transactions'] = PosLog::where('transactionType', 'PURCHASE')->where('status', 0)->sum('amount');
                 $data['all_terminals'] = Terminal::count();
                 $data['all_customers'] = User::where('role', 2)->count();
                 $data['all_admins'] = User::where('role', 1)->count();
