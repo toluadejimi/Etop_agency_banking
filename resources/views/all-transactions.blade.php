@@ -88,6 +88,9 @@
                                     <div class="row my-3">
 
 
+
+
+
                                         <div class="col-4">
                                             <label>Transaction Refrence</label>
                                             <input type="text" class="form-control" name="rrn"
@@ -129,63 +132,62 @@
                                                         </thead>
                                                         <tbody>
                                                         @forelse($all_transactions as $data)
-                                                            <td style="font-size: 12px; color: grey;"><a href="#" data-toggle="modal" data-target="#exampleModal{{$data->ref_trans_id}}">{{$data->ref_trans_id}}</a>
 
+                                                            <div class="modal fade" id="exampleModal{{$data->ref_trans_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                                 aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Add Profit</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
 
-                                                                <div class="modal fade" id="exampleModal{{$data->ref_trans_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                                     aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">Add Profit</h5>
-                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
+                                                                            <div class="row">
 
-                                                                                <div class="row">
+                                                                                <div class="col">
+                                                                                    <h6>Transaction Refrence</h6>
+                                                                                    <p>{{$data->ref_trans_id}}</p>
+                                                                                </div>
 
-                                                                                    <div class="col">
-                                                                                        <h6>Transaction Refrence</h6>
-                                                                                        <p>{{$data->ref_trans_id}}</p>
-                                                                                    </div>
+                                                                                <div class="col">
+                                                                                    <h6>Amount</h6>
+                                                                                    <p> @if($data->credit == 0)
+                                                                                            <td style="font-size: 12px;" class="text-danger">
+                                                                                                ₦{{number_format($data->debit, 2)}}</td>
+                                                                                        @else
+                                                                                            <td style="font-size: 12px; " class="text-success">
+                                                                                                ₦{{number_format($data->credit, 2)}}</td>
+                                                                                        @endif
+                                                                                    </p>
+                                                                                </div>
 
-                                                                                    <div class="col">
-                                                                                        <h6>Amount</h6>
-                                                                                        <p> @if($data->credit == 0)
-                                                                                                <td style="font-size: 12px;" class="text-danger">
-                                                                                                    ₦{{number_format($data->debit, 2)}}</td>
-                                                                                            @else
-                                                                                                <td style="font-size: 12px; " class="text-success">
-                                                                                                    ₦{{number_format($data->credit, 2)}}</td>
-                                                                                            @endif
-                                                                                        </p>
-                                                                                    </div>
-
-                                                                                    <div class="col">
-                                                                                        <h6>Customer</h6>
-                                                                                        <p> {{$data->user->first_name ?? "name"}} {{$data->user->last_name ?? "name"}}
-                                                                                        </p>
-                                                                                    </div>
-
-
+                                                                                <div class="col">
+                                                                                    <h6>Customer</h6>
+                                                                                    <p> {{$data->user->first_name ?? "name"}} {{$data->user->last_name ?? "name"}}
+                                                                                    </p>
                                                                                 </div>
 
 
+                                                                            </div>
 
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                            </div>
 
 
                                                                         </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        </div>
+
+
                                                                     </div>
                                                                 </div>
+                                                            </div>
 
 
 
+                                                            <td style="font-size: 12px; color: grey;"><a href="#" data-toggle="modal" data-target="#exampleModal{{$data->ref_trans_id}}">{{$data->ref_trans_id}}</a>
                                                             </td>
 
                                                             <td style="font-size: 12px; color: grey;">{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
@@ -265,6 +267,9 @@
                                                     </table>
                                                     {{ paginateLinks($all_transactions) }}
                                                 </div>
+
+
+
 
 
                                             </div>
