@@ -65,7 +65,7 @@ class TransactionController extends Controller
             }
 
             if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type != null && $status == null){
-                $all_transactions = Transaction::larest()->take(50000)->where('transaction_type', $transaction_type)->paginate('50') ?? null;
+                $all_transactions = Transaction::latest()->take(50000)->where('transaction_type', $transaction_type)->paginate('50') ?? null;
                 return view('all-transactions', compact('all_transactions'));
             }
 
