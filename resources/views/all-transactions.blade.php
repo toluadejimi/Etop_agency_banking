@@ -132,57 +132,104 @@
 
                                                             <tr>
 
-                                                                <div class="modal fade" id="exampleModal{{$data->ref_trans_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                                <div class="modal fade"
+                                                                     id="exampleModal{{$data->ref_trans_id}}"
+                                                                     tabindex="-1" role="dialog"
+                                                                     aria-labelledby="exampleModalLabel"
                                                                      aria-hidden="true">
                                                                     <div class="modal-dialog" role="document">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">Transaction
+                                                                                    Details</h5>
+                                                                                <div>
+                                                                                    @if($data->transaction_type == "PURCHASE")
+                                                                                        <span style="font-size: 10px"
+                                                                                              class="badge text-small text-white p-2  rounded-pill badge-info">PURCHASE</span>
+
+                                                                                    @elseif($data->transaction_type == "CASHIN")
+                                                                                        <span style="font-size: 10px"
+                                                                                              class="badge p-2 text-small text-white rounded-pill badge-success">CASH-IN</span>
+
+                                                                                    @elseif($data->transaction_type == "BANKTRANSFER")
+                                                                                        <span style="font-size: 10px"
+                                                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">BANK - TRANSFER</span>
+
+                                                                                    @elseif($data->transaction_type == "BILLS")
+                                                                                        <span style="font-size: 10px"
+                                                                                              class="badge p-2 text-small text-white rounded-pill badge-success">BILLS</span>
+
+                                                                                    @elseif($data->transaction_type == "TRANSFERIN")
+                                                                                        <span style="font-size: 10px"
+                                                                                              class="badge p-2 text-small text-white rounded-pill badge-success">TRANSFER IN</span>
+
+                                                                                    @elseif($data->transaction_type == "TRANSFEROUT")
+                                                                                        <span style="font-size: 10px"
+                                                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">TRANSFER OUT</span>
+
+                                                                                    @endif
+                                                                                </div>
                                                                             </div>
                                                                             <div class="modal-body">
 
                                                                                 <div class="element-content">
                                                                                     <div class="row">
-                                                                                        <div class="col-sm-6 col-xxxl-6">
-                                                                                            <a class="element-box el-tablo" href="#">
-                                                                                                <h6>Transaction Refrence</h6>
+                                                                                        <div
+                                                                                            class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo"
+                                                                                               href="#">
+                                                                                                <h6>Transaction
+                                                                                                    Refrence</h6>
                                                                                                 <p>{{$data->ref_trans_id}}</p>
                                                                                             </a>
                                                                                         </div>
 
-                                                                                        <div class="col-sm-6 col-xxxl-6">
-                                                                                            <a class="element-box el-tablo" href="#">
-                                                                                                <h6>Transaction Amount</h6>
+                                                                                        <div
+                                                                                            class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo"
+                                                                                               href="#">
+                                                                                                <h6>Transaction
+                                                                                                    Amount</h6>
                                                                                                 @if($data->credit == 0)
-                                                                                                    <p style="font-size: 12px;" class="text-danger">
+                                                                                                    <p style="font-size: 12px;"
+                                                                                                       class="text-danger">
                                                                                                         ₦{{number_format($data->debit, 2)}}</p>
                                                                                                 @else
-                                                                                                    <p style="font-size: 12px; " class="text-success">
+                                                                                                    <p style="font-size: 12px; "
+                                                                                                       class="text-success">
                                                                                                         ₦{{number_format($data->credit, 2)}}</p>
                                                                                                 @endif
                                                                                             </a>
                                                                                         </div>
 
-                                                                                        <div class="col-sm-6 col-xxxl-6">
-                                                                                            <a class="element-box el-tablo" href="#">
-                                                                                                <h6>Transaction Charge</h6>
-                                                                                                    <p style="font-size: 12px;" class="text-danger">
-                                                                                                        ₦{{number_format($data->charge, 2)}}</p>
+                                                                                        <div
+                                                                                            class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo"
+                                                                                               href="#">
+                                                                                                <h6>Transaction
+                                                                                                    Charge</h6>
+                                                                                                <p>
+                                                                                                    ₦{{number_format($data->charge, 2)}}</p>
                                                                                             </a>
                                                                                         </div>
 
-                                                                                        <div class="col-sm-6 col-xxxl-6">
-                                                                                            <a class="element-box el-tablo" href="#">
-                                                                                                <h6>Transaction Balance</h6>
-                                                                                                <p style="font-size: 12px;" class="text-danger">
+                                                                                        <div
+                                                                                            class="col-sm-6 col-xxxl-6">
+                                                                                            <a class="element-box el-tablo"
+                                                                                               href="#">
+                                                                                                <h6>Transaction
+                                                                                                    Balance</h6>
+                                                                                                <p>
                                                                                                     ₦{{number_format($data->balance, 2)}}</p>
                                                                                             </a>
                                                                                         </div>
 
 
-
-                                                                                        <div class="col-sm-12 col-xxxl-12">
-                                                                                            <a class="element-box el-tablo" href="#">
+                                                                                        <div
+                                                                                            class="col-sm-12 col-xxxl-12">
+                                                                                            <a class="element-box el-tablo"
+                                                                                               href="#">
                                                                                                 <h6>Customer Name</h6>
                                                                                                 <p> {{$data->user->first_name ?? "name"}} {{$data->user->last_name ?? "name"}}
                                                                                                 </p>
@@ -191,15 +238,17 @@
                                                                                         </div>
 
 
-                                                                                        <div class="col-sm-12 col-xxxl-12">
-                                                                                            <a class="element-box el-tablo" href="#">
-                                                                                                <h6>Transaction Note</h6>
+                                                                                        <div
+                                                                                            class="col-sm-12 col-xxxl-12">
+                                                                                            <a class="element-box el-tablo"
+                                                                                               href="#">
+                                                                                                <h6>Transaction
+                                                                                                    Note</h6>
                                                                                                 <p> {{$data->note }} </p>
 
 
                                                                                             </a>
                                                                                         </div>
-
 
 
                                                                                     </div>
@@ -209,7 +258,10 @@
                                                                             </div>
 
                                                                             <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                <button type="button"
+                                                                                        class="btn btn-secondary"
+                                                                                        data-dismiss="modal">Close
+                                                                                </button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -217,7 +269,8 @@
 
 
                                                                 <td style="font-size: 12px; color: grey;">
-                                                                    <a href="#" data-toggle="modal" data-target="#exampleModal{{$data->ref_trans_id}}">{{$data->ref_trans_id}}</a>
+                                                                    <a href="#" data-toggle="modal"
+                                                                       data-target="#exampleModal{{$data->ref_trans_id}}">{{$data->ref_trans_id}}</a>
                                                                 </td>
 
                                                                 <td style="font-size: 12px; color: grey;">{{$data->user->first_name ?? "name"}} {{$data->user->last_name ??
