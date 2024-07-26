@@ -26,6 +26,8 @@ class TransactionController extends Controller
             $status = $request->status;
 
 
+
+
             if($startofday != null && $endofday == null &&  $rrn == null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->where('created_at', $startofday)->paginate('50') ?? null;
                 return view('all-transactions', compact('all_transactions'));
@@ -81,8 +83,7 @@ class TransactionController extends Controller
 
 
             if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type != null && $status != null){
-                $all_transactions = Transaction::latest()->take(50000)->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
-                where([
+                $all_transactions = Transaction::latest()->take(50000)->where([
                     'status' => $status,
                     'transaction_type' => $transaction_type,
                 ])->paginate('50') ?? null;
