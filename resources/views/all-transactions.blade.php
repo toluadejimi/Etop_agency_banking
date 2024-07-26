@@ -48,7 +48,7 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <label>Date From</label>
-                                            <input type="date" class="form-control" required name="from">
+                                            <input type="date" class="form-control" name="from">
                                         </div>
                                         <div class="col-3">
                                             <label>Date To</label>
