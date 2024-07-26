@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TerminalController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Agents\TransferController;
 use App\Http\Controllers\LoginSecurityController;
+use App\Http\Controllers\LogViewerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Route::get('/', function () {return view('login');});
+
+Route::get('/logs', [LogViewerController::class, 'index'])->name('logs.index');
+
 
 Route::get('login', [AuthController::class, 'login_form'])->name('login');
 
