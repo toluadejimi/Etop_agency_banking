@@ -9,25 +9,12 @@ class LogViewerController extends Controller
 {
     public function index(Request $request)
     {
+        // Get the path to the log file
         $logFile = storage_path('logs/laravel.log');
-        $perPage = 100; // Number of lines per page
-        $page = $request->input('page', 1);
-        $offset = ($page - 1) * $perPage;
 
-        $logContent = '';
+        // Read the log file
+        $logContent = File::exists($logFile) ? File::get($logFile) : '';
 
-        if (File::exists($logFile)) {
-            $lines = File::lines($logFile)->skip($offset)->take($perPage);
-            foreach ($lines as $line) {
-                $logContent .= $line . "\n";
-            }
-        }
-
-        return view('logs.index', [
-            'logContent' => $logContent,
-            'currentPage' => $page,
-            'totalLines' => File::lines($logFile)->count(),
-            'perPage' => $perPage
-        ]);
+        return view('logs.index', ['logContent' => $logContent]);
     }
 }

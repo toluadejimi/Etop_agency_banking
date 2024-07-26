@@ -10,16 +10,6 @@
 <div class="container">
     <h1>Log Viewer</h1>
     <pre>{{ $logContent }}</pre>
-
-    <div class="pagination">
-        @if ($currentPage > 1)
-            <a href="{{ route('logs.index', ['page' => $currentPage - 1]) }}">Previous</a>
-        @endif
-
-        @if ($totalLines > ($currentPage * $perPage))
-            <a href="{{ route('logs.index', ['page' => $currentPage + 1]) }}">Next</a>
-        @endif
-    </div>
 </div>
 </body>
 </html>
