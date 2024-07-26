@@ -27,27 +27,27 @@ class TransactionController extends Controller
 
 
             if($startofday != null && $endofday == null &&  $rrn == null && $transaction_type == null && $status == null){
-                $data = Transaction::latest()->where('createdAt', $startofday)->paginate('50') ?? null;
+                $data = Transaction::latest()->where('created_at', $startofday)->paginate('50') ?? null;
                 return view('all-transactions', $data);
 
             }
 
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status == null){
-                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->paginate('50') ?? null;
+                $data = Transaction::latest()->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->paginate('50') ?? null;
                 return view('all-transactions', $data);
 
             }
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type != null && $status == null){
-                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                $data = Transaction::latest()->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                     where('transaction_type', $transaction_type)->paginate('50') ?? null;
                 return view('all-transactions', $data);
 
             }
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status != null){
-                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                $data = Transaction::latest()->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                 where('status', $status)->paginate('50') ?? null;
                 return view('all-transactions', $data);
 
@@ -71,7 +71,7 @@ class TransactionController extends Controller
 
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type != null && $status != null){
-                $data = Transaction::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                $data = Transaction::latest()->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                 where([
                     'status' => $status,
                     'transaction_type' => $transaction_type,
