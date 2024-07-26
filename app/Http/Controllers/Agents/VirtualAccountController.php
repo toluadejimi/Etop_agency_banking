@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\VirtualAccount;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class VirtualAccountController extends Controller
 {
@@ -61,7 +62,8 @@ class VirtualAccountController extends Controller
         $parametersJson = json_encode($request->all());
 
         $result = $parametersJson;
-        send_notification($result);
+        Log::info('Credit Notification', ['message' => $result]);
+        //send_notification($result);
 
 
 
@@ -205,9 +207,8 @@ class VirtualAccountController extends Controller
                 $ip = $request->ip();
                 $amo = number_format($final_amount, 2);
                 $message = $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
-                send_notification($message);
-
-
+                Log::info('Credit Notification', ['message' => $message]);
+                //send_notification($message);
 
 
                 return response()->json([

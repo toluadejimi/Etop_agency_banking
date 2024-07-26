@@ -11,6 +11,7 @@ use App\Models\TidConfig;
 use App\Models\VirtualAccount;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Laravel\Passport\Passport;
 use App\Models\OauthAccessToken;
 use Illuminate\Support\Facades\Auth;
@@ -1046,7 +1047,8 @@ if (!function_exists('select_account')) {
             $message['data'] = $var;
             $message['token'] = $token;
 
-            send_notification($message);
+            Log::info('Reversal', ['message' => $message]);
+            //send_notification($message);
 
 
             $code = $var->code ?? null;
@@ -1059,7 +1061,7 @@ if (!function_exists('select_account')) {
             }else{
 
                 $message = "ETOP REVESAL =>>>>".$message2;
-                send_notification($message);
+                //send_notification($message);
 
                 return 1;
             }
