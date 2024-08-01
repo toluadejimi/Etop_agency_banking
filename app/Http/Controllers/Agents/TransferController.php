@@ -26,7 +26,9 @@ class TransferController extends Controller
         }
 
 
-        $data['total_profit'] = Transaction::where('status', 2)->sum('charge');
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+        $data['total_profit'] = Transaction::where('status', 2)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('charge');
         $data['profit'] = Profit::latest()->paginate(10);
         $data['total_trx'] = Profit::where('status', 2)->sum('amount');
 
