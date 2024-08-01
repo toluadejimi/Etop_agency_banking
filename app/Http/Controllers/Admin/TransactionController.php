@@ -584,7 +584,7 @@ class TransactionController extends Controller
         $session = Transaction::where('sessionId', $request->session_id)->first()->amount ?? null;
 
         if($session != null){
-            return 1;
+            return $session;
         }else{
             return 0;
         }
