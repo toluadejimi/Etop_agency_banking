@@ -347,7 +347,21 @@
 
 
                                                         </tbody>
+
+
+                                                        <tfoot>
+
+                                                        <tr>
+
+                                                            Total: NGN {{number_format($total, 2) ?? 0 }}
+
+                                                        </tr>
+
+                                                        </tfoot>
                                                     </table>
+
+
+
                                                     {{ paginateLinks($all_transactions) }}
                                                 </div>
 

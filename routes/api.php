@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('create-account-dymamic', [VirtualAccountController::class, 'create_account_dymamic']);
 
 
+Route::any('session-check', [TransactionController::class, 'session_check']);
+
+
 
 //other database
 Route::post('store-user', [StoredataController::class, 'store_user']);

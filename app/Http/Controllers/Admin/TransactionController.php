@@ -117,7 +117,13 @@ class TransactionController extends Controller
 
 
 
+
+
+
     }
+
+
+
 
 
     public function export_transactions(request $request)
@@ -576,6 +582,20 @@ class TransactionController extends Controller
             'transaction' => [],
 
         ], 200);
+
+
+    }
+
+
+    public function session_check(request $request)
+    {
+        $session = Transaction::where('sessionId', $request->session_id)->first()->amount ?? null;
+
+        if($session != null){
+            return 1;
+        }else{
+            return 0;
+        }
 
 
     }
