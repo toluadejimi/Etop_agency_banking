@@ -581,6 +581,11 @@ class TransactionController extends Controller
 
     public function session_check(request $request)
     {
+
+        if($request->session_id == null){
+            return "session can not be empty";
+        }
+
         $session = Transaction::where('sessionId', $request->session_id)->first()->amount ?? null;
 
         if($session != null){
