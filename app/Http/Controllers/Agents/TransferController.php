@@ -26,11 +26,9 @@ class TransferController extends Controller
         }
 
 
-
-
         $data['total_profit'] = Transaction::where('status', 2)->sum()->charge;
         $data['profit'] = Profit::latest()->paginate(10);
-        $data['total_profit'] = Profit::where('status', 2)->sum('amount');
+        $data['total_trx'] = Profit::where('status', 2)->sum('amount');
 
         return view('profit', $data);
 
