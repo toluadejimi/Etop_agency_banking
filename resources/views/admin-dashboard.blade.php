@@ -98,26 +98,10 @@
                                     </div>
 
 
-                                    <div class="col-sm-12 col-xxxl-6">
-
-                                        @php
-
-                                          $profit =  ($ninepsb_wallet_balance + $settlement) - $total_wallet ;
-
-                                        @endphp
-
-
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
-                                            <div class="label">Profit</div>
-                                            <div class="value">₦ {{number_format($profit, 2)}}</div>
-
-                                        </a>
-                                    </div>
-
 
                                     <div class="col-sm-12 col-xxxl-6">
 
-                                        <a class="element-box el-tablo" href="/admin/all-terminals">
+                                        <a class="element-box el-tablo" href="#">
                                             <div class="label" >Total Pending</div>
                                             <div style="color: darkorange"  class="value">₦ {{number_format($pending, 2)}}</div>
                                         </a>

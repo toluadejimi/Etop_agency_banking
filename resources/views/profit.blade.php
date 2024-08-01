@@ -25,9 +25,15 @@
                                         <div class="row">
                                             <div class="col-sm-6 col-xxxl-3">
                                                 <a class="element-box el-tablo" href="#">
-                                                    <div class="label">Total Transactions</div>
+                                                    <div class="label">Total Profit</div>
                                                     <div class="value">{{number_format($total_profit, 2)}}</div>
+                                                </a>
+                                            </div>
 
+                                            <div class="col-sm-6 col-xxxl-3">
+                                                <a class="element-box el-tablo" href="#">
+                                                    <div class="label">Total Transactions</div>
+                                                    <div class="value">{{number_format($total_trx, 2)}}</div>
                                                 </a>
                                             </div>
 

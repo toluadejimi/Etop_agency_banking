@@ -28,8 +28,6 @@ function paginateLinks($data)
     return $data->appends(request()->all())->links();
 }
 
-
-
 if (!function_exists('error_response')) {
 
     function error_response($message)
@@ -43,7 +41,6 @@ if (!function_exists('error_response')) {
     }
 }
 
-
 if (!function_exists('error_pin_response')) {
 
     function error_pin_response($message)
@@ -55,7 +52,6 @@ if (!function_exists('error_pin_response')) {
     }
 }
 
-
 if (!function_exists('error_pin_response')) {
 
     function error_pin_response($message)
@@ -66,7 +62,6 @@ if (!function_exists('error_pin_response')) {
         ], 200);
     }
 }
-
 
 if (!function_exists('wallet_balance')) {
 
@@ -130,7 +125,6 @@ if (!function_exists('wallet_balance')) {
 
 }
 
-
 if (!function_exists('settlement')) {
 
     function settlement()
@@ -185,8 +179,6 @@ if (!function_exists('settlement')) {
 
 }
 
-
-
 if (!function_exists('user_balance')) {
 
     function user_balance($SerialNo)
@@ -195,7 +187,6 @@ if (!function_exists('user_balance')) {
         return $balance;
     }
 }
-
 
 if (!function_exists('send_notification')) {
 
@@ -389,7 +380,6 @@ if (!function_exists('send_notification')) {
     }
 }
 
-
 if (!function_exists('send_notification3')) {
 
     function send_notification3($message)
@@ -407,7 +397,6 @@ if (!function_exists('send_notification3')) {
     }
 }
 
-
 if (!function_exists('send_notification2')) {
 
     function send_notification2($message)
@@ -423,7 +412,6 @@ if (!function_exists('send_notification2')) {
 
     }
 }
-
 
 if (!function_exists('psb_token')) {
 
@@ -474,7 +462,6 @@ if (!function_exists('psb_token')) {
     }
 }
 
-
 if (!function_exists('psb_vas_token')) {
 
     function psb_vas_token()
@@ -518,7 +505,6 @@ if (!function_exists('psb_vas_token')) {
     }
 }
 
-
 if (!function_exists('reference')) {
 
     function reference(){
@@ -529,10 +515,6 @@ if (!function_exists('reference')) {
     }
 
 }
-
-
-
-
 
 if (!function_exists('create_9psb_v_account')) {
 
@@ -609,7 +591,6 @@ if (!function_exists('create_9psb_v_account')) {
         return 0;
     }
 }
-
 
 if (!function_exists('create_9psb_v_account_dymamic')) {
 
@@ -954,11 +935,7 @@ if (!function_exists('select_account')) {
 
 }
 
-
-
-
-
-    if (!function_exists('send_api_notification')) {
+if (!function_exists('send_api_notification')) {
 
         function send_api_notification($sessionid, $receiver_account_number, $amount)
         {
@@ -1001,9 +978,7 @@ if (!function_exists('select_account')) {
 
     }
 
-
-
-    if (!function_exists('revesal')) {
+if (!function_exists('revesal')) {
 
     function revesal($ref,$amount)
     {

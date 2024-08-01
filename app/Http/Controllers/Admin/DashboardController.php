@@ -36,8 +36,6 @@ class DashboardController extends Controller
 
 
 
-
-
                 if($request->date == "today"){
                     $cdate = Carbon::today();
                 }elseif ($request->date == "yesterday"){
@@ -54,8 +52,6 @@ class DashboardController extends Controller
                     $data['transfer_in_total'] = Transaction::where('status', 2)->where('transaction_type', 'TRANSFERIN')->sum('amount');
                     $data['pos'] = Transaction::where('status', 2)->where('transaction_type', 'PURCHASE')->sum('amount');
 
-
-
                 }else{
                     $data['inflow'] = Transaction::where('status', 2)->wheredate('created_at', $cdate)->sum('credit');
                     $data['all_transactions'] = Transaction::latest()->wheredate('created_at', $cdate)->take(100)->paginate(20);
@@ -63,7 +59,6 @@ class DashboardController extends Controller
                     $data['pending'] = Transaction::where('status', 0)->wheredate('created_at', $cdate)->sum('amount');
                     $data['transfer_in_total'] = Transaction::wheredate('created_at', $cdate)->where('transaction_type', 'TRANSFERIN')->sum('amount');
                     $data['pos'] = Transaction::where('status', 2)->where('transaction_type', 'PURCHASE')->sum('amount');
-
                 }
 
                 return view('admin-dashboard', $data);

@@ -25,6 +25,10 @@ class TransferController extends Controller
             return back()->with('error', 'You dont have permission to view this page');
         }
 
+
+
+
+        $data['total_profit'] = Transaction::where('status', 2)->sum()->charge;
         $data['profit'] = Profit::latest()->paginate(10);
         $data['total_profit'] = Profit::where('status', 2)->sum('amount');
 
@@ -36,15 +40,12 @@ class TransferController extends Controller
     public function add_profit(request $request)
     {
 
-
         if (Auth::user()->role != 1) {
             return back()->with('error', 'You can not make transfer at the moment, Please contact Admin');
 
         }
 
         $pacc = Paccount::where('id', 1)->first();
-
-
 
         $Url = env('9PSTRANSFERURL');
         $token = psb_token();
@@ -57,8 +58,6 @@ class TransferController extends Controller
         }else{
             $narra = $mar;
         }
-
-
 
 
         $ref = "TRF" . reference();

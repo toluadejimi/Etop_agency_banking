@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class TransactionController extends Controller
 {
 
-
-
-
     public function search_transactions(request $request)
     {
 
@@ -314,8 +311,6 @@ class TransactionController extends Controller
 
     }
 
-
-
     public function get_all_transactions()
     {
 
@@ -336,7 +331,6 @@ class TransactionController extends Controller
 
 
     }
-
 
 
     public function get_transactions_by_filter(request $request, $limit)
