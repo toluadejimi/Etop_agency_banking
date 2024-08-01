@@ -586,10 +586,10 @@ class TransactionController extends Controller
             return "session can not be empty";
         }
 
-        $session = Transaction::where('sessionId', $request->session_id)->first()->amount ?? null;
+        $session = Transaction::where('sessionId', $request->session_id)->first() ?? null;
 
         if($session != null){
-            return $session;
+            return response()->json(['session_id'=> $session->sessionId, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
         }else{
             return 0;
         }
