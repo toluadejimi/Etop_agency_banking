@@ -115,11 +115,6 @@ class TransactionController extends Controller
 
         }
 
-
-
-
-
-
     }
 
 
@@ -346,6 +341,7 @@ class TransactionController extends Controller
         if (Auth::user()->role == 1 || Auth::user()->role == 2) {
 
             $data['all_transactions'] = Transaction::latest()->take(500)->paginate(10);
+            $data['total'] = Transaction::where('status', 2)->sum('credit') ?? 0;
             return view('all-transactions', $data);
 
 
