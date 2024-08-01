@@ -25,7 +25,6 @@ class TransferController extends Controller
             return back()->with('error', 'You dont have permission to view this page');
         }
 
-
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
         $data['total_profit'] = Transaction::where('status', 2)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('charge');

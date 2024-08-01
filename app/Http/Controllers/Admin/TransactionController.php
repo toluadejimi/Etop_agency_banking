@@ -22,50 +22,59 @@ class TransactionController extends Controller
             $transaction_type = $request->transaction_type;
             $status = $request->status;
 
-
-
-
             if($startofday != null && $endofday == null &&  $rrn == null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->where('created_at', $startofday)->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+                $total = Transaction::where('created_at', $startofday)->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
 
             }
 
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+                $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
 
             }
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type != null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                     where('transaction_type', $transaction_type)->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+
+                $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where('transaction_type', $transaction_type)->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
 
             }
 
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status != null){
                 $all_transactions = Transaction::latest()->take(50000)->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                 where('status', $status)->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+
+                $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where('status', $status)->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
 
             }
 
 
             if($startofday == null && $endofday == null &&  $rrn != null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::where('rrn', $rrn)->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+                $total = Transaction::where('rrn', $rrn)->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
             }
 
             if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type == null && $status != null){
                 $all_transactions = Transaction::latest()->where('status', $status)->take(50000)->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+
+                $total = Transaction::where('status', $status)->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
             }
 
             if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type != null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->where('transaction_type', $transaction_type)->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+                $total = Transaction::where('transaction_type', $transaction_type)->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
             }
 
 
@@ -75,7 +84,14 @@ class TransactionController extends Controller
                     'status' => $status,
                     'transaction_type' => $transaction_type,
                 ])->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+
+
+                $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where([
+                    'status' => $status,
+                    'transaction_type' => $transaction_type,
+                ])->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
             }
 
 
@@ -84,7 +100,13 @@ class TransactionController extends Controller
                     'status' => $status,
                     'transaction_type' => $transaction_type,
                 ])->paginate('50') ?? null;
-                return view('all-transactions', compact('all_transactions'));
+
+
+                $total = Transaction::where([
+                    'status' => $status,
+                    'transaction_type' => $transaction_type,
+                ])->sum('credit') ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total'));
             }
 
             return back()->with('error', 'Select a field');
