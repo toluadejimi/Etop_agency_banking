@@ -21,6 +21,9 @@ class TransferController extends Controller
     public function profict_tracker_view(request $request)
     {
 
+
+        phpinfo();
+
         if (Auth::user()->role != 1) {
             return back()->with('error', 'You dont have permission to view this page');
         }
