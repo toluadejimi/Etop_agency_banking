@@ -27,7 +27,14 @@ class TransferController extends Controller
 
         $main_wallet = User::where('status', 1)->orwhere('status', 2)->sum('main_wallet');
         $psb_bal = wallet_balance();
-        $data['total_profit'] = $psb_bal - $main_wallet;
+        $prr = $psb_bal - $main_wallet;
+        if($prr > 0){
+            $data['total_profit'] = $psb_bal - $main_wallet;
+        }else{
+            $data['total_profit'] = 0;
+        }
+
+
 
 
         $startOfMonth = Carbon::now()->startOfMonth();
@@ -49,8 +56,15 @@ class TransferController extends Controller
 
         }
 
-        $pacc = Paccount::where('id', 1)->first();
+        $main_wallet = User::where('status', 1)->orwhere('status', 2)->sum('main_wallet');
+        $psb_bal = wallet_balance();
+        $prr = $psb_bal - $main_wallet;
 
+        if($request->amount < $prr){
+            return back()->with('error', 'insufficient profit');
+        }
+
+        $pacc = Paccount::where('id', 1)->first();
         $Url = env('9PSTRANSFERURL');
         $token = psb_token();
         $mar = $request->narration;
@@ -72,18 +86,15 @@ class TransferController extends Controller
         $beneficiary = $pacc->beneficiary;
 
 
-        $main_wallet = User::where('status', 1)->where('status', 2)->sum('wallet');
+        $main_wallet = User::where('status', 1)->orwhere('status', 2)->sum('main_wallet');
         $psb_bal = wallet_balance();
         $profit = $psb_bal - $main_wallet;
-
-
         $settlement_bal = settlement();
 
-        if($psb_bal > $f_amount ){
+        if($psb_bal > $request->amount){
 
             $charge_account = env('DEBITACCOUNT');
 
-            User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
             $string = env('9PSBPRIKEY').$charge_account.$destinationAccountNumber.$destinationBankCode.$amount.$ref;
             $hash = hash('sha512',  $string);
 
@@ -106,7 +117,7 @@ class TransferController extends Controller
                         'bank' =>  $destinationBankCode,
                         'name' => $destinationAccountName,
                         'senderaccountnumber' => $charge_account,
-                        'sendername' => "ETOP-".Auth::user()->first_name. " ".Auth::user()->last_name,
+                        'sendername' => "ETOP-MANAGMENT PROF",
                     ],
 
 
@@ -157,25 +168,9 @@ class TransferController extends Controller
 
 
             if($code == "09"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Request Processing In Progress";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
                 $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
-
                 return response()->json([
                     'status' => false,
                     'message' => "Transaction Failed \n Transaction Processing"
@@ -185,21 +180,6 @@ class TransferController extends Controller
 
 
             if($code == "68"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Response was received too late";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
                 $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
@@ -212,21 +192,6 @@ class TransferController extends Controller
             }
 
             if($code == "97"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Transaction Time out";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
                 $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
@@ -239,21 +204,6 @@ class TransferController extends Controller
             }
 
             if($code == "96"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "System malfunction";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
                 $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
@@ -267,21 +217,6 @@ class TransferController extends Controller
 
             if($code == "98"){
 
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Failed No Response";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
 
@@ -293,22 +228,6 @@ class TransferController extends Controller
             }
 
             if($code == "99"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Request processing error";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
 
@@ -321,21 +240,6 @@ class TransferController extends Controller
 
             if($code == "77"){
 
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Empty Response";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
 
@@ -348,23 +252,28 @@ class TransferController extends Controller
 
             if ($code == "00") {
 
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
+                $trasnaction = new Profit();
                 $trasnaction->user_id = Auth::id();
                 $trasnaction->ref_trans_id = $ref;
                 $trasnaction->e_ref = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = $transfer_charge;
+                $trasnaction->transaction_type = "TRANSFEROUTPROFIT";
+                $trasnaction->debit = $amount;
+                $trasnaction->charge = 10;
                 $trasnaction->note = "Transaction Successful";
                 $trasnaction->amount = $request->amount;
                 $trasnaction->receiver_name = $destinationAccountName;
                 $trasnaction->receiver_account_no = $destinationAccountNumber;
                 $trasnaction->receiver_bank = $destinationBankCode;
-                $trasnaction->balance = $balance;
+                $trasnaction->balance = 0;
                 $trasnaction->status = 2;
                 $trasnaction->save();
 
+
+                $prof = new Profit();
+                $prof->trx_id = $ref;
+                $prof->status = 2;
+                $prof->amount = $amount;
+                $prof->save();
 
                 $amount = number_format($request->amount, 2);
                 return response()->json([
@@ -374,22 +283,6 @@ class TransferController extends Controller
 
 
             } else {
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                User::where('id', Auth::id())->increment('main_wallet', $f_amount);
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Transaction Failed";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 3;
-                $trasnaction->save();
-
                 $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
@@ -402,13 +295,10 @@ class TransferController extends Controller
             }
 
 
-        }elseif($settlement_bal > $f_amount){
+        }elseif($settlement_bal > $amount){
 
 
             $charge_account = env('INSTANTACCOUNT');
-
-            User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
-
             $string = env('9PSBPRIKEY').$charge_account.$destinationAccountNumber.$destinationBankCode.$amount.$ref;
             $hash = hash('sha512',  $string);
 
@@ -481,215 +371,30 @@ class TransferController extends Controller
             $code = $var->code ?? null;
 
 
-            if($code == "09"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Request Processing In Progress";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
-
-            if($code == "68"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Response was received too late";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
-            if($code == "97"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Transaction Time out";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
-            if($code == "96"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "System malfunction";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
-            if($code == "98"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Failed No Response";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
-            if($code == "99"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Request processing error";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
-            if($code == "77"){
-
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Empty Response";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 0;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
-                $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
-                send_notification($message);
-
-                return response()->json([
-                    'status' => false,
-                    'message' => "Transaction Failed \n Transaction Processing"
-                ], 500);
-
-            }
-
             if ($code == "00") {
 
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
                 $trasnaction = new Transaction();
                 $trasnaction->user_id = Auth::id();
                 $trasnaction->ref_trans_id = $ref;
                 $trasnaction->e_ref = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = $transfer_charge;
+                $trasnaction->transaction_type = "TRANSFEROUTPROFIT";
+                $trasnaction->debit = $amount;
+                $trasnaction->charge = 10;
                 $trasnaction->note = "Transaction Successful";
                 $trasnaction->amount = $request->amount;
                 $trasnaction->receiver_name = $destinationAccountName;
                 $trasnaction->receiver_account_no = $destinationAccountNumber;
                 $trasnaction->receiver_bank = $destinationBankCode;
-                $trasnaction->balance = $balance;
+                $trasnaction->balance = 0;
                 $trasnaction->status = 2;
                 $trasnaction->save();
 
+
+                $prof = new Profit();
+                $prof->trx_id = $ref;
+                $prof->status = 2;
+                $prof->amount = $amount;
+                $prof->save();
 
                 $amount = number_format($request->amount, 2);
                 return response()->json([
@@ -700,22 +405,6 @@ class TransferController extends Controller
 
             } else {
 
-                $balance = User::where('id', Auth::id())->first()->main_wallet;
-                User::where('id', Auth::id())->increment('main_wallet', $f_amount);
-                $trasnaction = new Transaction();
-                $trasnaction->user_id = Auth::id();
-                $trasnaction->e_ref = $ref;
-                $trasnaction->ref_trans_id = $ref;
-                $trasnaction->transaction_type = "TRANSFEROUT";
-                $trasnaction->debit = $f_amount;
-                $trasnaction->charge = 0;
-                $trasnaction->note = "Transaction Failed";
-                $trasnaction->amount = $request->amount;
-                $trasnaction->balance = $balance;
-                $trasnaction->status = 3;
-                $trasnaction->save();
-
-                $r_amount = number_format($request->amount, 2);
                 $message = "ERROR FROM ETOP AGENCY ======>".json_encode($var)."\n\n REQUEST ======> $post_data"."\n\n URL=====> $url"."\n\n STRING ====> $string";
                 send_notification($message);
 
