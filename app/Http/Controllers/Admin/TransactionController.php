@@ -591,7 +591,7 @@ class TransactionController extends Controller
         if($session != null){
             return response()->json(['session_id'=> $session->sessionId, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
         }else{
-            return 0;
+            return response()->json(['status'=> false]);
         }
 
 
