@@ -25,7 +25,7 @@ class TransferController extends Controller
             return back()->with('error', 'You dont have permission to view this page');
         }
 
-        $main_wallet = User::where('status', 1)->where('status', 2)->sum('wallet_wallet');
+        $main_wallet = User::where('status', 1)->where('status', 2)->sum('main_wallet');
         $psb_bal = wallet_balance();
         $data['total_profit'] = $psb_bal - $main_wallet;
 
