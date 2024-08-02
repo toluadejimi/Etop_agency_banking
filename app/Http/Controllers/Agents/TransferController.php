@@ -26,16 +26,8 @@ class TransferController extends Controller
         }
 
         $main_wallet = User::where('status', 1)->orwhere('status', 2)->sum('main_wallet');
-
-
-
         $psb_bal = wallet_balance();
-
-
         $data['total_profit'] = $psb_bal - $main_wallet;
-
-        dd($main_wallet, $psb_bal,  $data['total_profit']);
-
 
 
         $startOfMonth = Carbon::now()->startOfMonth();
