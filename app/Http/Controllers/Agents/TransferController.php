@@ -22,8 +22,6 @@ class TransferController extends Controller
     {
 
 
-        phpinfo();
-
         if (Auth::user()->role != 1) {
             return back()->with('error', 'You dont have permission to view this page');
         }
