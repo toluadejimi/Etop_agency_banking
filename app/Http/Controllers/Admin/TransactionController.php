@@ -589,7 +589,7 @@ class TransactionController extends Controller
         $session = Transaction::where('sessionId', $request->session_id)->first() ?? null;
 
         if($session != null){
-            return response()->json(['session_id'=> $session->sessionId, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
+            return response()->json(['status'=> true, 'session_id'=> $session->sessionId, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
         }else{
             return response()->json(['status'=> false]);
         }
