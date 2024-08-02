@@ -25,9 +25,14 @@ class TransferController extends Controller
             return back()->with('error', 'You dont have permission to view this page');
         }
 
+        $main_wallet = User::where('status', 1)->where('status', 2)->sum('wallet');
+        $psb_bal = wallet_balance();
+        $data['total_profit'] = $psb_bal - $main_wallet;
+
+
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
-        $data['total_profit'] = Transaction::where('status', 2)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('charge');
+        //$data['total_profit'] = Transaction::where('status', 2)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('charge');
         $data['profit'] = Profit::latest()->paginate(10);
         $data['total_trx'] = Profit::where('status', 2)->sum('amount');
 
@@ -51,13 +56,10 @@ class TransferController extends Controller
         $mar = $request->narration;
 
         if($mar == null){
-
             $narra = "Profit Transfer";
-
         }else{
             $narra = $mar;
         }
-
 
         $ref = "TRF" . reference();
         $wallet = $request->wallet;
@@ -68,56 +70,20 @@ class TransferController extends Controller
         $get_description = $narra;
         $pin = $request->pin;
         $beneficiary = $pacc->beneficiary;
-        $user_pin = Auth()->user()->pin;
 
 
-        if (Hash::check($pin, $user_pin) == false) {
-
-            return response()->json([
-
-                'status' => false,
-                'message' => 'Invalid Pin, Please try again',
-
-            ], 500);
-        }
-
-
-
-
-        $transfer_charge = Setting::where('id', 1)->first()->transfer_out_charge;
-        $f_amount = $request->amount + $transfer_charge;
-
-
-
-
-
-
-
-
-        $usr = User::where('id', Auth::id())->first();
-        if($f_amount > $usr->main_wallet){
-
-            return response()->json([
-
-                'status' => false,
-                'message' => 'Insufficient Funds',
-
-            ], 500);
-
-        }
-
-
+        $main_wallet = User::where('status', 1)->where('status', 2)->sum('wallet');
         $psb_bal = wallet_balance();
+        $profit = $psb_bal - $main_wallet;
+
+
         $settlement_bal = settlement();
-
-
 
         if($psb_bal > $f_amount ){
 
             $charge_account = env('DEBITACCOUNT');
 
             User::where('id', Auth::id())->decrement('main_wallet', $f_amount);
-
             $string = env('9PSBPRIKEY').$charge_account.$destinationAccountNumber.$destinationBankCode.$amount.$ref;
             $hash = hash('sha512',  $string);
 
