@@ -120,6 +120,7 @@
                                                             <th>Tran ID</th>
                                                             <th>Customer Name</th>
                                                             <th>Amount</th>
+                                                            <th>Etop Charge</th>
                                                             <th>Charge</th>
                                                             <th>Balance</th>
                                                             <th>Type</th>
@@ -282,6 +283,9 @@
                                                                     <td style="font-size: 12px; " class="text-success">
                                                                         ₦{{number_format($data->credit, 2)}}</td>
                                                                 @endif
+
+                                                                <td style="font-size: 12px; color: black;">{{$data->charge}}</td>
+
 
                                                                 <td style="font-size: 12px; color: black;">{{$data->etop_charge}}</td>
 
