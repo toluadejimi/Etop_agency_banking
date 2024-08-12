@@ -168,6 +168,21 @@ class VirtualAccountController extends Controller
 
 
 
+                $myamount = 0.1 / 100;
+                $myamount2 = $myamount * $amount;
+                $etop_charge = round($amount2, 2);
+
+                if ($vcharge >= $vcap) {
+                    $etop_charge = 50;
+                }else{
+                    $etop_charge = round($amount2, 2);
+                }
+
+
+
+
+
+
 
                 $user_id = Webaccount::where('v_account_no', $receiver_account_number)->first()->user_id;
                 User::where('id', $user_id)->increment('main_wallet', $final_amount);
@@ -182,6 +197,7 @@ class VirtualAccountController extends Controller
                 $trx->amount = $amount;
                 $trx->credit = $final_amount;
                 $trx->charge = $echarge ?? 0;
+                $trx->etop_charge = $etop_charge ?? 0;
                 $trx->balance = $user->main_wallet;
                 $trx->sender_name = $sender_name;
                 $trx->sender_bank = $sender_bankname;

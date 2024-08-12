@@ -20,6 +20,9 @@ class TransactionController extends Controller
         $all_transactions = Transaction::latest()->where('user_id', Auth::id())
             ->take('500')->get();
 
+
+
+
         return response()->json([
 
             'status' => true,

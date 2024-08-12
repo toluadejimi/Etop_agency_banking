@@ -283,7 +283,7 @@
                                                                         ₦{{number_format($data->credit, 2)}}</td>
                                                                 @endif
 
-                                                                <td style="font-size: 12px; color: black;">{{$data->charge}}</td>
+                                                                <td style="font-size: 12px; color: black;">{{$data->etop_charge}}</td>
 
                                                                 <td style="font-size: 12px; color: grey;" class="">
                                                                     ₦{{number_format($data->balance, 2)}}</td>
@@ -354,8 +354,18 @@
 
 
                                                     {{ paginateLinks($all_transactions) }}
+                                                    <div class="row my-5">
 
-                                                    <span class="text-primary"> Total: NGN {{number_format($total, 2) ?? 0 }} </span>
+                                                        <div class="col d-flex justify-content-start">
+                                                            <span class="text-primary"> Total: NGN {{number_format($total, 2) ?? 0 }} </span>
+                                                        </div>
+
+                                                        <div class="col d-flex justify-content-end">
+                                                            <span class="text-primary"> Total: NGN {{number_format($profit, 2) ?? 0 }} </span>
+                                                        </div>
+
+
+                                                    </div>
                                                 </div>
 
 

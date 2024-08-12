@@ -25,7 +25,8 @@ class TransactionController extends Controller
             if($startofday != null && $endofday == null &&  $rrn == null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->where('created_at', $startofday)->paginate('50') ?? null;
                 $total = Transaction::where('created_at', $startofday)->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+                $profit = Transaction::where('created_at', $startofday)->sum('etop_charge')  ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
 
             }
 
@@ -33,7 +34,10 @@ class TransactionController extends Controller
             if($startofday != null && $endofday != null &&  $rrn == null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->paginate('50') ?? null;
                 $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+                $profit = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->sum('etop_charge')  ?? 0;
+
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
 
             }
 
@@ -43,7 +47,12 @@ class TransactionController extends Controller
 
                 $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                 where('transaction_type', $transaction_type)->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+
+                $profit = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where('transaction_type', $transaction_type)->sum('etop_charge')  ?? 0;
+
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
 
             }
 
@@ -53,28 +62,39 @@ class TransactionController extends Controller
 
                 $total = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
                 where('status', $status)->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+
+
+                $profit = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where('status', $status)->sum('etop_charge')  ?? 0;
+
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
 
             }
 
 
             if($startofday == null && $endofday == null &&  $rrn != null && $transaction_type == null && $status == null){
                 $all_transactions = Transaction::where('rrn', $rrn)->paginate('50') ?? null;
-                $total = Transaction::where('rrn', $rrn)->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+                $total = Transaction::where('ref_trans_id', $rrn)->sum('credit') ?? 0;
+                $profit = Transaction::where('ref_trans_id', $rrn)->where('status', 2)->sum('etop_charge')  ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
             }
 
             if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type == null && $status != null){
                 $all_transactions = Transaction::latest()->where('status', $status)->take(50000)->paginate('50') ?? null;
-
                 $total = Transaction::where('status', $status)->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+                $profit = Transaction::where('status', $status)->sum('etop_charge')  ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
             }
 
             if($startofday == null && $endofday == null &&  $rrn == null && $transaction_type != null && $status == null){
                 $all_transactions = Transaction::latest()->take(50000)->where('transaction_type', $transaction_type)->paginate('50') ?? null;
                 $total = Transaction::where('transaction_type', $transaction_type)->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+                $profit = Transaction::where('transaction_type', $transaction_type)->sum('etop_charge')  ?? 0;
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
             }
 
 
@@ -91,7 +111,17 @@ class TransactionController extends Controller
                     'status' => $status,
                     'transaction_type' => $transaction_type,
                 ])->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+
+
+                $profit = Transaction::whereBetween('created_at', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])->
+                where([
+                    'status' => $status,
+                    'transaction_type' => $transaction_type,
+                ])->sum('etop_charge')  ?? 0;
+
+
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
             }
 
 
@@ -106,7 +136,14 @@ class TransactionController extends Controller
                     'status' => $status,
                     'transaction_type' => $transaction_type,
                 ])->sum('credit') ?? 0;
-                return view('all-transactions', compact('all_transactions', 'total'));
+
+                $profit = Transaction::where([
+                    'status' => $status,
+                    'transaction_type' => $transaction_type,
+                ])->sum('etop_charge')  ?? 0;
+
+                return view('all-transactions', compact('all_transactions', 'total', 'profit'));
+
             }
 
             return back()->with('error', 'Select a field');
@@ -340,6 +377,8 @@ class TransactionController extends Controller
         if (Auth::user()->role == 1 || Auth::user()->role == 2) {
             $data['all_transactions'] = Transaction::latest()->take(500)->paginate(10);
             $data['total'] = Transaction::where('status', 2)->sum('credit') ?? 0;
+            $data['profit'] = Transaction::where('status', 2)->sum('etop_charge')  ?? 0;
+
             return view('all-transactions', $data);
         }else{
             return back()->with('error', 'You do not have permission');
@@ -381,6 +420,7 @@ class TransactionController extends Controller
 
                 $data = PosLog::latest()->whereBetween('createdAt', [$startofday . ' 00:00:00', $endofday . ' 23:59:59'])
                     ->take($limit1)->paginate(10) ?? null;
+
 
                 return response()->json([
                     'success' => true,
