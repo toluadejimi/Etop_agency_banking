@@ -30,8 +30,12 @@ class TransactionsExport implements FromCollection, WithHeadings, WithMapping
             'Type',
             'Amount',
             'Credit',
+            'Debit',
             'Charge',
+            'Etop Charge',
             'Note',
+            'Date',
+
             // Add more headers as needed
         ];
     }
@@ -44,8 +48,11 @@ class TransactionsExport implements FromCollection, WithHeadings, WithMapping
             $transaction->amount,
             $transaction->credit,
             $transaction->debit,
+            $transaction->charge,
             $transaction->etop_charge,
             $transaction->note,
+            $transaction->created_at,
+
 
             // Map additional fields as needed
         ];
