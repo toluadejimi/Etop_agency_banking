@@ -284,12 +284,12 @@
                                                                         ₦{{number_format($data->credit, 2)}}</td>
                                                                 @endif
 
-                                                                @if($data->transation_type == "TRANSFERIN")
-                                                                <td style="font-size: 12px; color: black;">{{number_format($data->charge)}}</td>
-                                                                <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge)}}</td>
+                                                                @if($data->transaction_type == "TRANSFERIN")
+                                                                <td style="font-size: 12px; color: black;">{{number_format($data->charge, 1)}}</td>
+                                                                <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge, 1)}}</td>
                                                                 @else
-                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge)}}</td>
-                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->charge)}}</td>
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge, 1)}}</td>
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->charge, 1)}}</td>
                                                                 @endif
 
 
