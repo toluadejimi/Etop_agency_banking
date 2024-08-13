@@ -120,8 +120,8 @@
                                                             <th>Tran ID</th>
                                                             <th>Customer Name</th>
                                                             <th>Amount</th>
-                                                            <th>Etop Charge</th>
                                                             <th>Charge</th>
+                                                            <th>Etop Charge</th>
                                                             <th>Balance</th>
                                                             <th>Type</th>
                                                             <th class="">Status</th>
@@ -284,10 +284,14 @@
                                                                         ₦{{number_format($data->credit, 2)}}</td>
                                                                 @endif
 
-                                                                <td style="font-size: 12px; color: black;">{{$data->charge}}</td>
+                                                                @if($data->transation_type == "TRANSFERIN")
+                                                                <td style="font-size: 12px; color: black;">{{number_format($data->charge)}}</td>
+                                                                <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge)}}</td>
+                                                                @else
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge)}}</td>
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->charge)}}</td>
+                                                                @endif
 
-
-                                                                <td style="font-size: 12px; color: black;">{{$data->etop_charge}}</td>
 
                                                                 <td style="font-size: 12px; color: grey;" class="">
                                                                     ₦{{number_format($data->balance, 2)}}</td>
