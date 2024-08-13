@@ -182,7 +182,9 @@ class TransactionController extends Controller
         $startDate = $request->input('from');
         $endDate = $request->input('to');
 
-        return Excel::download(new TransactionsExport($startDate, $endDate), 'transactions.xlsx');
+       Excel::download(new TransactionsExport($startDate, $endDate), 'transactions.xlsx');
+
+       return back()->with('message', 'Transaction Exported successfully');
     }
 
 
