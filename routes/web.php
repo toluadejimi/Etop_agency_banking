@@ -23,6 +23,11 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () {return view('login');});
 
+
+Route::get('/export-trx', [TransactionController::class, 'export'])->name('export.trx');
+
+
+
 Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs.index');
 
 
@@ -53,6 +58,9 @@ Route::get('code', [AuthController::class, 'code']);
 
 
 Route::group(['prefix'=>'admin'], function(){
+
+    Route::get('/export-transactions', [TransactionController::class, 'export_transactions_view'])->name('export.transactions');
+
 
     Route::get('admin-dashboard', [DashboardController::class, 'admin_dashboard']);
     Route::get('new-users', [DashboardController::class, 'new_user']);

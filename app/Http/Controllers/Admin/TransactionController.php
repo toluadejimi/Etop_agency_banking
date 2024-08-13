@@ -7,6 +7,9 @@ use App\Models\PosLog;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\TransactionsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class TransactionController extends Controller
 {
@@ -158,6 +161,32 @@ class TransactionController extends Controller
 
 
 
+
+    public function export_transactions_view(Request $request)
+    {
+        return view('export-transactions');
+    }
+
+    public function export(Request $request)
+    {
+
+
+
+        $request->validate([
+            'from' => 'required|date',
+            'to' => 'required|date',
+        ]);
+
+
+
+        $startDate = $request->input('from');
+        $endDate = $request->input('to');
+
+        return Excel::download(new TransactionsExport($startDate, $endDate), 'transactions.xlsx');
+    }
+
+
+
     public function export_transactions(request $request)
     {
 
@@ -169,10 +198,6 @@ class TransactionController extends Controller
             $endofday = $request->to;
 
             $type = $request->type;
-
-
-
-
 
 
             if ($startofday != null && $endofday != null) {

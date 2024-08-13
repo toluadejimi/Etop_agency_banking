@@ -370,7 +370,8 @@ class TransferController extends Controller
                 $trasnaction->e_ref = $ref;
                 $trasnaction->transaction_type = "TRANSFEROUTPROFIT";
                 $trasnaction->debit = $amount;
-                $trasnaction->charge = 10;
+                $trasnaction->etop_charge = 14.25;
+                $trasnaction->charge = 25;
                 $trasnaction->note = "Transaction Successful";
                 $trasnaction->amount = $request->amount;
                 $trasnaction->receiver_name = $destinationAccountName;
@@ -946,7 +947,8 @@ class TransferController extends Controller
                 $trasnaction->e_ref = $ref;
                 $trasnaction->transaction_type = "TRANSFEROUT";
                 $trasnaction->debit = $f_amount;
-                $trasnaction->charge = $transfer_charge;
+                $trasnaction->etop_charge = 14.25;
+                $trasnaction->charge = 25;
                 $trasnaction->note = "Transaction Successful";
                 $trasnaction->amount = $request->amount;
                 $trasnaction->receiver_name = $destinationAccountName;
