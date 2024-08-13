@@ -8,5 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'SimpleSoftwareIO\\QrCode\\' => array($vendorDir . '/simplesoftwareio/simple-qrcode/src'),
     'Rap2hpoutre\\LaravelLogViewer\\' => array($vendorDir . '/rap2hpoutre/laravel-log-viewer/src'),
+    'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
     'BaconQrCode' => array($vendorDir . '/bacon/bacon-qr-code/src'),
 );
