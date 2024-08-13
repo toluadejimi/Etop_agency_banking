@@ -30,7 +30,8 @@ class TransferController extends Controller
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
         //$data['total_profit'] = Transaction::where('status', 2)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('charge');
-        $data['total_trx'] = Profit::latest()->paginate(10);
+        $data['profit'] = Profit::latest()->paginate(10);
+        $data['total_trx'] = Profit::where('status', 2)->sum('amount');
         $data['total_profit'] = Transaction::where('status', 2)->sum('etop_charge')  ?? 0;
 
         return view('profit', $data);
