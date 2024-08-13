@@ -647,16 +647,16 @@ class TransactionController extends Controller
     public function session_check(request $request)
     {
 
-        if($request->session_id == null){
+        if($request->account_no == null){
             return "session can not be empty";
         }
 
-        $session = Transaction::where('sessionId', $request->session_id)->first() ?? null;
+        $session = Transaction::where('receiver_account_no', $request->account_no)->first() ?? null;
 
         if($session != null){
-            return response()->json(['status'=> true, 'session_id'=> $session->sessionId, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
+            return response()->json(['status'=> true, 'session_id' => $session->sessionId, 'sender_name'=> $session->sender_name, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
         }else{
-            return response()->json(['status'=> false]);
+            return response()->json(['status'=> false, 'message' => "Transaction not found"]);
         }
 
 
