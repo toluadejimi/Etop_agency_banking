@@ -285,11 +285,13 @@
                                                                 @endif
 
                                                                 @if($data->transaction_type == "TRANSFERIN")
-                                                                <td style="font-size: 12px; color: black;">@php$famt = $data->charge -  $data->etop_charge @endphp{{number_format($famt, 1)}}</td>
+                                                                    @php $famt = $data->charge - $data->etop_charge @endphp
+                                                                <td style="font-size: 12px; color: black;"> {{number_format($famt, 1)}}</td>
                                                                 <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge, 1)}}</td>
                                                                 @else
+                                                                    @php$famt = $data->charge - $data->etop_charge @endphp
                                                                     <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge, 1)}}</td>
-                                                                    <td style="font-size: 12px; color: black;">@php$famt = $data->charge -  $data->etop_charge @endphp{{number_format($famt, 1)}}</td>
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($famt, 1)}}</td>
                                                                 @endif
 
 
