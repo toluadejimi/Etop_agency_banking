@@ -285,13 +285,18 @@
                                                                 @endif
 
                                                                 @if($data->transaction_type == "TRANSFERIN")
-                                                                    @php $famt = $data->charge - $data->etop_charge @endphp
-                                                                <td style="font-size: 12px; color: black;"> {{number_format($famt, 1)}}</td>
+                                                                <td style="font-size: 12px; color: black;"> {{number_format($data->charge, 1)}}</td>
                                                                 <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge, 1)}}</td>
+                                                                @elseif($data->transaction_type == "TRANSFEROUT")
+                                                                    @php $res = $data->charge - 10.75 @endphp
+                                                                    <td style="font-size: 12px; color: black;"> {{number_format($data->charge, 1)}}</td>
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($res, 1)}}</td>
                                                                 @else
-                                                                    @php$famt = $data->charge - $data->etop_charge @endphp
                                                                     <td style="font-size: 12px; color: black;">{{number_format($data->etop_charge, 1)}}</td>
-                                                                    <td style="font-size: 12px; color: black;">{{number_format($famt, 1)}}</td>
+                                                                    <td style="font-size: 12px; color: black;">{{number_format($data->charge, 1)}}</td>
+                                                                @endif
+
+                                                                @if
                                                                 @endif
 
 
