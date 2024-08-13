@@ -170,16 +170,13 @@ class VirtualAccountController extends Controller
 
                 $myamount = 0.1 / 100;
                 $myamount2 = $myamount * $amount;
-                $etop_charge = round($amount2, 2);
+                $etop_charge = round($myamount2, 2);
 
                 if ($vcharge >= $vcap) {
                     $etop_charge = 50;
                 }else{
-                    $etop_charge = round($amount2, 2);
+                    $etop_charge = round($myamount2, 2);
                 }
-
-
-
 
 
 
