@@ -296,10 +296,6 @@
                                                                     <td style="font-size: 12px; color: black;">{{number_format($data->charge, 1)}}</td>
                                                                 @endif
 
-                                                                @if
-                                                                @endif
-
-
                                                                 <td style="font-size: 12px; color: grey;" class="">
                                                                     ₦{{number_format($data->balance, 2)}}</td>
                                                                 @if($data->transaction_type == "PURCHASE")
