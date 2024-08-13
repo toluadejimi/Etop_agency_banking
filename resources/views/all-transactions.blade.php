@@ -372,7 +372,7 @@
                                                         </div>
 
                                                         <div class="col d-flex justify-content-end">
-                                                            <span class="text-primary"> Total: NGN {{number_format($profit, 2) ?? 0 }} </span>
+                                                            <span class="text-primary"> Profit: NGN {{number_format($profit, 2) ?? 0 }} </span>
                                                         </div>
 
 

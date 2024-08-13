@@ -74,7 +74,7 @@ class TransactionController extends Controller
 
 
             if($startofday == null && $endofday == null &&  $rrn != null && $transaction_type == null && $status == null){
-                $all_transactions = Transaction::where('rrn', $rrn)->paginate('50') ?? null;
+                $all_transactions = Transaction::where('ref_trans_id', $rrn)->paginate('50') ?? null;
                 $total = Transaction::where('ref_trans_id', $rrn)->sum('credit') ?? 0;
                 $profit = Transaction::where('ref_trans_id', $rrn)->where('status', 2)->sum('etop_charge')  ?? 0;
                 return view('all-transactions', compact('all_transactions', 'total', 'profit'));
