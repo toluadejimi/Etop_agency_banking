@@ -646,12 +646,6 @@ class TransferController extends Controller
         $f_amount = $request->amount + $transfer_charge;
 
 
-
-
-
-
-
-
         $usr = User::where('id', Auth::id())->first();
         if($f_amount > $usr->main_wallet){
 
