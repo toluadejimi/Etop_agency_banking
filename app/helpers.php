@@ -490,7 +490,6 @@ if (!function_exists('psb_vas_token')) {
 
         } else {
 
-            dd($responseData);
             $res = json_encode($responseData);
             $message = "Error from 9psb ========> \n\n"."Response ======> $res";
             send_notification($message);
@@ -664,7 +663,6 @@ if (!function_exists('create_9psb_v_account_dymamic')) {
         $var = json_decode($var);
         $status = $var->message ?? null;
 
-        dd($var);
 
         if($status == "Success"){
 
