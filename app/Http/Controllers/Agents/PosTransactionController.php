@@ -225,11 +225,19 @@ class PosTransactionController extends Controller
         if ($responseCode == 00 && $transactionType == "PURCHASE") {
             User::where('id', $user_id)->increment('main_wallet', $w_amount);
             PosLog::where('e_ref', $RRN)->update([
-                'status' => 1,
+                'status' => 2,
                 'note' => "Successful | $pan | $amount"
             ]);
 
             $balance = User::where('id', $user_id)->first()->main_wallet;
+
+            $ckt = Transaction::where('e_ref', $RRN)->first()->status ?? null;
+            if($ckt == 2){
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Transaction already exist',
+                ], 200);
+            }
 
             //update Transactions
             $trasnaction = new Transaction();
