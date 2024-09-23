@@ -127,7 +127,6 @@ class PosTransactionController extends Controller
 
         $key = $request->header('dataKey');
         $RRN = $request->RRN;
-        $userID = $request->UserID;
         $serialNO = $request->serialNO;
         $STAN = $request->STAN;
         $amount = $request->amount;
