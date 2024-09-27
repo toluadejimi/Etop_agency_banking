@@ -654,10 +654,27 @@ class TransactionController extends Controller
         $session = Transaction::where('sessionId', $request->session_id)->first() ?? null;
 
         if($session != null){
-            return response()->json(['status'=> true, 'session_id' => $session->sessionId, 'sender_name'=> $session->sender_name, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount]);
+            return response()->json(['status'=> true, 'session_id' => $session->sessionId, 'sender_name'=> $session->sender_name, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount, 'resolve' => $session->resolve]);
         }else{
             return response()->json(['status'=> false, 'message' => "Transaction not found"]);
         }
+
+
+    }
+
+
+
+    public function update_session(request $request)
+    {
+
+        if($request->session_id == null){
+            return "session can not be empty";
+        }
+
+        $session = Transaction::where('sessionId', $request->session_id)->update(['resolve' => 1]) ?? null;
+
+        return response()->json(['status'=> true, 'message' => "Resolve successful"]);
+
 
 
     }

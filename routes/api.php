@@ -29,6 +29,12 @@ Route::post('update-bank', [StoredataController::class, 'update_bank']);
 Route::post('delete_bank', [StoredataController::class, 'delete_bank']);
 Route::post('delete_user', [StoredataController::class, 'delete_user']);
 
+Route::get('update-session', [TransactionController::class, 'update_session']);
+
+
+
+
+
 
 Route::any('virtual-notification', [VirtualAccountController::class, 'virtual_notification']);
 Route::any('pos-logs', [PosTransactionController::class, 'PosLogs']);
