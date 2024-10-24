@@ -24,7 +24,7 @@ class VirtualAccountController extends Controller
 
 
         $result = create_9psb_v_account_dymamic($user_id, $description, $name, $amount);
-        
+
 
 
 
@@ -214,7 +214,7 @@ class VirtualAccountController extends Controller
 
                 $user = User::where('id', $user_id)->first() ?? null;
 
-                if($user->id == 95){
+                if($user->id == 95 || $user->id == 113){
                     send_api_notification($sessionid, $receiver_account_number, $amount);
                 }
 
