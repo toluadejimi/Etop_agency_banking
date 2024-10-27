@@ -953,7 +953,7 @@ if (!function_exists('send_api_notification')) {
                 $post_data = json_encode($data);
 
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://web.enkpay.com/api/e-payment',
+                    CURLOPT_URL => 'https://web.sprintpay.online/api/e-payment',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -975,6 +975,9 @@ if (!function_exists('send_api_notification')) {
                 echo "$e";
             }
         }
+
+
+
 
     }
 

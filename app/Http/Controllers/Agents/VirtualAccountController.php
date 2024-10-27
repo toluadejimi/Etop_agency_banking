@@ -216,6 +216,8 @@ class VirtualAccountController extends Controller
 
                 if($user->id == 95 || $user->id == 113){
                     send_api_notification($sessionid, $receiver_account_number, $amount);
+
+
                 }
 
 
@@ -311,6 +313,7 @@ class VirtualAccountController extends Controller
 
         if($user->id == 95){
             send_api_notification($sessionid, $receiver_account_number, $amount);
+
         }
 
 
