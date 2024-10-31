@@ -224,9 +224,9 @@ class VirtualAccountController extends Controller
 
                 $ip = $request->ip();
                 $amo = number_format($final_amount, 2);
-                $message = $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
-                Log::info('Credit Notification', ['message' => $message]);
-                //send_notification($message);
+                $message = "ETOP FUNDING ". $user->first_name." ".$user->last_name." | has been funded $amo on ETOP VACCOUNT | $ip" ;
+                //Log::info('Credit Notification', ['message' => $message]);
+                send_notification($message);
 
 
                 return response()->json([
