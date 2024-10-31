@@ -65,8 +65,8 @@ class VirtualAccountController extends Controller
         $parametersJson = json_encode($request->all());
 
         $result = $parametersJson;
-        Log::info('Credit Notification', ['message' => $result]);
-        //send_notification($result);
+        //Log::info('Credit Notification', ['message' => $result]);
+        send_notification($result);
 
 
 
@@ -315,8 +315,6 @@ class VirtualAccountController extends Controller
             send_api_notification($sessionid, $receiver_account_number, $amount);
 
         }
-
-
 
 
 
