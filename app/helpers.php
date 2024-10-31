@@ -970,6 +970,9 @@ if (!function_exists('send_api_notification')) {
                 $var = curl_exec($curl);
                 curl_close($curl);
 
+                $message = json_encode($var, $sessionid, $receiver_account_number, $amount);
+                send_notification($message);
+
 
             } catch (QueryException $e) {
                 echo "$e";
