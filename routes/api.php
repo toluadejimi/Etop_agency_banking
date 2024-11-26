@@ -50,7 +50,6 @@ Route::group(['prefix' => 'agent'], function () {
     Route::group(['middleware' => ['auth:api', 'acess']], function () {
         Route::post('verify-pin', [AuthController::class, 'verify_pin']);
 
-
         //VIRTAL ACCOUNT
         Route::post('create-account', [VirtualAccountController::class, 'create_virtual_account']);
 
@@ -69,10 +68,6 @@ Route::group(['prefix' => 'agent'], function () {
 
 
 
-
-
-
-
         //FUnds Transfer
         Route::get('transfer-properties', [TransferController::class, 'transfer_properties']);
         Route::post('resolve-account', [TransferController::class, 'validate_account']);
@@ -84,13 +79,6 @@ Route::group(['prefix' => 'agent'], function () {
         Route::get('all-transaction', [App\Http\Controllers\Agents\TransactionController::class, 'all_transaction']);
         Route::post('transaction-status', [App\Http\Controllers\Agents\TransactionController::class, 'status_transaction']);
         Route::post('transaction-history', [App\Http\Controllers\Agents\TransactionController::class, 'transaction_his']);
-
-
-
-
-
-
-
 
 
 

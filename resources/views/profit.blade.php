@@ -67,27 +67,19 @@
                                             <tr>
                                                 <td style="font-size: 12px; color: grey;">{{$data->trx_id}}</td>
                                                 <td style="font-size: 12px; color: grey;">{{number_format($data->amount, 2) }}</td>
+                                                <td style="font-size: 12px; color: grey;">{{$data->account_details }}</td>
                                                 @if($data->status == 2)
-                                                    <td><span style="font-size: 10px"
-                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-success">Successful</span>
-                                                    </td>
+                                                    <td>Successful<</td>
                                                 @elseif($data->status == 0)
-                                                    <td><span style="font-size: 10px"
-                                                              class="badge text-center text-small text-white p-2  rounded-pill badge-warning">Pending</span>
-                                                    </td>
+                                                    <td>Pending</td>
                                                 @elseif($data->status == 3)
-                                                    <td><span style="font-size: 10px"
-                                                              class="badge p-2 text-small text-white rounded-pill badge-info">Suspended</span>
+                                                    <td>Suspended
                                                     </td>
                                                 @elseif($data->status == 4)
-                                                    <td><span style="font-size: 10px"
-                                                              class="badge p-2 text-small text-white rounded-pill badge-danger">Blocked</span>
-                                                    </td>
-                                                @endif
+                                                    <td>Blocked</td>
 
-                                                <td>
+                                                @endif
                                                 <td style="font-size: 12px; color: grey;">{{$data->created_at}}</td>
-                                                </td>
 
 
                                             </tr>
