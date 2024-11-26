@@ -69,7 +69,7 @@
                                                 <td style="font-size: 12px; color: grey;">{{number_format($data->amount, 2) }}</td>
                                                 <td style="font-size: 12px; color: grey;">{{$data->account_details }}</td>
                                                 @if($data->status == 2)
-                                                    <td>Successful<</td>
+                                                    <td>Successful</td>
                                                 @elseif($data->status == 0)
                                                     <td>Pending</td>
                                                 @elseif($data->status == 3)
