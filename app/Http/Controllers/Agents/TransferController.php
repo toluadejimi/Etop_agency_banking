@@ -564,6 +564,9 @@ class TransferController extends Controller
         if ($code == 00) {
             $name = $var->customer->account->name;
 
+            $message = json_encode($var);
+            send_notification($message);
+
             return response()->json([
                 'status' => true,
                 'customer_name' => $name,
