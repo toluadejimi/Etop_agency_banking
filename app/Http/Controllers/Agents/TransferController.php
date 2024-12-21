@@ -572,6 +572,9 @@ class TransferController extends Controller
 
         } else {
 
+            $message = json_encode($var);
+            send_notification($message);
+
             return response()->json([
                 'status' => false,
                 'message' => "Invalid Account, \n Check information again",
