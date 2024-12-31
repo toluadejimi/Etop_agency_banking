@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('create-account-dymamic', [VirtualAccountController::class, 'create_account_dymamic']);
 Route::any('session-check', [TransactionController::class, 'session_check']);
+Route::any('account-check', [TransactionController::class, 'account_check']);
 //other database
 Route::post('store-user', [StoredataController::class, 'store_user']);
 Route::post('store-terminal', [StoredataController::class, 'store_terminal']);
@@ -72,6 +73,11 @@ Route::group(['prefix' => 'agent'], function () {
         Route::get('transfer-properties', [TransferController::class, 'transfer_properties']);
         Route::post('resolve-account', [TransferController::class, 'validate_account']);
         Route::post('bank-transfer', [TransferController::class, 'transfer']);
+
+        Route::post('transfer-out', [TransferController::class, 'transfer_out']);
+
+
+
 
 
 

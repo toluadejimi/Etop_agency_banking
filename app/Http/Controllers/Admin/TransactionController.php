@@ -660,6 +660,22 @@ class TransactionController extends Controller
         }
 
 
+    }  public function account_check(request $request)
+    {
+
+        if($request->account_no == null){
+            return "Account can not be empty";
+        }
+
+        $session = Transaction::where('receiver_account_no', $request->account_no)->first() ?? null;
+
+        if($session != null){
+            return response()->json(['status'=> true, 'session_id' => $session->sessionId, 'sender_name'=> $session->sender_name, 'account_no' => $session->receiver_account_no, 'amount' => $session->amount, 'resolve' => $session->resolve]);
+        }else{
+            return response()->json(['status'=> false, 'message' => "Transaction not found"]);
+        }
+
+
     }
 
 
